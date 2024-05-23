@@ -28,21 +28,21 @@ def register():
     if request.method == 'GET':
         return render_template(f'{page_customer_registration}.html')
     try:
-        client_name = request.form['clientName']
-        cpf = request.form['CPF']
-        razao_social = request.form['RazaoSocial']
-        cnpj = request.form['CNPJ']
-        celular = request.form['Cellphone']
-        email1 = request.form['Email1']
-        cep = request.form['CEP']
-        logradouro = request.form['Logradouro']
-        numero = request.form['Numero']
-        complemento = request.form['Complemento']
-        estado = request.form['brazilianStates']
-        cidade = request.form['city']
+        nome = request.form['nome']
+        cpf = request.form['cpf']
+        razao_social = request.form['razao_social']
+        cnpj = request.form['cnpj']
+        celular = request.form['telefone']
+        email = request.form['email']
+        cep = request.form['cep']
+        logradouro = request.form['logradouro']
+        numero = request.form['numero']
+        complemento = request.form['complemento']
+        estado = request.form['estado']
+        cidade = request.form['cidade']
         telefone = celular
         endereco = f'{logradouro};;{numero};;{complemento};;{cidade};;{estado};;{cep}'
-        if ((client_name and cpf) or (razao_social and cnpj)) and telefone and email1 and cep:
+        if ((nome and cpf) or (razao_social and cnpj)) and telefone and email and cep:
             status_code=550
             cliente_encontrado = f.pesquisar_cliente(cpf,cnpj)
             if (len(cliente_encontrado)>0):
@@ -50,11 +50,13 @@ def register():
                 raise
             else:
                 status_code=551
-                novo_cliente = c.Cliente(cpf=cpf, cnpj=cnpj, nome=client_name, razao_social = razao_social, endereco=endereco, telefone=telefone, email=email1)
+                novo_cliente = c.Cliente(cpf=cpf, cnpj=cnpj, razao_social = razao_social, endereco=endereco, telefone=telefone, email=email)
                 novo_cliente.salvar()
                 try:
                     cliente_confirmado = f.pesquisar_cliente(cpf,cnpj)[0]
-                    return render_template(f'{page_vehicle_registration}.html')
+                    # return render_template(f'{page_vehicle_registration}.html')
+                    return redirect(url_for('exibir_cliente', id_cliente = cliente_confirmado.id_cliente)), 200
+                    
                 except:
                     return render_template(f'{page_customer_registration}.html'), 552
         else:
@@ -120,14 +122,14 @@ def search_vehicle():
             return render_template(f'{page_customer_search}.html', search_results=search_results), status_code
     except:
         return redirect(f'{page_customer_search}.html'), 460
-# @app.route(f'/cliente/<id_cliente>/', methods = ['GET'])
-# def exibir_cliente(id_cliente):
-#     status_code = 561
-#     try:
-#         cliente_atual = c.Cliente(id_cliente=id_cliente)
-#         return render_template('cliente.html', cliente=cliente_atual.enviar())#, 200
-#     except:
-#         return render_template('cliente.html', cliente = {}), status_code
+@app.route(f'/cliente/<id_cliente>/', methods = ['GET'])
+def exibir_cliente(id_cliente):
+    status_code = 561
+    try:
+        cliente_atual = c.Cliente(id_cliente=id_cliente)
+        return render_template('cliente.html', cliente=cliente_atual.enviar())#, 200
+    except:
+        return render_template('cliente.html', cliente = {}), status_code
 
 #---WIP---
 # @app.route(f'/cliente/<id_cliente>/{page_vehicle_registration}/', methods=['GET','POST'])
