@@ -5,11 +5,9 @@ function limpar_dados(event){
 }
 
 function verificar_form(){
-    console.log("FUI CHAMADO")
     form = document.querySelector("registrar_cliente");
         const tipoDocumento = document.getElementById("tipoDocumento").value;
         const documento = document.getElementById('documento').value;
-        console.log("Cheguei aqui?")
         var cpf = "";
         var razao_social = "";
         var cnpj = "";
@@ -19,14 +17,12 @@ function verificar_form(){
             razao_social = ""
             cnpj = ""
             nome = document.getElementById('nome').value
-            console.log("Sou CPF")
         }
         else{
             cnpj = documento
             cpf = ""
             nome = ""
             razao_social = document.getElementById('nome').value
-            console.log("Sou CNPJ")
         }
         const formData = new FormData();
         formData.append("cpf", cpf);
@@ -44,6 +40,16 @@ function verificar_form(){
         fetch("", {
             method: "POST",
             body: formData,
-        })
-        console.log("Mandei")
+        }).then(response => {
+            return response.json();
+          }).then(jsonResponse => {
+            var novo_cliente = jsonResponse;
+            var hostname = window.location.hostname;
+            var port = window.location.port ? ':' + window.location.port : '';
+            var id_novo_cliente = novo_cliente["id_cliente"]
+            var exibir_cliente = "http://" + hostname + port + "/cliente/" + id_novo_cliente +"/";
+            window.location.replace(exibir_cliente);
+          }).catch (error => {
+            console.log(error)
+          })
 }

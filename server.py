@@ -54,8 +54,9 @@ def register():
                 novo_cliente.salvar()
                 try:
                     cliente_confirmado = f.pesquisar_cliente(cpf,cnpj)[0]
-                    # return render_template(f'{page_vehicle_registration}.html')
-                    return redirect(url_for('exibir_cliente', id_cliente = cliente_confirmado.id_cliente)), 200
+                    # return render_template(f'{page_customer_registration}.html', resposta_cliente = cliente_confirmado.enviar), 200
+                    # return redirect(url_for('exibir_cliente', id_cliente = cliente_confirmado.id_cliente)), 200
+                    return jsonify(cliente_confirmado.enviar()), 200
                     
                 except:
                     return render_template(f'{page_customer_registration}.html'), 552
