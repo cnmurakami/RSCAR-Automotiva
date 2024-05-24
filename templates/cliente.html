@@ -1,10 +1,115 @@
 <!DOCTYPE html>
-<header>
-    Cliente
-</header>
-<body>
-    {{cliente}}
-    <p></p>
-    <p></p>
-    <a href="{{ url_for('vehicle_registration', id_cliente = cliente['id_cliente'] ) }}">Registrar Veículo</a>
-</body>
+<html>
+    <header>
+        <link rel="stylesheet" href="../../static/style.css">
+        <title>Deatlhes do cliente</title>
+    </header>
+    <body>
+        <h1>Detalhes do cliente</h1>
+        <div class="divcontentcliente">
+            <table>
+                <tr>
+                    <th>
+                        Documento:
+                    </th>
+                    <td>
+                        {{cliente['cpf']}}{{cliente['cnpj']}}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Nome/Razão Social:
+                    </th>
+                    <td>
+                        {{cliente['nome']}}{{cliente['razao_social']}}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Telefone:
+                    </th>
+                    <td>
+                        {{cliente['telefone']}}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        E-mail:
+                    </th>
+                    <td>
+                        {{cliente['email']}}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Endereço:
+                    </th>
+                    <td>
+                        {{cliente['logradouro']}}, {{cliente['numero']}}, {{cliente['complemento']}}<p></p>{{cliente['cidade']}}-{{cliente['estado']}}, CEP {{cliente['cep']}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <h1>Veículos cadastrados</h1>
+        <div class="divlistaveiculos">
+            <table>
+                    <tr>
+                        <th>
+                            Placa
+                        </th>
+                        <th>
+                            Chassi
+                        </th>
+                        <th>
+                            Marca
+                        </th>
+                        <th>
+                            Modelo
+                        </th>
+                        <th>
+                            Fabricação
+                        </th>
+                        <th>
+                            Ano Modelo
+                        </th>
+                        <th>
+                            Cor
+                        </th>
+                    </tr>
+                    {% if (veiculos|length > 0) %}
+                    {% for carros in veiculos %}
+                        <tr>
+                            <td>
+                                {{carros['placa']}}
+                            </td>
+                            <td>
+                                {{carros['chassi']}}
+                            </td>
+                            <td>
+                                {{carros['marca']}}
+                            </td>
+                            <td>
+                                {{carros['modelo']}}
+                            </td>
+                            <td>
+                                {{carros['ano_fabricacao']}}
+                            </td>
+                            <td>
+                                {{carros['ano_modelo']}}
+                            </td>
+                            <td>
+                                {{carros['cor']}}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                
+                    {% else %}
+                    <tr><td colspan="7"><div>Não há veículos cadastrados</div></td></tr>
+            {% endif %}
+        </table>
+        <a href="{{ url_for('vehicle_registration', id_cliente = cliente['id_cliente'] ) }}"><button>Cadastrar Novo Veículo</button></a>
+        
+    </div>
+        
+    </body>
+</html>

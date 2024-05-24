@@ -5,6 +5,9 @@ def criar_lista_cliente(resultado):
     lista_clientes = []
     for i in resultado:
         lista_clientes.append(c.Cliente(id_cliente=str(i[0])))
+    clientes = []
+    for i in lista_clientes:
+        clientes.append(i.enviar())
     return lista_clientes
 
 def pesquisar_cliente(cpf='', cnpj=''):
@@ -17,8 +20,11 @@ def pesquisar_cliente(cpf='', cnpj=''):
 def criar_lista_veiculo(resultado):
     lista_veiculos = []
     for i in resultado:
-        lista_veiculos.append(c.Veiculo(i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7],i[8]))
-    return lista_veiculos
+        lista_veiculos.append(c.Veiculo(id_veiculo=str(i[0])))
+    veiculos = []
+    for i in lista_veiculos:
+        veiculos.append(i.enviar())
+    return veiculos
 
 def pesquisar_veiculo(placa,chassi):
     resultado = db.execute('select * from veiculo where placa = %s or chassi = %s', (placa, chassi))
@@ -40,6 +46,16 @@ def pesquisar_cliente_geral(parametro):
 def pesquisar_veiculo_geral(parametro):
     try:
         resultado = db.execute('SELECT * FROM veiculo WHERE lower(id_veiculo) LIKE %s OR lower(placa) LIKE %s OR lower(chassi) LIKE %s OR id_cliente LIKE %s', (f"%{parametro.lower()}%", f"%{parametro.lower()}%", f"%{parametro.lower()}%", f"%{parametro.lower()}%"))
+        if len(resultado)>0:
+            return criar_lista_veiculo(resultado)
+        else:
+            return []
+    except:
+        return Exception
+    
+def pesquisar_veiculo_cliente(parametro):
+    try:
+        resultado = db.execute('SELECT * FROM veiculo WHERE id_cliente = %s', (parametro,))
         if len(resultado)>0:
             return criar_lista_veiculo(resultado)
         else:

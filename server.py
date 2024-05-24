@@ -85,13 +85,9 @@ def search_customer():
                 busca_clientes = f.pesquisar_cliente_geral(pesquisa_cliente)
                 if len(busca_clientes)>0:
                     status_code = 200
-                    try:
-                        for cliente in busca_clientes:
-                            search_results.append(cliente.enviar())
-                    except:
-                        status_code = 552
                 else:
                     status_code = 561
+                    raise
             except:
                 return render_template(f'{page_customer_search}.html'), status_code
 
@@ -104,33 +100,30 @@ def search_vehicle():
     try:
         pesquisa_veiculo = request.args.get('procura_veiculo')
         if pesquisa_veiculo:
-            search_results = []
             try:
                 status_code = 550
                 busca_veiculos = f.pesquisar_veiculo_geral(pesquisa_veiculo)
                 if len(busca_veiculos)>0:
                     status_code = 200
-                    try:
-                        for veiculo in busca_veiculos:
-                            search_results.append(veiculo.enviar())
-                    except:
-                        status_code = 552
                 else:
                     status_code = 561
+                    raise
             except:
                 return render_template(f'{page_customer_search}.html'), status_code
 
-            return render_template(f'{page_customer_search}.html', search_results=search_results), status_code
+            return render_template(f'{page_customer_search}.html', search_results=busca_veiculos), status_code
     except:
         return redirect(f'{page_customer_search}.html'), 460
 @app.route(f'/cliente/<id_cliente>/', methods = ['GET'])
 def exibir_cliente(id_cliente):
-    status_code = 561
+    status_code = 550
     try:
+        status_code = 561
         cliente_atual = c.Cliente(id_cliente=id_cliente)
-        return render_template('cliente.html', cliente=cliente_atual.enviar())#, 200
+        busca_veiculos = f.pesquisar_veiculo_cliente(cliente_atual.id_cliente)
+        return render_template('cliente.html', cliente = cliente_atual.enviar(), veiculos = busca_veiculos), 200
     except:
-        return render_template('cliente.html', cliente = {}), status_code
+        return render_template('cliente.html', cliente = {}, veiculo = {}), status_code
 
 #---WIP---
 # @app.route(f'/cliente/<id_cliente>/{page_vehicle_registration}/', methods=['GET','POST'])
