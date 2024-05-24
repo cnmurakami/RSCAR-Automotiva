@@ -20,18 +20,18 @@
                 <option value="cpf">CPF</option>
                 <option value="cnpj">CNPJ</option>
               </select>
-              <input type="text" id="documento" placeholder="Documento" oninput="limpar_dados(event)">
+              <input type="text" id="documento" placeholder="Documento" oninput="sanitizar_dados(event)">
             </td>
             <td>
-              <input type="text" id="nome" placeholder="Nome/Razão social">
+              <input type="text" id="nome" maxlength="100" placeholder="Nome/Razão social">
             </td>
           </tr>
           <tr>
             <td>
-              <input type="text" id="telefone" placeholder="Telefone" oninput="limpar_dados(event)">
+              <input type="text" id="telefone" placeholder="Telefone" maxlength="11" oninput="sanitizar_dados(event)">
           </td>
             <td>
-              <input type="text" id="email" placeholder="E-mail">
+              <input type="text" id="email" maxlength="100" placeholder="E-mail">
             </td>
           </tr>
           </table>
@@ -41,23 +41,23 @@
           <table>
             <tr>
               <td>
-                <input type="text" id="cep" placeholder="CEP" oninput="limpar_dados(event)">
+                <input type="text" id="cep" placeholder="CEP" maxlength="8" oninput="sanitizar_dados(event)">
               </td>
               <td>
-                <input type="text" id="logradouro" placeholder="Logradouro">
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <input type="text" id="numero" placeholder="Número">
-              </td>
-              <td>
-                <input type="text" id="complemento" placeholder="Complemento">
+                <input type="text" id="logradouro" maxlength="100" placeholder="Logradouro">
               </td>
             </tr>
             <tr>
               <td>
-                <input type="text" id="cidade" placeholder="Cidade">
+                <input type="text" id="numero" maxlength="10" placeholder="Número">
+              </td>
+              <td>
+                <input type="text" id="complemento" maxlength="40" placeholder="Complemento">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input type="text" id="cidade" maxlength="50" placeholder="Cidade">
               </td>
               <td>
                 <select id="estado" placeholder="Estado" class="estado">
@@ -94,7 +94,7 @@
             </tr>
         </table>
       </div>
-      <button type="submit" onclick="verificar_form()">Cadastrar</button>
+      <button type="submit" onclick="enviar_form()">Cadastrar</button>
     </form>
   </div>
   <script src="../static/registrar_cliente.js"></script>
