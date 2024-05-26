@@ -23,3 +23,4 @@ def execute(query:str, arg:tuple):
     resultado = cursor.fetchall()
     cursor.close()
     return resultado
+

@@ -77,32 +77,31 @@
                         </th>
                     </tr>
                     {% if (veiculos|length > 0) %}
-                    {% for carros in veiculos %}
-                        <tr>
-                            <td>
-                                {{carros['placa']}}
-                            </td>
-                            <td>
-                                {{carros['chassi']}}
-                            </td>
-                            <td>
-                                {{carros['marca']}}
-                            </td>
-                            <td>
-                                {{carros['modelo']}}
-                            </td>
-                            <td>
-                                {{carros['ano_fabricacao']}}
-                            </td>
-                            <td>
-                                {{carros['ano_modelo']}}
-                            </td>
-                            <td>
-                                {{carros['cor']}}
-                            </td>
-                        </tr>
-                    {% endfor %}
-                
+                        {% for carros in veiculos %}
+                            <tr>
+                                <td>
+                                    {{carros['placa']}}
+                                </td>
+                                <td>
+                                    {{carros['chassi']}}
+                                </td>
+                                <td>
+                                    {{carros['marca']}}
+                                </td>
+                                <td>
+                                    {{carros['modelo']}}
+                                </td>
+                                <td>
+                                    {{carros['ano_fabricacao']}}
+                                </td>
+                                <td>
+                                    {{carros['ano_modelo']}}
+                                </td>
+                                <td>
+                                    {{carros['cor']}}
+                                </td>
+                            </tr>
+                        {% endfor %}
                     {% else %}
                     <tr><td colspan="7"><div>Não há veículos cadastrados</div></td></tr>
             {% endif %}

@@ -32,17 +32,17 @@
         </tr>
         </table>
     </div>
-    <form onsubmit="return false;" action="{{ url_for('vehicle_registration', id_cliente = cliente['id_cliente'] ) }}" method="POST" name="registrar_veiculo">
-      <input type="hidden" id="id_cliente" value="{{cliente['id_cliente']}}" name="id_cliente">
+    <form action="/vehicle_registration_test/" method="POST">
+      <input type="hidden" value="{{cliente['id_cliente']}}" name="id_cliente">
       <div class="divform_veiculo">
         <h3>Dados do veículo:</h3>
           <table>
             <tr>
               <td>
-                <input type="text" id="placa" placeholder="Placa" maxlength="7" name="placa" oninput="sanitizar_dados(event)">
+                <input type="text" id="placa" placeholder="Placa" maxlength="7" name="placa">
               </td>
               <td>
-                <input type="text" id="chassi" maxlength="17" placeholder="Chassi" name="chassi" oninput="sanitizar_dados(event)">
+                <input type="text" id="chassi" maxlength="17" placeholder="Chassi" name="chassi">
               </td>
             </tr>
             <tr>
@@ -75,10 +75,9 @@
             </tr>
         </table>
       </div>
-      <button type="submit" onclick="enviar_form()">Cadastrar Veículo</button>
+      <button type="submit">Cadastrar Veículo</button>
     </form>
   </div>
-  <script src="/static/registrar_veiculo.js"></script>
 </body>
 
 </html>
