@@ -8,15 +8,13 @@ RUN mkdir app
 WORKDIR /app/
 RUN mkdir templates
 RUN mkdir static
-RUN mkdir backend
 COPY server.py /app
-COPY backend/ /app/backend/
+COPY functions.py /app
+COPY db_operations.py /app
+COPY db_config.py /app
+COPY db_classes.py /app
 COPY templates/  /app/templates/
 COPY static/  /app/static/
-# RUN chmod -R a+rwx /app/static
-# RUN chmod -R a+rwx /app/templates
-# RUN chmod -R a+rwx /app/backend
 RUN chmod -R 755 /app/static
 RUN chmod -R 755 /app/templates
-RUN chmod -R 755 /app/backend
 CMD python server.py
