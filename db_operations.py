@@ -1,7 +1,7 @@
 from flask_mysqldb import MySQL
 from flask import Flask, current_app
-from backend import db_config as db
-from backend import db_classes as c
+import db_config as db
+import db_classes as c
 import server as server
 
 

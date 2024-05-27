@@ -1,7 +1,7 @@
 from flask_mysqldb import MySQL
 from flask import Flask
 from abc import ABC
-from backend import db_operations as db
+import db_operations as db
 
 class Rscar(ABC):
     def enviar(self):

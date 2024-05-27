@@ -1,5 +1,5 @@
-from backend import db_operations as db
-from backend import db_classes as c
+import db_operations as db
+import db_classes as c
 
 def criar_lista_cliente(resultado):
     lista_clientes = []

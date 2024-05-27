@@ -1,9 +1,9 @@
 from flask import Flask, render_template, request, url_for, redirect, jsonify
 import requests
 from flask_mysqldb import MySQL
-from backend import functions as f
-from backend import db_classes as c
-from backend import db_config as db_config
+import functions as f
+import db_classes as c
+import db_config as db_config
 
 #global variables
 page_index = 'home'
