@@ -7,6 +7,19 @@
 </head>
 
 <body>
+  <div class="menu_top">
+    <div class="menu_opcao">
+      <table>
+        <tr>
+          <th class="title"><a href="{{url_for('home')}}">RSCAR<br>Automotiva</a></th>
+          <th><a href="{{url_for('busca')}}">Buscar</a></th>
+          <th><a href="{{url_for('register')}}">Cadastrar<br>Cliente</a></th>
+          <th><a href="{{url_for('vehicle_registration_default')}}">Cadastrar<br>Veículo</a></th>
+          <th><a href="{{url_for('ordem_default')}}">Ordem de<br>Serviço</a></th>
+        </tr>
+      </table>
+    </div>
+  </div>
   <h1>Cadastrar Veículo</h1>
   <div class="divcontent">
     <div class="divcontentcliente">
@@ -32,17 +45,17 @@
         </tr>
         </table>
     </div>
-    <form action="/vehicle_registration_test/" method="POST">
-      <input type="hidden" value="{{cliente['id_cliente']}}" name="id_cliente">
+    <form onsubmit="return false;" action="{{ url_for('vehicle_registration', id_cliente = cliente['id_cliente'] ) }}" method="POST" name="registrar_veiculo">
+      <input type="hidden" id="id_cliente" value="{{cliente['id_cliente']}}" name="id_cliente">
       <div class="divform_veiculo">
         <h3>Dados do veículo:</h3>
           <table>
             <tr>
               <td>
-                <input type="text" id="placa" placeholder="Placa" maxlength="7" name="placa">
+                <input type="text" id="placa" placeholder="Placa" maxlength="7" name="placa" oninput="sanitizar_dados(event)">
               </td>
               <td>
-                <input type="text" id="chassi" maxlength="17" placeholder="Chassi" name="chassi">
+                <input type="text" id="chassi" maxlength="17" placeholder="Chassi" name="chassi" oninput="sanitizar_dados(event)">
               </td>
             </tr>
             <tr>
@@ -60,14 +73,14 @@
               <td>
                 <select id="ano_fabricacao" name="ano_fabricacao">
                   <option value="">Selecione o Ano de Fabricação</option>
-                  {% for i in range(2026, 1970, -1) %}
+                  {% for i in range(2026, 1969, -1) %}
                     <option value="{{i}}">{{i}}</option>
                   {% endfor %}
                 </select>
                 <p></p>
                 <select id="ano_modelo" name="ano_modelo">
                   <option value="">Selecione o Ano do Modelo</option>
-                  {% for i in range(2026, 1970, -1) %}
+                  {% for i in range(2026, 1969, -1) %}
                     <option value="{{i}}">{{i}}</option>
                   {% endfor %}
                 </select>
@@ -75,9 +88,10 @@
             </tr>
         </table>
       </div>
-      <button type="submit">Cadastrar Veículo</button>
+      <button type="submit" onclick="enviar_form()">Cadastrar Veículo</button>
     </form>
   </div>
+  <script src="/static/registrar_veiculo.js"></script>
 </body>
 
 </html>

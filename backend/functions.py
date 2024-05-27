@@ -8,7 +8,7 @@ def criar_lista_cliente(resultado):
     clientes = []
     for i in lista_clientes:
         clientes.append(i.enviar())
-    return lista_clientes
+    return clientes
 
 def pesquisar_cliente(cpf='', cnpj=''):
     resultado = db.execute('select * from cliente where cpf = %s and cnpj = %s', (cpf, cnpj))

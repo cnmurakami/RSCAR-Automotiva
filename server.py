@@ -56,7 +56,7 @@ def register():
                     cliente_confirmado = f.pesquisar_cliente(cpf,cnpj)[0]
                     # return render_template(f'{page_customer_registration}.html', resposta_cliente = cliente_confirmado.enviar), 200
                     # return redirect(url_for('exibir_cliente', id_cliente = cliente_confirmado.id_cliente)), 200
-                    return jsonify(cliente_confirmado.enviar()), 200
+                    return jsonify(cliente_confirmado), 200
                     
                 except:
                     return render_template(f'{page_customer_registration}.html'), 552
@@ -66,50 +66,44 @@ def register():
     except:
         return render_template(f'{page_customer_registration}.html'), status_code
 
-@app.route(f'/search/', methods = ['GET'])
-def search():
-    return render_template(f'{page_customer_search}.html', search_results=[]), 200
-
-@app.route(f'/searchdatabase/', methods = ['GET'])
-def search_customer():
+@app.route(f'/busca/', methods = ['GET', 'POST'])
+def busca():
+    if request.method == "GET":
+        return render_template(f'{page_customer_search}.html', tipo="", resultado=[]), 200
     try:
-        pesquisa_cliente = request.args.get('procura')
-        if pesquisa_cliente:
-            search_results = []
+        status_code = 460
+        tipo = request.form['tipo']
+        criterio = request.form['criterio']
+        if tipo == 'cliente':
             try:
                 status_code = 550
-                busca_clientes = f.pesquisar_cliente_geral(pesquisa_cliente)
-                if len(busca_clientes)>0:
+                resultado = f.pesquisar_cliente_geral(criterio)
+                if len(resultado)>0:
                     status_code = 200
                 else:
                     status_code = 561
                     raise
             except:
-                return render_template(f'{page_customer_search}.html'), status_code
-
-            return render_template(f'{page_customer_search}.html', search_results=search_results), status_code
-    except:
-        return redirect(f'{page_customer_search}.html'), 460
-
-@app.route(f'/searchdatabaseveiculo/', methods = ['GET'])
-def search_vehicle():
-    try:
-        pesquisa_veiculo = request.args.get('procura_veiculo')
-        if pesquisa_veiculo:
+                return render_template(f'{page_customer_search}.html', tipo = tipo, resultado = []), status_code
+        elif tipo == 'veiculo':
             try:
                 status_code = 550
-                busca_veiculos = f.pesquisar_veiculo_geral(pesquisa_veiculo)
-                if len(busca_veiculos)>0:
+                resultado = f.pesquisar_veiculo_geral(criterio)
+                if len(resultado)>0:
                     status_code = 200
                 else:
                     status_code = 561
                     raise
             except:
-                return render_template(f'{page_customer_search}.html'), status_code
-
-            return render_template(f'{page_customer_search}.html', search_results=busca_veiculos), status_code
+                return render_template(f'{page_customer_search}.html', tipo = tipo, resultado = []), status_code
+        elif tipo == 'ordem':
+            pass
+        else:
+            status_code = 599
+            raise
+        return render_template(f'{page_customer_search}.html', tipo = tipo, resultado=resultado), status_code
     except:
-        return redirect(f'{page_customer_search}.html'), 460
+        return render_template(f'{page_customer_search}.html', tipo="", resultado='[]'), status_code
 
 @app.route(f'/cliente/<id_cliente>/', methods = ['GET'])
 def exibir_cliente(id_cliente):
@@ -122,7 +116,6 @@ def exibir_cliente(id_cliente):
     except:
         return render_template('cliente.html', cliente = {}, veiculo = {}), status_code
 
-#---WIP---
 @app.route(f'/cliente/<id_cliente>/{page_vehicle_registration}/', methods=['GET','POST'])
 def vehicle_registration(id_cliente):
     status_code = 500
@@ -164,14 +157,20 @@ def vehicle_registration(id_cliente):
             raise
     except:
         return render_template(f'{page_vehicle_registration}.html', cliente = cliente_atual), status_code
-# @app.route(f'/{page_vehicle_registration}/')
-# def vehicle_registration():
-#     return render_template(f'{page_vehicle_registration}.html')
+
+#---WIP---
+@app.route(f'/{page_vehicle_registration}/')
+def vehicle_registration_default():
+    return render_template(f'{page_vehicle_registration}.html', cliente = "")
 
 #---NOT IMPLEMENTED---
-# @app.route('/order/', methods=['GET','POST'])
-# def placeorder():
-#     return render_template('order.html', 501)
+@app.route('/order/', methods=['GET','POST'])
+def ordem_default():
+    return render_template('order.html'), 501
+
+@app.route('/<id_veiculo>/order/', methods=['GET','POST'])
+def ordem(id_veiculo):
+    return render_template('order.html'), 501
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)

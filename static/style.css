@@ -1,3 +1,20 @@
+.table_home{
+  margin:auto;
+  margin-top: 5%;
+  text-align: center;
+  background-color: #eee;
+  border-radius: 10px;
+}
+
+.table_home td{
+  width: 200px;
+  height: 100px;
+  padding: 20px;
+  text-align: center;
+  font-weight: bolder;
+  font-size: x-large;
+}
+
 .divcontent{
   margin: auto;
   width: fit-content;
@@ -92,9 +109,27 @@
   font-weight: bold;
 }
 
-.divlistaveiculos button{
+.button_registrarveiculo{
   margin-top: 20px;
   font-size: larger;
+}
+
+.form_busca{
+  background-color: #eee;
+  padding: 20px;
+  margin: 20px;
+  border-radius: 10px;
+}
+
+.form_busca input{
+  margin-left: 10px;
+  width: 300px;
+}
+
+.small_button{
+  margin-top: 1px;
+  margin-bottom: 1px;
+  width: 100px;
 }
 
 h3{
@@ -114,4 +149,28 @@ input{
 .estado{
   width: 94%;
   margin: auto;
+}
+
+.menu_top{
+  overflow: hidden;
+  background-color:#eee;
+  padding: 10px;
+}
+
+.menu_top th{
+  padding-right: 50px;
+}
+
+.menu_top .title{
+  font-size: x-large;
+  font-weight: bold;
+  padding-left: 20px;
+}
+
+body{
+  margin:0;
+}
+
+h1{
+  padding-left: 20px;
 }

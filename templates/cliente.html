@@ -5,6 +5,19 @@
         <title>Deatlhes do cliente</title>
     </header>
     <body>
+        <div class="menu_top">
+            <div class="menu_opcao">
+              <table>
+                <tr>
+                  <th class="title"><a href="{{url_for('home')}}">RSCAR<br>Automotiva</a></th>
+                  <th><a href="{{url_for('busca')}}">Buscar</a></th>
+                  <th><a href="{{url_for('register')}}">Cadastrar<br>Cliente</a></th>
+                  <th><a href="{{url_for('vehicle_registration_default')}}">Cadastrar<br>Veículo</a></th>
+                  <th><a href="{{url_for('ordem_default')}}">Ordem de<br>Serviço</a></th>
+                </tr>
+              </table>
+            </div>
+          </div>
         <h1>Detalhes do cliente</h1>
         <div class="divcontentcliente">
             <table>
@@ -54,59 +67,37 @@
         <div class="divlistaveiculos">
             <table>
                     <tr>
-                        <th>
-                            Placa
-                        </th>
-                        <th>
-                            Chassi
-                        </th>
-                        <th>
-                            Marca
-                        </th>
-                        <th>
-                            Modelo
-                        </th>
-                        <th>
-                            Fabricação
-                        </th>
-                        <th>
-                            Ano Modelo
-                        </th>
-                        <th>
-                            Cor
-                        </th>
+                        <th>Ação</th>
+                        <th>Placa</th>
+                        <th>Chassi</th>
+                        <th>Marca</th>
+                        <th>Modelo</th>
+                        <th>Fabricação</th>
+                        <th>Ano Modelo</th>
+                        <th>Cor</th>
                     </tr>
                     {% if (veiculos|length > 0) %}
-                        {% for carros in veiculos %}
+                        {% for carro in veiculos %}
                             <tr>
                                 <td>
-                                    {{carros['placa']}}
+                                    <a href="{{ url_for('ordem', id_veiculo = carro['id_veiculo']) }}">
+                                        <button class="small_button">Abrir ordem</button>
+                                    </a>
                                 </td>
-                                <td>
-                                    {{carros['chassi']}}
-                                </td>
-                                <td>
-                                    {{carros['marca']}}
-                                </td>
-                                <td>
-                                    {{carros['modelo']}}
-                                </td>
-                                <td>
-                                    {{carros['ano_fabricacao']}}
-                                </td>
-                                <td>
-                                    {{carros['ano_modelo']}}
-                                </td>
-                                <td>
-                                    {{carros['cor']}}
-                                </td>
+                                <td>{{carro['placa']}}</td>
+                                <td>{{carro['chassi']}}</td>
+                                <td>{{carro['marca']}}</td>
+                                <td>{{carro['modelo']}}</td>
+                                <td>{{carro['ano_fabricacao']}}</td>
+                                <td>{{carro['ano_modelo']}}</td>
+                                <td>{{carro['cor']}}</td>
                             </tr>
                         {% endfor %}
                     {% else %}
                     <tr><td colspan="7"><div>Não há veículos cadastrados</div></td></tr>
             {% endif %}
         </table>
-        <a href="{{ url_for('vehicle_registration', id_cliente = cliente['id_cliente'] ) }}"><button>Cadastrar Novo Veículo</button></a>
+        <a href="{{ url_for('vehicle_registration', id_cliente = cliente['id_cliente'] ) }}"><button class="button_registrarveiculo">Cadastrar Novo Veículo</button></a>
         
     </div>
         
