@@ -24,3 +24,18 @@ def execute(query:str, arg:tuple):
     cursor.close()
     return resultado
 
+def fullget(query:str):
+    conn = mysql.connection
+    cursor = conn.cursor()
+    cursor.execute(query)
+    resultado = cursor.fetchall()
+    cursor.close()
+    return resultado
+
+def insert(query:str, arg:tuple):
+    conn = mysql.connection
+    cursor = conn.cursor()
+    cursor.execute(query, arg)
+    cursor.close()
+    conn.commit()
+    return

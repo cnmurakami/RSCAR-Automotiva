@@ -151,6 +151,81 @@ input{
   margin: auto;
 }
 
+.divcontentordem {
+  margin: auto;
+  padding: 30px;
+  width: 80%;
+  background-color: #eee;
+  border-radius: 10px;
+}
+
+.divordemdetalhes{
+  margin-top: 50px;
+  width: 100%;
+  display: inline-flex;
+}
+
+.divcontentordem th{
+  text-align: left;
+  padding-right: 20px;
+}
+
+.divcontentordem td{
+  padding-right: 20px;
+}
+
+.divtiposservicos{
+  display: block;
+  width: 100%;
+  margin: 4px;
+  border: solid;
+  border-radius: 10px;
+  padding: 10px;
+  overflow-x: auto;
+  overflow-y: auto;
+  text-align: justify;
+}
+
+.divtiposservicos .filtrar_servicos{
+  width: 90%;
+  margin-bottom: 10px;
+}
+
+.servicos td{
+  text-align: left;
+}
+
+.itens_selecionados td{
+  text-align: left;
+}
+
+.itens_selecionados, .servicos, .total{
+  width: 100%;
+}
+
+.total{
+  margin: auto;
+  margin-top: 50px;
+}
+
+#mostrarTotal{
+  border: 0px;
+  color: black;
+}
+
+.salvarOrdem{
+  margin-top: 20px;
+  margin-right: 10px;
+  text-align: right;
+}
+
+
+.id_ordem {
+  margin-bottom: 20px;
+  font-weight:bolder;
+  font-size: larger;
+}
+
 .menu_top{
   overflow: hidden;
   background-color:#eee;
@@ -173,4 +248,8 @@ body{
 
 h1{
   padding-left: 20px;
+}
+
+h3{
+  text-align: left;
 }

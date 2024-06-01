@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <header>
+        <link rel="stylesheet" href="../../static/style.css">
+        <title>Deatlhes do cliente</title>
+    </header>
+    <body>
+        <div class="menu_top">
+            <div class="menu_opcao">
+                <table>
+                <tr>
+                    <th class="title"><a href="{{url_for('home')}}">RSCAR<br>Automotiva</a></th>
+                    <th><a href="{{url_for('busca')}}">Buscar</a></th>
+                    <th><a href="{{url_for('register')}}">Cadastrar<br>Cliente</a></th>
+                    <th><a href="{{url_for('vehicle_registration_default')}}">Cadastrar<br>Veículo</a></th>
+                    <th><a href="{{url_for('ordem_default')}}">Ordem de<br>Serviço</a></th>
+                </tr>
+                </table>
+            </div>
+        </div>
+        <h1>Ordem de Serviço</h1>
+        <div class="divcontentordem">
+            <form action="" method="post">
+                <table>
+                    <tr>
+                        <th colspan="2">Detalhes do veículo</th>
+                    </tr>
+                    <tr>
+                        <th>Placa:</th>
+                        <th>Cliente:</th>
+                    </tr>
+                    <tr>
+                    <td>{{veiculo['placa']}}</td>
+                    <td>{{cliente['nome']}}{{cliente['razao_social']}}</td>
+                    </tr>
+                </table>
+                <div class="divordemdetalhes">
+                    <div class="divtiposservicos">
+                        <h3>Serviços disponíveis</h3>
+                        <input type="text" id="filtrar_servicos" class="filtrar_servicos" onkeyup="filtrarServicos()" placeholder="Filtrar...">
+                        <table class="servicos" id="tabela_servicos">
+                            <tr>
+                                <th></th>
+                                <th>Nome do serviço</th>
+                                <th>Valor</th>
+                            </tr>
+                            {% for i in lista_servicos%}
+                                <tr class="item_lista">
+                                    <td><input type="checkbox" id="{{i['id_servico']}}" name="{{i['id_servico']}}" value="{{i['id_servico']}}"></td>
+                                    <td><label for="{{i['id_servico']}}">{{i['nome']}}</label></td>
+                                    <td><label for="{{i['id_servico']}}">R$ {{i['valor']}}</label></td>
+                                </tr>
+                            {% endfor %}
+
+                        </table>
+                    </div>
+                    <div class="divtiposservicos" id="servicos_selecionados">
+                        <h3>Serviços selecionados</h3>
+                        <table class="itens_selecionados">
+                            <tr>
+                                <th>Nome do serviço</th>
+                                <th>Valor</th>
+                            </tr>
+                        </table>
+                        <table class="total">
+                            <tr>
+                                <th>Total:</th>
+                                <th><input id="mostrarTotal" value="R$ 0,00" disabled></th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <input type="hidden" name="id_veiculo" value="{{veiculo['id_veiculo']}}">
+                <div class="salvarOrdem">
+                    <button type="submit">Salvar</button>
+                </div>
+            </form>
+        </div>
+        <script src="/static/ordem.js"></script>
+    </body>
+</html>

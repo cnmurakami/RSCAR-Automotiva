@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <header>
+        <link rel="stylesheet" href="../../static/style.css">
+        <title>Deatlhes da ordem</title>
+    </header>
+    <body>
+        <div class="menu_top">
+            <div class="menu_opcao">
+                <table>
+                <tr>
+                    <th class="title"><a href="{{url_for('home')}}">RSCAR<br>Automotiva</a></th>
+                    <th><a href="{{url_for('busca')}}">Buscar</a></th>
+                    <th><a href="{{url_for('register')}}">Cadastrar<br>Cliente</a></th>
+                    <th><a href="{{url_for('vehicle_registration_default')}}">Cadastrar<br>Veículo</a></th>
+                    <th><a href="{{url_for('ordem_default')}}">Ordem de<br>Serviço</a></th>
+                </tr>
+                </table>
+            </div>
+        </div>
+        <h1>Ordem de Serviço</h1>
+        <div class="divcontentordem">
+            
+            <div class="id_ordem">Ordem nº {{ordem['id_ordem']}}</div>
+            <table>
+                <tr>
+                    <th colspan="2">Detalhes do veículo</th>
+                </tr>
+                <tr>
+                    <th>Placa:</th>
+                    <th>Cliente:</th>
+                </tr>
+                <tr>
+                <td>{{veiculo['placa']}}</td>
+                <td>{{cliente['nome']}}{{cliente['razao_social']}}</td>
+                </tr>
+            </table>
+            <div class="divordemdetalhes">
+                <div class="divtiposservicos">
+                    <h3>Serviços selecionados</h3>
+                    <table class="itens_selecionados" id="itens_selecionados">
+                        <tr>
+                            <th>Nome do serviço</th>
+                            <th>Valor</th>
+                        </tr>
+                        {% for i in lista_servicos%}
+                            <tr class="item_lista">
+                                <td><label for="{{i['id_servico']}}">{{i['nome']}}</label></td>
+                                <td><label for="{{i['id_servico']}}">R$ {{i['valor']}}</label></td>
+                            </tr>
+                        {% endfor %}
+
+                    </table>
+                    <table class="total">
+                        <tr>
+                            <th>Total:</th>
+                            <th><input id="mostrarTotal" value="R$ 0,00" disabled></th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <script src="/static/ordem.js"></script>
+    </body>
+</html>

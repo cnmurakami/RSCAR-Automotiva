@@ -2,6 +2,7 @@ from flask_mysqldb import MySQL
 from flask import Flask
 from abc import ABC
 import db_operations as db
+import functions as f
 
 class Rscar(ABC):
     def enviar(self):
@@ -255,3 +256,101 @@ class Veiculo(Rscar):
         info['ano_modelo'] = self.ano_modelo
         info['cor'] = self.cor
         return info
+
+class Ordem(ABC):
+    def __init__ (self, id_ordem:str = '', id_cliente:str = '', id_veiculo: str = ''):
+        if id_ordem != '':
+            resultado = db.execute('select * from ordem where id_ordem = %s', (id_ordem,))
+            if len(resultado) >= 1:
+                self.id_ordem = id_ordem
+                self.id_cliente = resultado[0][1]
+                self.id_veiculo = resultado[0][2]
+            else:
+                raise Exception
+        else:
+            self.id_ordem = id_ordem
+            self.id_cliente = id_cliente
+            self.id_veiculo = id_veiculo
+    
+    @property
+    def id_ordem(self):
+        return self._id_ordem
+    
+    @id_ordem.setter
+    def id_ordem (self, novo_id_ordem):
+        self._id_ordem = novo_id_ordem
+    
+    @property
+    def id_cliente(self):
+        return self._id_cliente
+    
+    @id_cliente.setter
+    def id_cliente (self, novo_id_cliente):
+        self._id_cliente = novo_id_cliente
+    
+    @property
+    def id_veiculo(self):
+        return self._id_veiculo
+    
+    @id_veiculo.setter
+    def id_veiculo (self, novo_id_veiculo):
+        self._id_veiculo = novo_id_veiculo
+
+    def enviar(self):
+        info = {}
+        info['id_ordem'] = self.id_ordem
+        info['id_cliente'] = self.id_cliente
+        info['id_veiculo'] = self.id_veiculo
+        return info
+
+    def salvar(self):
+        try:
+            db.insert('insert into ordem (id_cliente, id_veiculo) values (%s, %s)', (self.id_cliente, self.id_veiculo,))
+        except:
+            print('ERRO no INSERT')
+            raise Exception
+    
+    def localizar_ultima_ordem(self):
+        resultado = db.execute('select * from ordem where id_veiculo = %s or id_cliente = %s order by id_ordem desc', (self.id_veiculo, self.id_cliente))
+        if len(resultado) >= 1:
+            self.id_ordem = resultado[0][0]
+        else:
+            raise Exception
+        
+    def salvar_servicos(self, servicos):
+        query = 'insert into tipo_servico_ordem (id_ordem, id_servico) values '
+        args = []
+        for i in servicos:
+            query += '(%s, %s), '
+            args.append(str(self.id_ordem))
+            args.append(i)
+        args = tuple(args,)
+        query = query[:-2]
+        db.insert(query, args)
+        
+    def recuperar_servicos(self):
+        resultado = db.execute('select * from tipo_servico_ordem where id_ordem = %s',(self.id_ordem,))
+        lista_servicos = []
+        for i in resultado:
+            lista_servicos.append(i[2])
+        return lista_servicos
+    
+    def enviar_completo(self):
+        cliente = Cliente(id_cliente = self.id_cliente)
+        veiculo = Veiculo(id_veiculo = self.id_veiculo)
+        lista_servicos_cadastrados = self.recuperar_servicos()
+        lista_servicos_completa = f.get_tipos_servicos()
+        lista_servicos = []
+        for i in lista_servicos_completa:
+            if i['id_servico'] in lista_servicos_cadastrados:
+                lista_servicos.append(i)
+            if len(lista_servicos)==len(lista_servicos_cadastrados):
+                break
+        total=0
+        for i in lista_servicos:
+            total+=float(i['valor'])
+        dicionario = self.enviar()
+        dicionario['cliente'] = cliente.nome+cliente.razao_social
+        dicionario['veiculo'] = veiculo.placa
+        dicionario['total'] = total
+
