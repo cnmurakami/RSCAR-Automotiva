@@ -1,46 +1,86 @@
-.table_home{
-  margin:auto;
-  margin-top: 5%;
+.table_home {
   text-align: center;
-  background-color: #eee;
+  background-color: #ffffff;
   border-radius: 10px;
+  padding: 20px;
+  opacity: 0.8;
+  font-size: 25px;
+  color: #f0e9e9;
+}
+.table_home a {
+  margin-right: 25px;
+  text-align: center;
+  color: #4b0404;
 }
 
-.table_home td{
+.table_home td {
   width: 200px;
   height: 100px;
   padding: 20px;
+  flex-direction: column;
   text-align: center;
   font-weight: bolder;
   font-size: x-large;
 }
 
-.divcontent{
-  margin: auto;
-  width: fit-content;
-  text-align: center;
+.table_home td a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+}
+.icon-client img.table_icon {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 5px;
+}
+
+.table_home td:first-child {
+  vertical-align: center; 
+  padding-bottom: 20px; 
+}
+
+.table_home td:first-child img.table_icon {
+  width: 50px; 
+  height: 50px; 
+}
+
+.table_home td:last-child {
+  vertical-align: center; 
+  padding-bottom: 20px; 
+}
+
+.table_home td:last-child img.table_icon {
+  width: 50px; 
+  height: 50px; 
+}
+
+.divcontent {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 .divform {
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  padding: 10px;
-  background-color: #eee;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #413c3c6b;
   border-radius: 10px;
-  width:fit-content;
+  width: fit-content;
+  opacity: 0.9;
+  font-size: 25px;
+  color: #f0e9e9;
 }
 
 .divform_veiculo {
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  padding: 20px;
-  background-color: #eee;
+  margin: 15px auto;
+  padding: 15px;
+  background-color: #413c3c6b;
   border-radius: 10px;
-  width:fit-content;
+  opacity: 0.9;
+  font-size: 20px;
+  color: #f0e9e9;
 }
 
 .divform_veiculo td{
@@ -52,21 +92,26 @@
   width: 250px;
 }
 
-
 .divcontentcliente {
-  margin: auto;
+  margin: -10px auto;
   width: fit-content;
-  background-color: #eee;
+  padding: 5px;
+  background-color: #413c3c6b;
   border-radius: 10px;
+  opacity: 0.9;
+  font-size: 20px;
+  text-align: left;
+  color: #f0e9e9;
 }
 
 .divcontentcliente table{
   padding: 20px;
+  text-align: left;
 }
 
 .divcontentcliente th{
   padding: 10px;
-  text-align: right;
+  text-align: left;
 }
 
 .divcontentcliente td{
@@ -80,7 +125,6 @@
   padding: 5px;
   padding-top: 50px;
   padding-bottom: 20px;
-  
 }
 
 .divlistaveiculos table{
@@ -88,8 +132,7 @@
   padding: 20px;
   width: fit-content;
   background-color: #eee;
-  border-radius: 10px;
-  
+  border-radius: 10px; 
 }
 
 .divlistaveiculos th{
@@ -115,15 +158,19 @@
 }
 
 .form_busca{
-  background-color: #eee;
-  padding: 20px;
-  margin: 20px;
+  margin: 15px auto;
+  padding: 30px;
+  background-color: #413c3c6b;
   border-radius: 10px;
+  opacity: 0.9;
+  font-size: 20px;
+  color: #f0e9e9;
 }
 
 .form_busca input{
   margin-left: 10px;
   width: 300px;
+  font-size: 15px;
 }
 
 .small_button{
@@ -139,7 +186,7 @@ h3{
 }
 
 td{
-  text-align: right;
+  text-align: left;
 }
 
 input{
@@ -152,11 +199,14 @@ input{
 }
 
 .divcontentordem {
-  margin: auto;
+  margin: 15px auto;
   padding: 30px;
   width: 80%;
-  background-color: #eee;
+  background-color: #413c3c6b;
   border-radius: 10px;
+  opacity: 1;
+  font-size: 20px;
+  color: #f0e9e9;
 }
 
 .divordemdetalhes{
@@ -226,14 +276,35 @@ input{
   font-size: larger;
 }
 
-.menu_top{
-  overflow: hidden;
-  background-color:#eee;
-  padding: 10px;
+.menu_top {
+  overflow:hidden;
+  padding: 50px;
+  background-color: rgba(97, 45, 45, 0.537); 
+  width: 100%;
+  margin-top: 15px;
+  margin-bottom: 25px; 
+  box-sizing: border-box;
+  text-align: center;
+  font-size: 25px;
 }
 
-.menu_top th{
-  padding-right: 50px;
+.menu_top th {
+  padding-right: 30px;
+  padding-left: 5px; 
+}
+
+.menu_top a {
+  margin-right: 25px;
+  text-align: center;
+  color: #eee2e2;
+  text-decoration: none; 
+  line-height: 1;
+  display: inline-block;
+  margin-top: -20px;
+}
+
+.menu_top a:hover {
+  color: #401bb8; 
 }
 
 .menu_top .title{
@@ -242,12 +313,26 @@ input{
   padding-left: 20px;
 }
 
-body{
-  margin:0;
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 65vh;
+  background-image: url(images/fundo.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 95% 30%;
+  transition: opacity 0.5s ease;
+  opacity: 0.9;
 }
 
-h1{
+h1 { 
+  color: rgb(243, 245, 247);
   padding-left: 20px;
+  text-align: left;
+  font-size: 50px;
 }
 
 h3{
