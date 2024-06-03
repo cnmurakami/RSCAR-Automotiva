@@ -5,19 +5,11 @@
         <title>Deatlhes do cliente</title>
     </header>
     <body>
-        <div class="menu_top">
-            <div class="menu_opcao">
-              <table>
-                <tr>
-                  <th class="title"><a href="{{url_for('home')}}">RSCAR<br>Automotiva</a></th>
-                  <th><a href="{{url_for('busca')}}">Buscar</a></th>
-                  <th><a href="{{url_for('register')}}">Cadastrar<br>Cliente</a></th>
-                  <th><a href="{{url_for('vehicle_registration_default')}}">Cadastrar<br>Veículo</a></th>
-                  <th><a href="{{url_for('ordem_default')}}">Ordem de<br>Serviço</a></th>
-                </tr>
-              </table>
-            </div>
-          </div>
+        {% extends "menu.html" %}
+        {% block menu %}
+        {{super()}}
+        {% endblock %}
+        {% block content %}
         <h1>Detalhes do cliente</h1>
         <div class="divcontentcliente">
             <table>
@@ -69,10 +61,8 @@
                     <tr>
                         <th>Ação</th>
                         <th>Placa</th>
-                        <th>Chassi</th>
                         <th>Marca</th>
                         <th>Modelo</th>
-                        <th>Fabricação</th>
                         <th>Ano Modelo</th>
                         <th>Cor</th>
                     </tr>
@@ -80,15 +70,17 @@
                         {% for carro in veiculos %}
                             <tr>
                                 <td>
+                                    <a href="{{ url_for('exibir_veiculo', id_veiculo = carro['id_veiculo']) }}">
+                                        <button class="small_button">Ver detalhes</button>
+                                    </a>
+                                    <p class="small_button"></p>
                                     <a href="{{ url_for('ordem', id_veiculo = carro['id_veiculo']) }}">
                                         <button class="small_button">Abrir ordem</button>
-                                    </a>
+                                    </a>  
                                 </td>
                                 <td>{{carro['placa']}}</td>
-                                <td>{{carro['chassi']}}</td>
                                 <td>{{carro['marca']}}</td>
                                 <td>{{carro['modelo']}}</td>
-                                <td>{{carro['ano_fabricacao']}}</td>
                                 <td>{{carro['ano_modelo']}}</td>
                                 <td>{{carro['cor']}}</td>
                             </tr>
@@ -102,4 +94,5 @@
     </div>
         
     </body>
+    {% endblock %}
 </html>

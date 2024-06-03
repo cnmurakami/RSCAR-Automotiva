@@ -65,23 +65,11 @@ def pesquisar_veiculo_geral(parametro):
     
 def pesquisar_ordem_geral(parametro):
     try:
-        resultado_final = []
-        resultado_clientes = pesquisar_cliente_geral(parametro)
-        resultado_veiculos = pesquisar_veiculo_geral(parametro)
-        try:
-            resultado_final+=db.execute('SELECT * FROM ordem where id_ordem like %s', (parametro,))
-        except: pass
-        for i in resultado_veiculos:
-            try:
-                resultado_final+=db.execute('SELECT * FROM ordem where id_veiculo = %s', (i['id_veiculo']))
-            except:
-                pass
-        for i in resultado_clientes:
-            try:
-                resultado_final+=db.execute('SELECT * FROM ordem where id_cliente = %s', (i['id_cliente']))
-            except:
-                pass
-        return criar_lista_ordem(resultado_final)
+        resultado = db.execute('select o.id_ordem, sum(ts.valor), v.placa, concat(c.nome,c.razao_social) from ordem as o left join tipo_servico_ordem as tso on tso.id_ordem = o.id_ordem left join tipo_servico as ts on ts.id_servico = tso.id_servico left join veiculo as v on o.id_veiculo=v.id_veiculo left join cliente as c on o.id_cliente=c.id_cliente where o.id_ordem = %s or lower(v.placa) = %s or lower(c.razao_social) = %s or lower(c.nome) = %s group by o.id_ordem', (parametro, parametro, parametro, parametro,))
+        if len(resultado)>0:
+            return criar_lista_ordem(resultado)
+        else:
+            return []
     except:
         return Exception
 

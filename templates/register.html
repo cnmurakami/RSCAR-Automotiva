@@ -1,115 +1,107 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-  <link rel="stylesheet" href="../static/style.css">
-  <title>Cadastrar Cliente</title>
-</head>
+  <head>
+    <link rel="stylesheet" href="../static/style.css">
+    <title>Cadastrar Cliente</title>
+  </head>
 
-<body>
-  <div class="menu_top">
-    <div class="menu_opcao">
-      <table>
-        <tr>
-          <th class="title"><a href="{{url_for('home')}}">RSCAR<br>Automotiva</a></th>
-          <th><a href="{{url_for('busca')}}">Buscar</a></th>
-          <th><a href="{{url_for('register')}}">Cadastrar<br>Cliente</a></th>
-          <th><a href="{{url_for('vehicle_registration_default')}}">Cadastrar<br>Veículo</a></th>
-          <th><a href="{{url_for('ordem_default')}}">Ordem de<br>Serviço</a></th>
-        </tr>
-      </table>
-    </div>
-  </div>
-  <h1>Cadastrar cliente</h1>
-  <div class="divcontent">
-    <form onsubmit="return false;" action="{{ url_for('register') }}" method="POST" name="registrar_cliente">
-      <div class="divform">
-        Dados Pessoais
-        <table>
-          <tr>
-            <td>
-              <select id="tipoDocumento">
-                <option value="cpf">CPF</option>
-                <option value="cnpj">CNPJ</option>
-              </select>
-              <input type="text" id="documento" placeholder="Documento" oninput="sanitizar_dados(event)">
-            </td>
-            <td>
-              <input type="text" id="nome" maxlength="100" placeholder="Nome/Razão social">
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <input type="text" id="telefone" placeholder="Telefone" maxlength="11" oninput="sanitizar_dados(event)">
-          </td>
-            <td>
-              <input type="text" id="email" maxlength="100" placeholder="E-mail">
-            </td>
-          </tr>
-          </table>
-      </div>
-      <div class="divform">
-        Endereço
+  <body>
+    {% extends "menu.html" %}
+    {% block menu %}
+    {{super()}}
+    {% endblock %}
+    {% block content %}
+    <h1>Cadastrar cliente</h1>
+    <div class="divcontent">
+      <form onsubmit="return false;" action="{{ url_for('register') }}" method="POST" name="registrar_cliente">
+        <div class="divform">
+          Dados Pessoais
           <table>
             <tr>
               <td>
-                <input type="text" id="cep" placeholder="CEP" maxlength="8" oninput="sanitizar_dados(event)">
-              </td>
-              <td>
-                <input type="text" id="logradouro" maxlength="100" placeholder="Logradouro">
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <input type="text" id="numero" maxlength="10" placeholder="Número">
-              </td>
-              <td>
-                <input type="text" id="complemento" maxlength="40" placeholder="Complemento">
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <input type="text" id="cidade" maxlength="50" placeholder="Cidade">
-              </td>
-              <td>
-                <select id="estado" placeholder="Estado" class="estado">
-                  <option value="">Selecione o estado</option>
-                  <option value="AC">AC</option>
-                  <option value="AL">AL</option>
-                  <option value="AP">AP</option>
-                  <option value="AM">AM</option>
-                  <option value="BA">BA</option>
-                  <option value="CE">CE</option>
-                  <option value="DF">DF</option>
-                  <option value="ES">ES</option>
-                  <option value="GO">GO</option>
-                  <option value="MA">MA</option>
-                  <option value="MS">MS</option>
-                  <option value="MT">MT</option>
-                  <option value="MG">MG</option>
-                  <option value="PA">PA</option>
-                  <option value="PB">PB</option>
-                  <option value="PR">PR</option>
-                  <option value="PE">PE</option>
-                  <option value="PI">PI</option>
-                  <option value="RJ">RJ</option>
-                  <option value="RN">RN</option>
-                  <option value="RS">RS</option>
-                  <option value="RO">RO</option>
-                  <option value="RR">RR</option>
-                  <option value="SC">SC</option>
-                  <option value="SP">SP</option>
-                  <option value="SE">SE</option>
-                  <option value="TO">TO</option>
+                <select id="tipoDocumento">
+                  <option value="cpf">CPF</option>
+                  <option value="cnpj">CNPJ</option>
                 </select>
+                <input type="text" id="documento" placeholder="Documento" oninput="sanitizar_dados(event)">
+              </td>
+              <td>
+                <input type="text" id="nome" maxlength="100" placeholder="Nome/Razão social">
               </td>
             </tr>
-        </table>
-      </div>
-      <button type="submit" onclick="enviar_form()">Cadastrar</button>
-    </form>
-  </div>
-  <script src="../static/registrar_cliente.js"></script>
-</body>
-
+            <tr>
+              <td>
+                <input type="text" id="telefone" placeholder="Telefone" maxlength="11" oninput="sanitizar_dados(event)">
+            </td>
+              <td>
+                <input type="text" id="email" maxlength="100" placeholder="E-mail">
+              </td>
+            </tr>
+            </table>
+        </div>
+        <div class="divform">
+          Endereço
+            <table>
+              <tr>
+                <td>
+                  <input type="text" id="cep" placeholder="CEP" maxlength="8" oninput="sanitizar_dados(event)">
+                </td>
+                <td>
+                  <input type="text" id="logradouro" maxlength="100" placeholder="Logradouro">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="text" id="numero" maxlength="10" placeholder="Número">
+                </td>
+                <td>
+                  <input type="text" id="complemento" maxlength="40" placeholder="Complemento">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="text" id="cidade" maxlength="50" placeholder="Cidade">
+                </td>
+                <td>
+                  <select id="estado" placeholder="Estado" class="estado">
+                    <option value="">Selecione o estado</option>
+                    <option value="AC">AC</option>
+                    <option value="AL">AL</option>
+                    <option value="AP">AP</option>
+                    <option value="AM">AM</option>
+                    <option value="BA">BA</option>
+                    <option value="CE">CE</option>
+                    <option value="DF">DF</option>
+                    <option value="ES">ES</option>
+                    <option value="GO">GO</option>
+                    <option value="MA">MA</option>
+                    <option value="MS">MS</option>
+                    <option value="MT">MT</option>
+                    <option value="MG">MG</option>
+                    <option value="PA">PA</option>
+                    <option value="PB">PB</option>
+                    <option value="PR">PR</option>
+                    <option value="PE">PE</option>
+                    <option value="PI">PI</option>
+                    <option value="RJ">RJ</option>
+                    <option value="RN">RN</option>
+                    <option value="RS">RS</option>
+                    <option value="RO">RO</option>
+                    <option value="RR">RR</option>
+                    <option value="SC">SC</option>
+                    <option value="SP">SP</option>
+                    <option value="SE">SE</option>
+                    <option value="TO">TO</option>
+                  </select>
+                </td>
+              </tr>
+          </table>
+        </div>
+        <button type="submit" onclick="enviar_form()">Cadastrar</button>
+      </form>
+    </div>
+    <script src="../static/registrar_cliente.js"></script>
+  </body>
+  {% endblock %}
 </html>

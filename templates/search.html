@@ -5,19 +5,11 @@
     <title>Pesquisar</title>
   </header>
   <body>
-    <div class="menu_top">
-      <div class="menu_opcao">
-        <table>
-          <tr>
-            <th class="title"><a href="{{url_for('home')}}">RSCAR<br>Automotiva</a></th>
-            <th><a href="{{url_for('busca')}}">Buscar</a></th>
-            <th><a href="{{url_for('register')}}">Cadastrar<br>Cliente</a></th>
-            <th><a href="{{url_for('vehicle_registration_default')}}">Cadastrar<br>Veículo</a></th>
-            <th><a href="{{url_for('ordem_default')}}">Ordem de<br>Serviço</a></th>
-          </tr>
-        </table>
-      </div>
-    </div>
+    {% extends "menu.html" %}
+    {% block menu %}
+    {{super()}}
+    {% endblock %}
+    {% block content %}
     <h1>Pesquisar</h1>
     <div class="divcontent">
       <form onsubmit="return false;" action="{{url_for('busca')}}" name="busca" id="busca" class = form_busca method="post">
@@ -65,36 +57,18 @@
         {% if (tipo == "veiculo") %}
           <table>
             <tr>
-              <th>
-                Ação
-              </th>
-              <th>
-                Placa
-              </th>
-              <th>
-                Chassi
-              </th>
-              <th>
-                Marca
-              </th>
-              <th>
-                Modelo
-              </th>
-              <th>
-                Fabricação
-              </th>
-              <th>
-                Ano Modelo
-              </th>
-              <th>
-                Cor
-              </th>
+              <th>Ação</th>
+              <th>Placa</th>
+              <th>Marca</th>
+              <th>Modelo</th>
+              <th>Ano Modelo</th>
+              <th>Cor</th>
             </tr>
             {% for carro in resultado %}
               <tr>
                 <td>
-                  <a href="{{ url_for('exibir_cliente', id_cliente = carro['id_cliente']) }}">
-                  <button class="small_button">Ver cliente</button>
+                  <a href="{{ url_for('exibir_veiculo', id_veiculo = carro['id_veiculo']) }}">
+                  <button class="small_button">Ver detalhes</button>
                   </a>
                   <p class="small_button"></p>
                   <a href="{{ url_for('ordem', id_veiculo = carro['id_veiculo']) }}">
@@ -102,10 +76,8 @@
                   </a>  
                 </td>
                 <td>{{carro['placa']}}</td>
-                <td>{{carro['chassi']}}</td>
                 <td>{{carro['marca']}}</td>
                 <td>{{carro['modelo']}}</td>
-                <td>{{carro['ano_fabricacao']}}</td>
                 <td>{{carro['ano_modelo']}}</td>
                 <td>{{carro['cor']}}</td>
               </tr>
@@ -115,18 +87,30 @@
         {% if (tipo == "ordem") %}
           <table>
             <tr>
-              {% for ordem in resultado %}
-                <tr>
-                  <td>
-                    ordem['id_ordem']
-                  </td>
-                </tr>
-              {% endfor %}
+              <th>Ação</th>
+              <th>ID</th>
+              <th>Placa</th>
+              <th>Cliente</th>
+              <th>Valor</th>
             </tr>
+            {% for ordem in resultado %}
+              <tr>
+                <td>
+                  <a href="{{ url_for ('mostrar_ordem', id_ordem = ordem['id_ordem']) }}">
+                  <button>Ver Ordem</button>
+                  </a>
+                </td>
+                <td>{{ordem['id_ordem']}}</td>
+                <td>{{ordem['placa']}}</td>
+                <td>{{ordem['nome']}}</td>
+                <td>R$ {{ordem['total']}}</td>
+              </tr>
+            {% endfor %}
           </table>
         {% endif %}
       </div>
     {% endif %}
     <script src="../static/busca.js"></script>
   </body>
+  {% endblock %}
 </html>

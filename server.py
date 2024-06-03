@@ -12,6 +12,7 @@ page_cliente = 'cliente'
 page_busca = 'search'
 page_cadastro_veiculo = 'vehicle_registration'
 page_ordem = 'ordem'
+page_veiculo = 'veiculo'
 
 app = Flask(__name__)
 app.config['MYSQL_USER'] = db_config.user
@@ -128,6 +129,18 @@ def exibir_cliente(id_cliente):
     except:
         return render_template(f'{page_cliente}.html', cliente = {}, veiculo = {}), status_code
 
+@app.route(f'/{page_veiculo}/<id_veiculo>', methods = ['GET'])
+def exibir_veiculo(id_veiculo):
+    status_code = 550
+    try:
+        status_code = 561
+        veiculo_atual = c.Veiculo(id_veiculo=id_veiculo)
+        cliente = c.Cliente(id_cliente=veiculo_atual.id_cliente)
+        ordens = f.pesquisar_ordem_geral(veiculo_atual.placa)
+        return render_template(f'{page_veiculo}.html', cliente = cliente.enviar(), veiculo = veiculo_atual.enviar(), ordens = ordens), 200
+    except:
+        return render_template(f'{page_veiculo}.html', cliente = {}, veiculo = {}, ordens = {}), status_code
+
 @app.route(f'/{page_cliente}/<id_cliente>/{page_cadastro_veiculo}/', methods=['GET','POST'])
 def vehicle_registration(id_cliente):
     status_code = 500
@@ -225,6 +238,12 @@ def mostrar_ordem(id_ordem):
         if len(lista_servicos)==len(lista_servicos_cadastrados):
             break
     return render_template(f'ordem_exibir.html', ordem = ordem.enviar(), veiculo=veiculo.enviar(), cliente = cliente.enviar(), lista_servicos=lista_servicos)
+
+@app.route('/teste/', methods = ['GET'])
+def teste():
+    ordem = c.Ordem(id_ordem='39')
+    resultado = ordem.enviar_completo()
+    return resultado
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)

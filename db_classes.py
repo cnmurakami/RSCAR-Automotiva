@@ -336,21 +336,14 @@ class Ordem(ABC):
         return lista_servicos
     
     def enviar_completo(self):
-        cliente = Cliente(id_cliente = self.id_cliente)
-        veiculo = Veiculo(id_veiculo = self.id_veiculo)
-        lista_servicos_cadastrados = self.recuperar_servicos()
-        lista_servicos_completa = f.get_tipos_servicos()
-        lista_servicos = []
-        for i in lista_servicos_completa:
-            if i['id_servico'] in lista_servicos_cadastrados:
-                lista_servicos.append(i)
-            if len(lista_servicos)==len(lista_servicos_cadastrados):
-                break
-        total=0
-        for i in lista_servicos:
-            total+=float(i['valor'])
+        consulta = db.execute('select v.placa, concat(c.nome,c.razao_social), sum(ts.valor) from ordem as o left join tipo_servico_ordem as tso on tso.id_ordem = o.id_ordem left join tipo_servico as ts on ts.id_servico = tso.id_servico left join veiculo as v on o.id_veiculo=v.id_veiculo left join cliente as c on o.id_cliente=c.id_cliente where o.id_ordem = %s', (self.id_ordem,))
         dicionario = self.enviar()
-        dicionario['cliente'] = cliente.nome+cliente.razao_social
-        dicionario['veiculo'] = veiculo.placa
-        dicionario['total'] = total
+        dicionario['nome'] = consulta[0][1]
+        dicionario['placa'] = consulta[0][0]
+        dicionario['total'] = consulta[0][2]
+        if dicionario['total'] == None or dicionario['total'] == 'None':
+            dicionario['total'] = '0,00'
+        else:
+            dicionario['total'] = str(dicionario['total']).replace('.', ',')
+        return dicionario
 

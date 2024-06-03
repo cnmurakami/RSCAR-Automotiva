@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <header>
+        <link rel="stylesheet" href="../../static/style.css">
+        <title>Deatlhes do cliente</title>
+    </header>
+    <body>
+        {% extends "menu.html" %}
+        {% block menu %}
+        {{super()}}
+        {% endblock %}
+        {% block content %}
+        <h1>Detalhes do Veículo</h1>
+        <div class="divcontentcliente">
+            <table>
+                <tr>
+                    <th>Cliente:</th>
+                    <td><a href="{{url_for('exibir_cliente', id_cliente = cliente['id_cliente'])}}">{{cliente['nome']}}{{cliente['razao_social']}}</a></td>
+                </tr>
+                <tr>
+                    <th>Placa:</th>
+                    <td>{{veiculo['placa']}}</td>
+                </tr>
+                <tr>
+                    <th>Chassi:</th>
+                    <td>{{veiculo['chassi']}}</td>
+                </tr>
+                <tr>
+                    <th>Modelo:</th>
+                    <td>{{veiculo['modelo']}}</td>
+                </tr>
+                <tr>
+                    <th>Cor:</th>
+                    <td>{{veiculo['cor']}}</td>
+                </tr>
+                <tr>
+                    <th>Ano do Modelo:</th>
+                    <td>{{veiculo['ano_modelo']}}</td>
+                </tr>
+                <tr>
+                    <th>Ano de Fabricação:</th>
+                    <td>{{veiculo['ano_fabricacao']}}</td>
+                </tr>
+            </table>
+        </div>
+        <h1>Ordens de serviço</h1>
+        <div class="divlistaveiculos">
+            <table>
+                <tr>
+                    <th>Ação</th>
+                    <th>ID</th>
+                    <th>Valor</th>
+                </tr>
+                {% if (ordens|length > 0) %}
+                    {% for ordem in ordens %}
+                        <tr>
+                            <td>
+                                <a href="{{ url_for('mostrar_ordem', id_ordem = ordem['id_ordem']) }}">
+                                    <button class="small_button">Ver Ordem</button>
+                                </a>
+                            </td>
+                            <td>{{ordem['id_ordem']}}</td>
+                            <td>{{ordem['total']}}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr><td colspan="7"><div>Não há odens registradas</div></td></tr>
+                {% endif %}
+            </table>
+            <a href="{{ url_for('ordem', id_veiculo = veiculo['id_veiculo'] ) }}"><button class="button_registrarveiculo">Abrir nova ordem</button></a>
+        </div>
+    </body>
+    {% endblock %}
+</html>
