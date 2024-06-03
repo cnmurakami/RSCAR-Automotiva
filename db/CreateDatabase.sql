@@ -34,7 +34,7 @@ CREATE TABLE `cliente` (
   `telefone` varchar(20) NOT NULL,
   `email` varchar(100) NOT NULL,
   PRIMARY KEY (`id_cliente`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2000 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -62,7 +62,7 @@ CREATE TABLE `ordem` (
   KEY `id_veiculo` (`id_veiculo`),
   CONSTRAINT `ordem_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`),
   CONSTRAINT `ordem_ibfk_2` FOREIGN KEY (`id_veiculo`) REFERENCES `veiculo` (`id_veiculo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2000 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -147,7 +147,7 @@ CREATE TABLE `veiculo` (
   PRIMARY KEY (`id_veiculo`),
   KEY `id_cliente` (`id_cliente`),
   CONSTRAINT `veiculo_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -323,12 +323,36 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `selecionar_cliente`(
 )
 BEGIN
 	DECLARE cliente_encontrado INT;
-		SELECT id_cliente INTO cliente_encontrado FROM cliente WHERE nome = p_nome;
+    DECLARE p_parametro_lower VARCHAR(100);
+    SET p_parametro_lower = LOWER(p_parametro);
+
+    SELECT id_cliente INTO cliente_encontrado 
+    FROM cliente 
+    WHERE LOWER(nome) LIKE CONCAT('%', p_parametro_lower, '%') 
+       OR LOWER(email) LIKE CONCAT('%', p_parametro_lower, '%') 
+       OR telefone LIKE CONCAT('%', p_parametro, '%') 
+       OR cpf LIKE CONCAT('%', p_parametro, '%') 
+       OR cnpj LIKE CONCAT('%', p_parametro, '%')
+    LIMIT 1;    
+    
+    IF cliente_encontrado IS NULL THEN
+        SELECT id_cliente INTO cliente_encontrado FROM cliente WHERE nome = p_nome;
+    END IF;
+    IF cliente_encontrado IS NULL THEN
         SELECT id_cliente INTO cliente_encontrado FROM cliente WHERE razao_social = p_razao_social;
-		SELECT id_cliente INTO cliente_encontrado FROM cliente WHERE email = p_email;
-		SELECT id_cliente INTO cliente_encontrado FROM cliente WHERE telefone = p_telefone;
-		SELECT id_cliente INTO cliente_encontrado FROM cliente WHERE cpf = p_cpf;
-		SELECT id_cliente INTO cliente_encontrado FROM cliente WHERE cnpj = p_cnpj;
+    END IF;
+    IF cliente_encontrado IS NULL THEN
+        SELECT id_cliente INTO cliente_encontrado FROM cliente WHERE email = p_email;
+    END IF;
+    IF cliente_encontrado IS NULL THEN
+        SELECT id_cliente INTO cliente_encontrado FROM cliente WHERE telefone = p_telefone;
+    END IF;
+    IF cliente_encontrado IS NULL THEN
+        SELECT id_cliente INTO cliente_encontrado FROM cliente WHERE cpf = p_cpf;
+    END IF;
+    IF cliente_encontrado IS NULL THEN
+        SELECT id_cliente INTO cliente_encontrado FROM cliente WHERE cnpj = p_cnpj;
+    END IF;
         
 		IF cliente_encontrado IS NOT NULL THEN
 		SELECT * FROM cliente WHERE id_cliente = cliente_encontrado;
@@ -357,14 +381,32 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `selecionar_veiculo`(
 )
 BEGIN
 	DECLARE veiculo_encontrado INT;
-		SELECT COUNT(*) INTO veiculo_encontrado FROM veiculo WHERE placa = p_placa;
-        SELECT COUNT(*) INTO veiculo_encontrado FROM veiculo WHERE id_cliente = p_cliente_encontrado;
+	DECLARE p_parametro_lower VARCHAR(100);
+	SET p_parametro_lower = LOWER(p_parametro);
+    SELECT COUNT(*) INTO veiculo_encontrado 
+    FROM veiculo 
+    WHERE LOWER(id_veiculo) LIKE CONCAT('%', p_parametro_lower, '%') 
+       OR LOWER(placa) LIKE CONCAT('%', p_parametro_lower, '%') 
+       OR LOWER(chassi) LIKE CONCAT('%', p_parametro_lower, '%') 
+       OR id_cliente LIKE CONCAT('%', p_parametro, '%');
+       
+	IF veiculo_encontrado = 0 THEN
+        SELECT COUNT(*) INTO veiculo_encontrado FROM veiculo WHERE placa = p_placa;
+    END IF;
+    IF veiculo_encontrado = 0 THEN
+        SELECT COUNT(*) INTO veiculo_encontrado FROM veiculo WHERE id_cliente = p_id_cliente;
+    END IF;
         
-        IF veiculo_encontrado >=1 THEN
-			SELECT * FROM veiculo WHERE id_cliente = p_cliente_encontrado AND placa = p_placa_veiculo;
-        ELSE 
-			SELECT 'Veículo não encontrado para o cliente especificado ou placa inválida' AS mensagem;
-        END IF;
+    IF veiculo_encontrado >= 1 THEN
+        SELECT * FROM veiculo 
+        WHERE (LOWER(id_veiculo) LIKE CONCAT('%', p_parametro_lower, '%') 
+            OR LOWER(placa) LIKE CONCAT('%', p_parametro_lower, '%') 
+            OR LOWER(chassi) LIKE CONCAT('%', p_parametro_lower, '%') 
+            OR id_cliente LIKE CONCAT('%', p_parametro, '%'))
+            OR (placa = p_placa AND id_cliente = p_id_cliente);
+    ELSE 
+        SELECT 'Veículo não encontrado para o cliente especificado ou placa inválida' AS mensagem;
+    END IF;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -381,4 +423,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-05-09 20:42:37
+-- Dump completed on 2024-06-03 17:41:37
