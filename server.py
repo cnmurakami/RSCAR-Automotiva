@@ -21,6 +21,8 @@ app.config['MYSQL_DB'] = db_config.db
 app.config['MYSQL_HOST'] = db_config.host
 mysql = MySQL(app)
 
+
+
 @app.route('/', methods=['GET'])
 def home():
     return render_template(f'{page_index}.html')
