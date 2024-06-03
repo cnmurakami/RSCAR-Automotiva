@@ -79,3 +79,23 @@ function sumTableColumn(table, columnIndex) {
 document.addEventListener('DOMContentLoaded', function() {
   sumTableColumn('.itens_selecionados', 1)
 }, false);
+
+function enviar_form(){
+  form = document.getElementById("ordem")
+  const formData = new FormData(form);
+  fetch("", {
+      method: "POST",
+      body: formData,
+  }).then(response => {
+      return response.json();
+  }).then(jsonResponse => {
+      var nova_ordem = jsonResponse;
+      var id_nova_ordem = nova_ordem["id_ordem"]
+      var hostname = window.location.hostname;
+      var port = window.location.port ? ':' + window.location.port : '';
+      var exibir_ordem = "http://" + hostname + port + "/ordem/" + id_nova_ordem +"/";
+      window.location.replace(exibir_ordem);
+  }).catch (error => {
+      console.log(error)
+  })
+}

@@ -41,10 +41,11 @@ def register():
         logradouro = request.form['logradouro']
         numero = request.form['numero']
         complemento = request.form['complemento']
+        bairro = request.form['bairro']
         estado = request.form['estado']
         cidade = request.form['cidade']
         telefone = celular
-        endereco = f'{logradouro};;{numero};;{complemento};;{cidade};;{estado};;{cep}'
+        endereco = f'{logradouro};;{numero};;{complemento};;{bairro};;{cidade};;{estado};;{cep}'
         if ((nome and cpf) or (razao_social and cnpj)) and telefone and email and cep:
             status_code=550
             cliente_encontrado = f.pesquisar_cliente(cpf,cnpj)
@@ -186,12 +187,12 @@ def vehicle_registration(id_cliente):
 #---WIP---
 @app.route(f'/{page_cadastro_veiculo}/')
 def vehicle_registration_default():
-    return render_template(f'{page_cadastro_veiculo}.html', cliente = "")
+    return render_template(f'{page_cadastro_veiculo}_default.html')
 
 #---NOT IMPLEMENTED---
 @app.route(f'/{page_ordem}/', methods=['GET','POST'])
 def ordem_default():
-    return render_template(f'{page_ordem}.html', cliente = [], ordem = [], veiculo=[]), 501
+    return render_template(f'{page_ordem}_default.html')
 
 @app.route(f'/<id_veiculo>/{page_ordem}/', methods=['GET','POST'])
 def ordem(id_veiculo):
@@ -220,7 +221,7 @@ def ordem(id_veiculo):
         nova_ordem.salvar()
         nova_ordem.localizar_ultima_ordem()
         nova_ordem.salvar_servicos(servicos_selecionados)
-        return redirect(url_for('mostrar_ordem', id_ordem = nova_ordem.id_ordem)), 200
+        return jsonify(nova_ordem.enviar()), 200
     except:
         return render_template(f'{page_ordem}.html', veiculo = [], cliente = [], lista_servicos = lista_servicos), status_code
 

@@ -103,8 +103,8 @@ class Cliente(Rscar):
     def endereco_completo(self):
         #'MeuLogradouro;;000;;MeuComplmento;;MinhaCidade;;SP;;01001-000'
         try:
-            logradouro, numero, complemento, cidade, estado, cep = self.endereco.split(';;')
-            return {'logradouro':logradouro, 'numero':numero, 'complemento':complemento, 'cidade':cidade, 'estado':estado, 'cep':cep}
+            logradouro, numero, complemento, bairro, cidade, estado, cep = self.endereco.split(';;')
+            return {'logradouro':logradouro, 'numero':numero, 'complemento':complemento, 'bairro':bairro, 'cidade':cidade, 'estado':estado, 'cep':cep}
         except:
             return {'endereco':self.endereco}
     

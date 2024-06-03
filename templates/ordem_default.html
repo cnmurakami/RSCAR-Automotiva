@@ -12,24 +12,18 @@
         {% block content %}
         <h1>Ordem de Serviço</h1>
         <div class="divcontentordem">
-            <form action="" method="post" onsubmit="return false" id="ordem">
-                <table>
-                    <tr>
-                        <th colspan="2">Detalhes do veículo</th>
-                    </tr>
-                    <tr>
-                        <th>Placa:</th>
-                        <th>Cliente:</th>
-                    </tr>
-                    <tr>
-                    <td>{{veiculo['placa']}}</td>
-                    <td>{{cliente['nome']}}{{cliente['razao_social']}}</td>
-                    </tr>
-                </table>
+            <form action="{{url_for('busca')}}" name="busca" id="busca" class = form_busca method="post">
+                <h3>Pesquise o veículo para abrir a ordem de serviço:</h3>
+                <p></p>
+                <input type="text" id="criterio" name="criterio" placeholder="Digite a placa ou chassi para pesquisar">
+                <input type="hidden" id="tipo" name="tipo" value="veiculo">
+                <button type="submit">Pesquisar</button>
+            </form>
+            <form action="" method="post">
                 <div class="divordemdetalhes">
                     <div class="divtiposservicos">
                         <h3>Serviços disponíveis</h3>
-                        <input type="text" id="filtrar_servicos" class="filtrar_servicos" onkeyup="filtrarServicos()" placeholder="Filtrar...">
+                        <input type="text" id="filtrar_servicos" class="filtrar_servicos" placeholder="Filtrar..." disabled>
                         <table class="servicos" id="tabela_servicos">
                             <tr>
                                 <th></th>
@@ -38,7 +32,7 @@
                             </tr>
                             {% for i in lista_servicos%}
                                 <tr class="item_lista">
-                                    <td><input type="checkbox" id="{{i['id_servico']}}" name="{{i['id_servico']}}" value="{{i['id_servico']}}"></td>
+                                    <td><input type="checkbox" id="{{i['id_servico']}}" name="{{i['id_servico']}}" value="{{i['id_servico']}}" disabled></td>
                                     <td><label for="{{i['id_servico']}}">{{i['nome']}}</label></td>
                                     <td><label for="{{i['id_servico']}}">R$ {{i['valor']}}</label></td>
                                 </tr>
@@ -62,9 +56,8 @@
                         </table>
                     </div>
                 </div>
-                <input type="hidden" name="id_veiculo" value="{{veiculo['id_veiculo']}}">
                 <div class="salvarOrdem">
-                    <button type="submit" onclick="enviar_form()">Salvar</button>
+                    <button type="submit" disabled>Salvar</button>
                 </div>
             </form>
         </div>

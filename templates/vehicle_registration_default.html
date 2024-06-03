@@ -1,90 +1,74 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-  <link rel="stylesheet" href="/static/style.css">
-  <title>Cadastrar Veículo</title>
-</head>
+  <head>
+    <link rel="stylesheet" href="/static/style.css">
+    <title>Cadastrar Veículo</title>
+  </head>
 
-<body>
-  {% extends "menu.html" %}
-  {% block menu %}
-  {{super()}}
-  {% endblock %}
-  {% block content %}
-  </div>
-  <h1>Cadastrar Veículo</h1>
-  <div class="divcontent">
-    <div class="divcontentcliente">
-      <table>
-        <tr>
-          <th colspan="2"><h3>Cliente selecionado:</h3></th>
-        </tr>
-        <tr>
-          <th>
-            Documento:
-          </th>
-          <td>
-            {{cliente['cpf']}}{{cliente['cnpj']}}
-          </td>
-        </tr>
-        <tr>
-          <th>
-            Nome/Razão social:
-          </th>
-          <td>
-            {{cliente['nome']}}{{cliente['razao_social']}}
-          </td>
-        </tr>
-        </table>
-    </div>
-    <form onsubmit="return false;" action="{{ url_for('vehicle_registration', id_cliente = cliente['id_cliente'] ) }}" method="POST" name="registrar_veiculo">
-      <input type="hidden" id="id_cliente" value="{{cliente['id_cliente']}}" name="id_cliente">
-      <div class="divform_veiculo">
-        <h3>Dados do veículo:</h3>
-          <table>
-            <tr>
-              <td>
-                <input type="text" id="placa" placeholder="Placa" maxlength="7" name="placa" oninput="sanitizar_dados(event)">
-              </td>
-              <td>
-                <input type="text" id="chassi" maxlength="17" placeholder="Chassi" name="chassi" oninput="sanitizar_dados(event)">
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <input type="text" id="marca" maxlength="100" placeholder="Marca" name="marca">
-              </td>
-              <td>
-                <input type="text" id="modelo" maxlength="100" placeholder="Modelo" name="modelo">
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <input type="text" id="cor" maxlength="50" placeholder="Cor" name="cor">
-              </td>
-              <td>
-                <select id="ano_fabricacao" name="ano_fabricacao">
-                  <option value="">Selecione o Ano de Fabricação</option>
-                  {% for i in range(2026, 1969, -1) %}
-                    <option value="{{i}}">{{i}}</option>
-                  {% endfor %}
-                </select>
-                <p></p>
-                <select id="ano_modelo" name="ano_modelo">
-                  <option value="">Selecione o Ano do Modelo</option>
-                  {% for i in range(2026, 1969, -1) %}
-                    <option value="{{i}}">{{i}}</option>
-                  {% endfor %}
-                </select>
-              </td>
-            </tr>
-        </table>
+  <body>
+    {% extends "menu.html" %}
+    {% block menu %}
+    {{super()}}
+    {% endblock %}
+    {% block content %}
+    <h1>Cadastrar Veículo</h1>
+    <div class="divcontent">
+      <div class="divcontentcliente">
+        <form action="{{url_for('busca')}}" name="busca" id="busca" class = form_busca method="post">
+          <h3>Pesquise o cliente para registrar o veículo:</h3>
+          <p></p>
+          <input type="text" id="criterio" name="criterio" placeholder="Digite o nome ou documento para pesquisar">
+          <input type="hidden" id="tipo" name="tipo" value="cliente">
+          <button type="submit">Pesquisar</button>
+        </form>
       </div>
-      <button type="submit" onclick="enviar_form()">Cadastrar Veículo</button>
-    </form>
-  </div>
-  <script src="/static/registrar_veiculo.js"></script>
-</body>
-{% endblock %}
+      <form action="" method="POST" name="registrar_veiculo">
+        <div class="divform_veiculo">
+          <h3>Dados do veículo:</h3>
+            <table>
+              <tr>
+                <td>
+                  <input type="text" id="placa" placeholder="Placa" maxlength="7" name="placa" oninput="sanitizar_dados(event)" disabled>
+                </td>
+                <td>
+                  <input type="text" id="chassi" maxlength="17" placeholder="Chassi" name="chassi" oninput="sanitizar_dados(event)" disabled>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="text" id="marca" maxlength="100" placeholder="Marca" name="marca" disabled>
+                </td>
+                <td>
+                  <input type="text" id="modelo" maxlength="100" placeholder="Modelo" name="modelo" disabled>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="text" id="cor" maxlength="50" placeholder="Cor" name="cor" disabled>
+                </td>
+                <td>
+                  <select id="ano_fabricacao" name="ano_fabricacao" disabled>
+                    <option value="">Selecione o Ano de Fabricação</option>
+                    {% for i in range(2025, 1949, -1) %}
+                      <option value="{{i}}">{{i}}</option>
+                    {% endfor %}
+                  </select>
+                  <p></p>
+                  <select id="ano_modelo" name="ano_modelo" disabled>
+                    <option value="">Selecione o Ano do Modelo</option>
+                    {% for i in range(2025, 1949, -1) %}
+                      <option value="{{i}}">{{i}}</option>
+                    {% endfor %}
+                  </select>
+                </td>
+              </tr>
+          </table>
+        </div>
+        <button type="submit" onclick="enviar_form()" disabled>Cadastrar Veículo</button>
+      </form>
+    </div>
+    <script src="/static/registrar_veiculo.js"></script>
+  </body>
+  {% endblock %}
 </html>

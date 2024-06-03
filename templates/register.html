@@ -44,25 +44,18 @@
           Endereço
             <table>
               <tr>
-                <td>
-                  <input type="text" id="cep" placeholder="CEP" maxlength="8" oninput="sanitizar_dados(event)">
-                </td>
-                <td>
-                  <input type="text" id="logradouro" maxlength="100" placeholder="Logradouro">
-                </td>
+                <td><input type="text" id="cep" placeholder="CEP" maxlength="8" oninput="sanitizar_dados(event)"></td>
               </tr>
               <tr>
-                <td>
-                  <input type="text" id="numero" maxlength="10" placeholder="Número">
-                </td>
-                <td>
-                  <input type="text" id="complemento" maxlength="40" placeholder="Complemento">
-                </td>
+                <td><input type="text" id="logradouro" maxlength="100" placeholder="Logradouro"></td>
+                <td><input type="text" id="numero" maxlength="10" placeholder="Número"></td>
               </tr>
               <tr>
-                <td>
-                  <input type="text" id="cidade" maxlength="50" placeholder="Cidade">
-                </td>
+                <td><input type="text" id="complemento" maxlength="40" placeholder="Complemento"></td>
+                <td><input type="text" id="bairro" maxlength="40" placeholder="Bairro"></td>
+              </tr>
+              <tr>
+                <td><input type="text" id="cidade" maxlength="50" placeholder="Cidade"></td>
                 <td>
                   <select id="estado" placeholder="Estado" class="estado">
                     <option value="">Selecione o estado</option>

@@ -58,6 +58,7 @@ function enviar_form(){
     formData.append("logradouro", document.getElementById('logradouro').value);
     formData.append("numero", document.getElementById('numero').value);
     formData.append("complemento", document.getElementById('complemento').value);
+    formData.append("bairro", document.getElementById('bairro').value);
     formData.append("cidade", document.getElementById('cidade').value);
     formData.append("estado", document.getElementById('estado').value);
     fetch("", {
