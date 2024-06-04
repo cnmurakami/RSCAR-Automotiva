@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html>
   <header>
+    <link rel="stylesheet" href="../static/style.css">
     <title>
       Oops!
     </title>
   </header>
   <body>
-    <h1>Algo de errado não está certo...</h1>
-    <p>Não se preocupe, nossos ninjas já foram enviados para averiguar o problema</p>
-    <p>Por favor <a href="javascript:history.back()">retorne</a> e tente novamente.</p>
-    <p>Caso o problema persista, informe o erro abaixo:</p>
-    <p></p>
-    <p></p>
-    <p class="erro">Erro {{status_code}}: {{codes['{{status_code}}']}}</p>
+    <div class="b_erro">
+      <h1>Algo de errado não está certo...</h1>
+      <p>Não se preocupe, nossos ninjas já foram enviados para averiguar o problema</p>
+      <p>Por favor <a href="javascript:history.back()">retorne</a> e tente novamente.</p>
+      <br><br>
+      <p>Caso o problema persista, informe o erro abaixo:</p>
+      <p class="erro">Erro {{code}}: {{erro}}</p>
+    </div>
   </body>
 </html>

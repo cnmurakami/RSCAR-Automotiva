@@ -1,3 +1,4 @@
+
 .table_home {
   text-align: center;
   background-color: #ffffff;
@@ -404,4 +405,23 @@ h1 {
 
 h3{
   text-align: left;
+}
+
+.b_erro h1{
+  color: black;
+  font-weight: lighter;
+  text-align: right;
+}
+
+.b_erro{
+  margin-top: 50px;
+  font-weight: lighter;
+  text-align: left;
+  background-color: #eee;
+  border-radius: 10px;
+  padding: 30px;
+}
+
+.erro{
+  font-style: italic;
 }

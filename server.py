@@ -13,6 +13,14 @@ page_busca = 'search'
 page_cadastro_veiculo = 'vehicle_registration'
 page_ordem = 'ordem'
 page_veiculo = 'veiculo'
+page_erro = 'erro'
+lista_erro = {
+'550' : 'Erro ao conectar-se ao db',
+'551' : 'Erro ao salvar informações no db', 
+'552' : 'Erro ao recuperar informações no db', 
+'561' : 'Informação não localizada', 
+'599' : 'Erro desconhecido de servidor'
+}
 
 app = Flask(__name__)
 app.config['MYSQL_USER'] = db_config.user
@@ -65,12 +73,12 @@ def register():
                     return jsonify(cliente_confirmado), 200
                     
                 except:
-                    return render_template(f'{page_cadastro_cliente}.html'), 552
+                    return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), 552
         else:
             status_code=460
             raise
     except:
-        return render_template(f'{page_cadastro_cliente}.html'), status_code
+        return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
 
 @app.route(f'/{page_busca}/', methods = ['GET', 'POST'])
 def busca():
@@ -90,7 +98,7 @@ def busca():
                     status_code = 561
                     raise
             except:
-                return render_template(f'{page_busca}.html', tipo = tipo, resultado = []), status_code
+                return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
         elif tipo == 'veiculo':
             try:
                 status_code = 550
@@ -101,7 +109,7 @@ def busca():
                     status_code = 561
                     raise
             except:
-                return render_template(f'{page_busca}.html', tipo = tipo, resultado = []), status_code
+                return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
         elif tipo == 'ordem':
             try:
                 status_code = 550
@@ -113,13 +121,13 @@ def busca():
                     status_code = 561
                     raise
             except:
-                return render_template(f'{page_busca}.html', tipo = tipo, resultado = []), status_code
+                return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
         else:
             status_code = 599
             raise
         return render_template(f'{page_busca}.html', tipo = tipo, resultado=resultado), status_code
     except:
-        return render_template(f'{page_busca}.html', tipo="", resultado='[]'), status_code
+        return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
 
 @app.route(f'/{page_cliente}/<id_cliente>/', methods = ['GET'])
 def exibir_cliente(id_cliente):
@@ -130,7 +138,7 @@ def exibir_cliente(id_cliente):
         busca_veiculos = f.pesquisar_veiculo_cliente(cliente_atual.id_cliente)
         return render_template(f'{page_cliente}.html', cliente = cliente_atual.enviar(), veiculos = busca_veiculos), 200
     except:
-        return render_template(f'{page_cliente}.html', cliente = {}, veiculo = {}), status_code
+        return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
 
 @app.route(f'/{page_veiculo}/<id_veiculo>', methods = ['GET'])
 def exibir_veiculo(id_veiculo):
@@ -142,7 +150,7 @@ def exibir_veiculo(id_veiculo):
         ordens = f.pesquisar_ordem_geral(veiculo_atual.placa)
         return render_template(f'{page_veiculo}.html', cliente = cliente.enviar(), veiculo = veiculo_atual.enviar(), ordens = ordens), 200
     except:
-        return render_template(f'{page_veiculo}.html', cliente = {}, veiculo = {}, ordens = {}), status_code
+        return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
 
 @app.route(f'/{page_cliente}/<id_cliente>/{page_cadastro_veiculo}/', methods=['GET','POST'])
 def vehicle_registration(id_cliente):
@@ -152,7 +160,7 @@ def vehicle_registration(id_cliente):
             cliente_atual = c.Cliente(id_cliente=id_cliente)
     except:
         cliente = {}
-        return render_template (f'{page_cadastro_veiculo}.html', cliente = {}), status_code
+        return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
 
     if request.method == 'GET':
         return render_template (f'{page_cadastro_veiculo}.html', cliente = cliente_atual.enviar()), 200
@@ -184,7 +192,7 @@ def vehicle_registration(id_cliente):
             status_code = 460
             raise
     except:
-        return render_template(f'{page_cadastro_veiculo}.html', cliente = cliente_atual), status_code
+        return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
 
 #---WIP---
 @app.route(f'/{page_cadastro_veiculo}/')
@@ -205,13 +213,13 @@ def ordem(id_veiculo):
         veiculo = c.Veiculo(id_veiculo = id_veiculo)
         cliente = c.Cliente(id_cliente = veiculo.id_cliente)
     except:
-        return render_template(f'{page_ordem}.html', veiculo = [], cliente = [], lista_servicos = []), status_code
+        return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
     if (request.method == 'GET'):
         status_code = 500
         try:
             return render_template(f'{page_ordem}.html', veiculo = veiculo.enviar(), cliente = cliente.enviar(), lista_servicos = lista_servicos), 200
         except:
-            return render_template(f'{page_ordem}.html', veiculo = [], cliente = [], lista_servicos = lista_servicos), status_code
+            return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
     try:
         servicos_selecionados = []
         for i in range(lista_servicos[len(lista_servicos)-1]['id_servico']):
@@ -225,7 +233,7 @@ def ordem(id_veiculo):
         nova_ordem.salvar_servicos(servicos_selecionados)
         return jsonify(nova_ordem.enviar()), 200
     except:
-        return render_template(f'{page_ordem}.html', veiculo = [], cliente = [], lista_servicos = lista_servicos), status_code
+        return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
 
 @app.route(f'/{page_ordem}/<id_ordem>/', methods = ['GET'])
 def mostrar_ordem(id_ordem):
