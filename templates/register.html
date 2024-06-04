@@ -20,9 +20,9 @@
           <table>
             <tr>
               <td>
-                <select id="tipoDocumento">
-                  <option value="cpf">CPF</option>
-                  <option value="cnpj">CNPJ</option>
+                <select class = tipo_doc id="tipoDocumento">
+                  <option class = tipo_doc value="cpf">CPF</option>
+                  <option class = tipo_doc value="cnpj">CNPJ</option>
                 </select>
                 <input type="text" id="documento" placeholder="Documento" oninput="sanitizar_dados(event)">
               </td>
@@ -91,7 +91,7 @@
               </tr>
           </table>
         </div>
-        <button type="submit" onclick="enviar_form()">Cadastrar</button>
+        <button type="submit" class = button_cliente onclick="enviar_form()">Cadastrar</button>
       </form>
     </div>
     <script src="../static/registrar_cliente.js"></script>

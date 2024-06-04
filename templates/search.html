@@ -13,14 +13,14 @@
     <h1>Pesquisar</h1>
     <div class="divcontent">
       <form onsubmit="return false;" action="{{url_for('busca')}}" name="busca" id="busca" class = form_busca method="post">
-        <select id="tipo" name="tipo">
+        <select id="tipo" name="tipo" class = option>
           <option value="cliente">Cliente</option>
           <option value="veiculo">Veículo</option>
           <option value="ordem">Ordem</option>
         </select>
         <input type="text" id="criterio" name="criterio" placeholder="Critério de busca">
         <p></p>
-        <button type="submit"  onclick="enviar_form()">Pesquisar</button>
+        <button type="submit" class = button_busca onclick="enviar_form()">Pesquisar</button>
       </form>
     </div>
     {% if ( (tipo != "") and (resultado|length == 0) ) %}
@@ -43,7 +43,7 @@
               <tr>
                 <td>
                   <a href="{{ url_for('exibir_cliente', id_cliente = cliente['id_cliente']) }}">
-                  <button>Visualizar</button>
+                  <button><option class = visualizar_cliente>Visualizar</button>
                   </a>
                 </td>
                 <td>{{cliente['cpf']}}{{cliente['cnpj']}}</td>
