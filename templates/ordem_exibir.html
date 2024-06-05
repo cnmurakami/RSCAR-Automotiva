@@ -23,8 +23,8 @@
                     <th>Cliente:</th>
                 </tr>
                 <tr>
-                <td>{{veiculo['placa']}}</td>
-                <td>{{cliente['nome']}}{{cliente['razao_social']}}</td>
+                <td><a href="{{url_for('exibir_veiculo', id_veiculo = veiculo['id_veiculo'])}}">{{veiculo['placa']}}</a></td>
+                <td><a href="{{url_for('exibir_cliente', id_cliente = cliente['id_cliente'])}}">{{cliente['nome']}}{{cliente['razao_social']}}</a></td>
                 </tr>
             </table>
             <div class="divordemdetalhes">

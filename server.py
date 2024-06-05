@@ -7,10 +7,10 @@ import db_config as db_config
 
 #global variables
 page_index = 'home'
-page_cadastro_cliente = 'register'
+page_cadastro_cliente = 'cadastrar_cliente'
 page_cliente = 'cliente'
-page_busca = 'search'
-page_cadastro_veiculo = 'vehicle_registration'
+page_busca = 'busca'
+page_cadastro_veiculo = 'cadastro_veiculo'
 page_ordem = 'ordem'
 page_veiculo = 'veiculo'
 page_erro = 'erro'
@@ -89,45 +89,38 @@ def busca():
         tipo = request.form['tipo']
         criterio = request.form['criterio']
         if tipo == 'cliente':
-            try:
-                status_code = 550
-                resultado = f.pesquisar_cliente_geral(criterio)
-                if len(resultado)>0:
-                    status_code = 200
-                else:
-                    status_code = 561
-                    raise
-            except:
-                return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
+            status_code = 550
+            resultado = f.pesquisar_cliente_geral(criterio)
+            if len(resultado)>0:
+                status_code = 200
+            else:
+                status_code = 561
+                raise
         elif tipo == 'veiculo':
-            try:
-                status_code = 550
-                resultado = f.pesquisar_veiculo_geral(criterio)
-                if len(resultado)>0:
-                    status_code = 200
-                else:
-                    status_code = 561
-                    raise
-            except:
-                return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
+            status_code = 550
+            resultado = f.pesquisar_veiculo_geral(criterio)
+            if len(resultado)>0:
+                status_code = 200
+            else:
+                status_code = 561
+                raise
         elif tipo == 'ordem':
-            try:
-                status_code = 550
-                resultado = f.pesquisar_ordem_geral(criterio)
-                
-                if len(resultado)>0:
-                    status_code = 200
-                else:
-                    status_code = 561
-                    raise
-            except:
-                return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
+            status_code = 550
+            resultado = f.pesquisar_ordem_geral(criterio)
+            if len(resultado)>0:
+                status_code = 200
+            else:
+                status_code = 561
+                raise
         else:
             status_code = 599
             raise
         return render_template(f'{page_busca}.html', tipo = tipo, resultado=resultado), status_code
     except:
-        return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
+        if status_code != 561:
+            return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
+        else:
+            return render_template(f'{page_busca}.html', tipo = tipo, resultado = []), status_code
 
 @app.route(f'/{page_cliente}/<id_cliente>/', methods = ['GET'])
 def exibir_cliente(id_cliente):
@@ -156,15 +149,13 @@ def exibir_veiculo(id_veiculo):
 def vehicle_registration(id_cliente):
     status_code = 500
     try:
-            status_code = 561
-            cliente_atual = c.Cliente(id_cliente=id_cliente)
+        status_code = 561
+        cliente_atual = c.Cliente(id_cliente=id_cliente)
     except:
         cliente = {}
         return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
-
     if request.method == 'GET':
         return render_template (f'{page_cadastro_veiculo}.html', cliente = cliente_atual.enviar()), 200
-        
     status_code = 200
     try:
         status_code = 561
@@ -194,15 +185,16 @@ def vehicle_registration(id_cliente):
     except:
         return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
 
-#---WIP---
+
 @app.route(f'/{page_cadastro_veiculo}/')
 def vehicle_registration_default():
     return render_template(f'{page_cadastro_veiculo}_default.html')
 
-#---NOT IMPLEMENTED---
+
 @app.route(f'/{page_ordem}/', methods=['GET','POST'])
 def ordem_default():
     return render_template(f'{page_ordem}_default.html')
+
 
 @app.route(f'/<id_veiculo>/{page_ordem}/', methods=['GET','POST'])
 def ordem(id_veiculo):
@@ -212,15 +204,9 @@ def ordem(id_veiculo):
         status_code = 552
         veiculo = c.Veiculo(id_veiculo = id_veiculo)
         cliente = c.Cliente(id_cliente = veiculo.id_cliente)
-    except:
-        return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
-    if (request.method == 'GET'):
-        status_code = 500
-        try:
+        if (request.method == 'GET'):
+            status_code = 500
             return render_template(f'{page_ordem}.html', veiculo = veiculo.enviar(), cliente = cliente.enviar(), lista_servicos = lista_servicos), 200
-        except:
-            return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
-    try:
         servicos_selecionados = []
         for i in range(lista_servicos[len(lista_servicos)-1]['id_servico']):
             try:
@@ -228,33 +214,37 @@ def ordem(id_veiculo):
             except:
                 pass
         nova_ordem = c.Ordem(id_cliente=cliente.id_cliente, id_veiculo=veiculo.id_veiculo)
+        status_code = 551
         nova_ordem.salvar()
+        status_code = 552
         nova_ordem.localizar_ultima_ordem()
+        status_code = 551
         nova_ordem.salvar_servicos(servicos_selecionados)
         return jsonify(nova_ordem.enviar()), 200
     except:
         return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
 
+
 @app.route(f'/{page_ordem}/<id_ordem>/', methods = ['GET'])
 def mostrar_ordem(id_ordem):
-    ordem = c.Ordem(id_ordem=id_ordem)
-    cliente = c.Cliente(id_cliente=ordem.id_cliente)
-    veiculo = c.Veiculo(id_veiculo=ordem.id_veiculo)
-    lista_servicos_cadastrados = ordem.recuperar_servicos()
-    lista_servicos_completa = f.get_tipos_servicos()
-    lista_servicos = []
-    for i in lista_servicos_completa:
-        if i['id_servico'] in lista_servicos_cadastrados:
-            lista_servicos.append(i)
-        if len(lista_servicos)==len(lista_servicos_cadastrados):
-            break
-    return render_template(f'ordem_exibir.html', ordem = ordem.enviar(), veiculo=veiculo.enviar(), cliente = cliente.enviar(), lista_servicos=lista_servicos)
+    try:
+        status_code=561
+        ordem = c.Ordem(id_ordem=id_ordem)
+        cliente = c.Cliente(id_cliente=ordem.id_cliente)
+        veiculo = c.Veiculo(id_veiculo=ordem.id_veiculo)
+        status_code=552
+        lista_servicos_cadastrados = ordem.recuperar_servicos()
+        lista_servicos_completa = f.get_tipos_servicos()
+        lista_servicos = []
+        for i in lista_servicos_completa:
+            if i['id_servico'] in lista_servicos_cadastrados:
+                lista_servicos.append(i)
+            if len(lista_servicos)==len(lista_servicos_cadastrados):
+                break
+        return render_template(f'ordem_exibir.html', ordem = ordem.enviar(), veiculo=veiculo.enviar(), cliente = cliente.enviar(), lista_servicos=lista_servicos), 200
+    except:
+        return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
 
-@app.route('/teste/', methods = ['GET'])
-def teste():
-    ordem = c.Ordem(id_ordem='39')
-    resultado = ordem.enviar_completo()
-    return resultado
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
