@@ -73,7 +73,7 @@ def register():
                     return jsonify(cliente_confirmado), 200
                     
                 except:
-                    return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), 552
+                    return jsonify(render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)])), 552
         else:
             status_code=460
             raise

@@ -1,3 +1,11 @@
+const lista_erro = {
+    550 : 'Erro ao conectar-se ao db',
+    551 : 'Erro ao salvar informações no db', 
+    552 : 'Erro ao recuperar informações no db', 
+    561 : 'Informação não localizada', 
+    599 : 'Erro desconhecido de servidor'
+    }
+
 function sanitizar_dados(event){
     const inputField = event.target;
     const campo = inputField.value.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
@@ -23,6 +31,9 @@ function enviar_form(){
         method: "POST",
         body: formData,
     }).then(response => {
+        if (!response.ok){
+            alert("Ocorreu um erro, por favor tente novamente ou contate o administrador caso o problema persista. \n\nCódigo " + response.status + ": " + lista_erro[response.status] + ".")
+        }
         return response.json();
     }).then(jsonResponse => {
         var novo_cliente = jsonResponse;
