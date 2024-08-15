@@ -11,10 +11,6 @@ Repositório para as aulas de Software Product
         <td>Ellen dos Santos Xavier</td>
         <td>2203485</td>
     </tr>
-    <tr>
-        <td>Rodrigo da Cunha de Assis</td>
-        <td>2202934</td>
-    </tr>
 </table>
 
 # Como utilizar
