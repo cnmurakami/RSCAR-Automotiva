@@ -164,6 +164,31 @@ UNLOCK TABLES;
 --
 
 --
+-- Table structure for table `status_servico`
+--
+
+DROP TABLE IF EXISTS `status_servico`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `status_servico` (
+  `id_status` int NOT NULL,
+  `status` varchar(100) NOT NULL,
+  PRIMARY KEY (`id_status`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tipo_servico`
+--
+
+LOCK TABLES `status_servico` WRITE;
+/*!40000 ALTER TABLE `status_servico` DISABLE KEYS */;
+INSERT INTO `status_servico` VALUES (-1,'Cancelado'),(0,'Em Orçamento'),(1,'Em andamento'),(2, "Finalizado");
+/*!40000 ALTER TABLE `status_servico` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+--
 -- Dumping routines for database 'rscarautomotive'
 --
 /*!50003 DROP PROCEDURE IF EXISTS `associar_tp_serv_ordem` */;
