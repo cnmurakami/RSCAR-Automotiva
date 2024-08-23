@@ -4,7 +4,7 @@ USE `rscarautomotive`;
 --
 -- Host: localhost    Database: rscarautomotive
 -- ------------------------------------------------------
--- Server version	8.0.33
+-- Server version	8.0.36
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -57,11 +57,14 @@ CREATE TABLE `ordem` (
   `id_ordem` int NOT NULL AUTO_INCREMENT,
   `id_cliente` int DEFAULT NULL,
   `id_veiculo` int DEFAULT NULL,
+  `id_status` int DEFAULT '0',
   PRIMARY KEY (`id_ordem`),
   KEY `id_cliente` (`id_cliente`),
   KEY `id_veiculo` (`id_veiculo`),
+  KEY `ordem_ibfk_3` (`id_status`),
   CONSTRAINT `ordem_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`),
-  CONSTRAINT `ordem_ibfk_2` FOREIGN KEY (`id_veiculo`) REFERENCES `veiculo` (`id_veiculo`)
+  CONSTRAINT `ordem_ibfk_2` FOREIGN KEY (`id_veiculo`) REFERENCES `veiculo` (`id_veiculo`),
+  CONSTRAINT `ordem_ibfk_3` FOREIGN KEY (`id_status`) REFERENCES `status_servico` (`id_status`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE=InnoDB AUTO_INCREMENT=2001 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -72,6 +75,30 @@ CREATE TABLE `ordem` (
 LOCK TABLES `ordem` WRITE;
 /*!40000 ALTER TABLE `ordem` DISABLE KEYS */;
 /*!40000 ALTER TABLE `ordem` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `status_servico`
+--
+
+DROP TABLE IF EXISTS `status_servico`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `status_servico` (
+  `id_status` int NOT NULL,
+  `status` varchar(100) NOT NULL,
+  PRIMARY KEY (`id_status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `status_servico`
+--
+
+LOCK TABLES `status_servico` WRITE;
+/*!40000 ALTER TABLE `status_servico` DISABLE KEYS */;
+INSERT INTO `status_servico` VALUES (-1,'Cancelado'),(0,'Em Orçamento'),(1,'Em andamento'),(2,'Finalizado');
+/*!40000 ALTER TABLE `status_servico` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -158,35 +185,6 @@ LOCK TABLES `veiculo` WRITE;
 /*!40000 ALTER TABLE `veiculo` DISABLE KEYS */;
 /*!40000 ALTER TABLE `veiculo` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Dumping events for database 'rscarautomotive'
---
-
---
--- Table structure for table `status_servico`
---
-
-DROP TABLE IF EXISTS `status_servico`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `status_servico` (
-  `id_status` int NOT NULL,
-  `status` varchar(100) NOT NULL,
-  PRIMARY KEY (`id_status`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tipo_servico`
---
-
-LOCK TABLES `status_servico` WRITE;
-/*!40000 ALTER TABLE `status_servico` DISABLE KEYS */;
-INSERT INTO `status_servico` VALUES (-1,'Cancelado'),(0,'Em Orçamento'),(1,'Em andamento'),(2, "Finalizado");
-/*!40000 ALTER TABLE `status_servico` ENABLE KEYS */;
-UNLOCK TABLES;
-
 
 --
 -- Dumping routines for database 'rscarautomotive'
@@ -448,4 +446,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-06-03 18:15:13
+-- Dump completed on 2024-08-22 20:53:21
