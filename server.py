@@ -242,9 +242,32 @@ def mostrar_ordem(id_ordem):
             if len(lista_servicos)==len(lista_servicos_cadastrados):
                 break
         return render_template(f'ordem_exibir.html', ordem = ordem.enviar_completo(), veiculo=veiculo.enviar(), cliente = cliente.enviar(), lista_servicos=lista_servicos), 200
+        #return jsonify(ordem.enviar_completo()),200
     except:
         return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
 
+@app.route(f'/{page_ordem}/<id_ordem>/avancar', methods = ['GET', 'POST'])
+def avancar_ordem(id_ordem):
+    try:
+        status_code=561
+        ordem = c.Ordem(id_ordem=id_ordem)
+        status_code=551
+        ordem.avancar_status()
+        cliente = c.Cliente(id_cliente=ordem.id_cliente)
+        veiculo = c.Veiculo(id_veiculo=ordem.id_veiculo)
+        status_code=552
+        lista_servicos_cadastrados = ordem.recuperar_servicos()
+        lista_servicos_completa = f.get_tipos_servicos()
+        lista_servicos = []
+        for i in lista_servicos_completa:
+            if i['id_servico'] in lista_servicos_cadastrados:
+                lista_servicos.append(i)
+            if len(lista_servicos)==len(lista_servicos_cadastrados):
+                break
+        return render_template(f'ordem_exibir.html', ordem = ordem.enviar_completo(), veiculo=veiculo.enviar(), cliente = cliente.enviar(), lista_servicos=lista_servicos), 200
+        #return jsonify(ordem.enviar_completo()),200
+    except:
+        return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)

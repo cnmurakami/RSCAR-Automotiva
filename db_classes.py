@@ -349,6 +349,15 @@ class Ordem(ABC):
     def recuperar_status(self):
         resultado = db.execute('select status from status_servico where id_status = %s',(self.id_status,))
         return resultado[0][0]
+    
+    def avancar_status(self):
+        try:
+            novo_status = str(int(self.id_status)+1)
+            db.insert('update ordem set id_status = %s where id_ordem = %s', (novo_status, self.id_ordem,))
+            self.id_status = db.execute('select id_status from ordem where id_ordem = %s', (self.id_ordem,))[0][0]
+            return
+        except:
+            raise
 
     def enviar_completo(self):
         consulta = db.execute(
