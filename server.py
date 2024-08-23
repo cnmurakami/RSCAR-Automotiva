@@ -206,7 +206,7 @@ def ordem(id_veiculo):
         cliente = c.Cliente(id_cliente = veiculo.id_cliente)
         if (request.method == 'GET'):
             status_code = 500
-            return render_template(f'{page_ordem}.html', veiculo = veiculo.enviar(), cliente = cliente.enviar(), lista_servicos = lista_servicos), 200
+            return render_template(f'{page_ordem}.html', veiculo = veiculo.enviar(), cliente = cliente.enviar(), lista_servicos = lista_servicos,), 200
         servicos_selecionados = []
         for i in range(lista_servicos[len(lista_servicos)-1]['id_servico']):
             try:
@@ -241,7 +241,7 @@ def mostrar_ordem(id_ordem):
                 lista_servicos.append(i)
             if len(lista_servicos)==len(lista_servicos_cadastrados):
                 break
-        return render_template(f'ordem_exibir.html', ordem = ordem.enviar(), veiculo=veiculo.enviar(), cliente = cliente.enviar(), lista_servicos=lista_servicos), 200
+        return render_template(f'ordem_exibir.html', ordem = ordem.enviar_completo(), veiculo=veiculo.enviar(), cliente = cliente.enviar(), lista_servicos=lista_servicos), 200
     except:
         return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
 

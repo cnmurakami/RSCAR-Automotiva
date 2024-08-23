@@ -258,19 +258,21 @@ class Veiculo(Rscar):
         return info
 
 class Ordem(ABC):
-    def __init__ (self, id_ordem:str = '', id_cliente:str = '', id_veiculo: str = ''):
+    def __init__ (self, id_ordem:str = '', id_cliente:str = '', id_veiculo:str = ''):
         if id_ordem != '':
             resultado = db.execute('select * from ordem where id_ordem = %s', (id_ordem,))
             if len(resultado) >= 1:
                 self.id_ordem = id_ordem
                 self.id_cliente = resultado[0][1]
                 self.id_veiculo = resultado[0][2]
+                self.id_status = resultado[0][3]
             else:
                 raise Exception
         else:
             self.id_ordem = id_ordem
             self.id_cliente = id_cliente
             self.id_veiculo = id_veiculo
+            self.id_status = 0
     
     @property
     def id_ordem(self):
@@ -295,12 +297,21 @@ class Ordem(ABC):
     @id_veiculo.setter
     def id_veiculo (self, novo_id_veiculo):
         self._id_veiculo = novo_id_veiculo
+    
+    @property
+    def id_status(self):
+        return self._id_status
+    
+    @id_status.setter
+    def id_status (self, novo_id_status):
+        self._id_status = novo_id_status
 
     def enviar(self):
         info = {}
         info['id_ordem'] = self.id_ordem
         info['id_cliente'] = self.id_cliente
         info['id_veiculo'] = self.id_veiculo
+        info['id_status'] = self.id_status
         return info
 
     def salvar(self):
@@ -335,8 +346,20 @@ class Ordem(ABC):
             lista_servicos.append(i[2])
         return lista_servicos
     
+    def recuperar_status(self):
+        resultado = db.execute('select status from status_servico where id_status = %s',(self.id_status,))
+        return resultado[0][0]
+
     def enviar_completo(self):
-        consulta = db.execute('select v.placa, concat(c.nome,c.razao_social), sum(ts.valor) from ordem as o left join tipo_servico_ordem as tso on tso.id_ordem = o.id_ordem left join tipo_servico as ts on ts.id_servico = tso.id_servico left join veiculo as v on o.id_veiculo=v.id_veiculo left join cliente as c on o.id_cliente=c.id_cliente where o.id_ordem = %s', (self.id_ordem,))
+        consulta = db.execute(
+            """select v.placa, concat(c.nome,c.razao_social), sum(ts.valor)
+            FROM ordem AS o
+                LEFT JOIN tipo_servico_ordem AS tso ON tso.id_ordem = o.id_ordem
+                LEFT JOIN tipo_servico AS ts ON ts.id_servico = tso.id_servico
+                LEFT JOIN veiculo AS v ON o.id_veiculo=v.id_veiculo
+                LEFT JOIN cliente AS c ON o.id_cliente=c.id_cliente
+            where o.id_ordem = %s""",
+            (self.id_ordem,))
         dicionario = self.enviar()
         dicionario['nome'] = consulta[0][1]
         dicionario['placa'] = consulta[0][0]
@@ -345,5 +368,6 @@ class Ordem(ABC):
             dicionario['total'] = '0,00'
         else:
             dicionario['total'] = str(dicionario['total']).replace('.', ',')
+        dicionario['status'] = self.recuperar_status()
         return dicionario
 
