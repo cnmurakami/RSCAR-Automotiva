@@ -99,3 +99,30 @@ function enviar_form(){
       console.log(error)
   })
 }
+
+function avancar_status(){
+  form = document.getElementById("avancar_ordem")
+  const formData = new FormData(form);
+  var id_ordem = formData.get("id_ordem")
+  var hostname = window.location.hostname;
+  var port = window.location.port ? ':' + window.location.port : '';
+  var exibir_ordem = "http://" + hostname + port + "/ordem/" + id_ordem +"/";
+  fetch(exibir_ordem+"avancar2",{
+    method: "POST",
+    body: formData,
+  }).then(response =>{
+    return response.json();
+  }).then(jsonResponse => {
+    var result = jsonResponse;
+    var success = result["success"];
+    var status_code = result["status_code"];
+    if (success){  
+      window.location.replace(exibir_ordem);
+    }
+    else{
+      alert("Erro ao atualizar status.\nCode: "+status_code)
+    }
+  }).catch(error => {
+    console.log(error)
+  })
+}

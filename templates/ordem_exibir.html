@@ -54,8 +54,9 @@
                 </div>
             </div>
             <div class="AprovarOrdem">
-                <form action="{{ url_for('avancar_ordem', id_ordem=ordem['id_ordem']) }}" method="post">
-                    <button type="submit">Aprovar Ordem</button>
+                <form action="" method="post" onsubmit="return false" id="avancar_ordem">
+                    <input type="hidden" name="id_ordem" value="{{ordem['id_ordem']}}">
+                    <button type="submit" onclick="avancar_status()">Aprovar Ordem</button>
                 </form>
                 </div>
         <script src="/static/ordem.js"></script>

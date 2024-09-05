@@ -269,16 +269,16 @@ def avancar_ordem(id_ordem):
     except:
         return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
 
-@app.route(f'/{page_ordem}/<id_ordem>/avancar2', methods = ['GET', 'POST'])
+@app.route(f'/{page_ordem}/<id_ordem>/avancar2', methods = ['POST'])
 def avancar_ordem2(id_ordem):
     try:
         status_code=561
         ordem = c.Ordem(id_ordem=id_ordem)
         status_code=551
         ordem.avancar_status()
-        return jsonify(success = True, status_code=200)
+        return jsonify(success = True, status_code = 200, id_ordem = id_ordem)
     except:
-        return jsonify(success = False, status_code = status_code)
+        return jsonify(success = False, status_code = status_code, id_ordem = id_ordem)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
