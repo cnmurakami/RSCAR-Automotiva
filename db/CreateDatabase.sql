@@ -58,7 +58,7 @@ CREATE TABLE `ordem` (
   `id_cliente` int DEFAULT NULL,
   `id_veiculo` int DEFAULT NULL,
   `id_status` int DEFAULT '0',
-  `ativo` tinyint(1) DEFAULT NULL,
+  `ativo` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id_ordem`),
   KEY `id_cliente` (`id_cliente`),
   KEY `id_veiculo` (`id_veiculo`),
@@ -447,4 +447,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-09-05 20:19:04
+-- Dump completed on 2024-09-05 20:55:29
