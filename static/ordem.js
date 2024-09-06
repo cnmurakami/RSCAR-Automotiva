@@ -107,7 +107,7 @@ function avancar_status(){
   var hostname = window.location.hostname;
   var port = window.location.port ? ':' + window.location.port : '';
   var exibir_ordem = "http://" + hostname + port + "/ordem/" + id_ordem +"/";
-  fetch(exibir_ordem+"avancar2",{
+  fetch(exibir_ordem+"avancar",{
     method: "POST",
     body: formData,
   }).then(response =>{
@@ -120,7 +120,7 @@ function avancar_status(){
       window.location.replace(exibir_ordem);
     }
     else{
-      alert("Erro ao atualizar status.\nCode: "+status_code)
+      alert("Erro ao atualizar status.\nPor favor tente novamente.\n\nCode: "+status_code)
     }
   }).catch(error => {
     console.log(error)

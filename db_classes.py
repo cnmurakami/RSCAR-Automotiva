@@ -266,6 +266,7 @@ class Ordem(ABC):
                 self.id_cliente = resultado[0][1]
                 self.id_veiculo = resultado[0][2]
                 self.id_status = resultado[0][3]
+                self.ativo = bool(resultado[0][4])
             else:
                 raise Exception
         else:
@@ -273,6 +274,7 @@ class Ordem(ABC):
             self.id_cliente = id_cliente
             self.id_veiculo = id_veiculo
             self.id_status = 0
+            self.id_status = True
     
     @property
     def id_ordem(self):
@@ -312,6 +314,7 @@ class Ordem(ABC):
         info['id_cliente'] = self.id_cliente
         info['id_veiculo'] = self.id_veiculo
         info['id_status'] = self.id_status
+        info['ativo'] = self.ativo
         return info
 
     def salvar(self):
@@ -351,13 +354,19 @@ class Ordem(ABC):
         return resultado[0][0]
     
     def avancar_status(self):
-        try:
-            novo_status = str(int(self.id_status)+1)
-            db.insert('update ordem set id_status = %s where id_ordem = %s', (novo_status, self.id_ordem,))
-            self.id_status = db.execute('select id_status from ordem where id_ordem = %s', (self.id_ordem,))[0][0]
-            return
-        except:
-            raise
+        novo_status = str(int(self.id_status)+1)
+        if novo_status == '2':
+            self.ativo = False
+        db.insert('update ordem set id_status = %s, ativo = %s where id_ordem = %s', (novo_status, int(self.ativo), self.id_ordem,))
+        self.id_status = db.execute('select id_status from ordem where id_ordem = %s', (self.id_ordem,))[0][0]
+        return
+    
+
+    def cancelar(self):
+        self.id_status = '-1'
+        self.ativo = False
+        db.insert('update ordem set id_status = %s, ativo = %s where id_ordem = %s', (self.id_status, int(self.ativo), self.id_ordem,))
+        return
 
     def enviar_completo(self):
         consulta = db.execute(
