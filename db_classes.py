@@ -274,7 +274,7 @@ class Ordem(ABC):
             self.id_cliente = id_cliente
             self.id_veiculo = id_veiculo
             self.id_status = 0
-            self.id_status = True
+            self.ativo = True
     
     @property
     def id_ordem(self):
