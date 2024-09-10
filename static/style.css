@@ -4,7 +4,7 @@
   background-color: #ffffff;
   border-radius: 10px;
   padding: 20px;
-  opacity: 0.8;
+  opacity: 0.4;
   font-size: 25px;
   color: #f0e9e9;
 }
@@ -29,7 +29,13 @@
   flex-direction: column;
   align-items: center;
   text-decoration: none;
+  color: black;
 }
+
+.table_home td a:hover {
+  color: #1b00e7;
+}
+
 .icon-client img.table_icon {
   width: 50px;
   height: 50px;
@@ -37,23 +43,23 @@
 }
 
 .table_home td:first-child {
-  vertical-align: center; 
-  padding-bottom: 20px; 
+  vertical-align: center;
+  padding-bottom: 20px;
 }
 
 .table_home td:first-child img.table_icon {
-  width: 50px; 
-  height: 50px; 
+  width: 50px;
+  height: 50px;
 }
 
 .table_home td:last-child {
-  vertical-align: center; 
-  padding-bottom: 20px; 
+  vertical-align: center;
+  padding-bottom: 20px;
 }
 
 .table_home td:last-child img.table_icon {
-  width: 50px; 
-  height: 50px; 
+  width: 50px;
+  height: 50px;
 }
 
 .divcontent {
@@ -66,7 +72,7 @@
 .divform {
   margin: 50px auto;
   padding: 20px;
-  background-color: #1715158a;
+  background-color: #0000006b;
   border-radius: 10px;
   width: fit-content;
   opacity: 0.9;
@@ -86,14 +92,14 @@
 
 .divform_veiculo td{
   text-align: center;
-  padding: 10px;
+  padding: 15px;
 }
 
 .divform_veiculo td *{
   width: 250px;
   font-size: 18px;
   padding: 5px;
-  margin-top: -3%;  
+  margin-top: -3%;
 }
 
 .cadastrar_veiculo{
@@ -105,13 +111,14 @@
 .pesquisar_veiculo {
   width: 100px;
   font-size: 20px;
-  margin-top: 5%;  
+  margin-top: 5%;
   margin-left: 170px;
 }
 
 .visualizar_cliente{
   width: 100px;
-  font-size: 20px;
+  font-size: 17px;
+  cursor: pointer;
 }
 
 .divcontentcliente {
@@ -144,11 +151,12 @@
 .tipo_doc {
   margin-left: 15px;
   width: 80px;
-  font-size: 15px;
+  font-size: 17px;
 }
 
 .divlistaveiculos{
   margin: auto;
+  margin-top: 0;
   text-align: center;
   padding: 5px;
   padding-top: 50px;
@@ -160,9 +168,8 @@
 .divlistaveiculos table{
   margin: auto;
   padding: 20px;
-  width: fit-content;
-  background-color: #1715158a; 
-  border-radius: 10px; 
+  background-color: #0000006b;
+  border-radius: 10px;
   font-size: 20px;
   color: #eee;
 }
@@ -194,12 +201,13 @@
 .button_registrarveiculo{
   margin-top: 20px;
   font-size: 20px;
+  cursor: pointer;
 }
 
 .form_busca{
-  margin: 15px auto;
+  margin: 10px auto;
   padding: 30px;
-  background-color: #413c3c6b;
+  background-color: #0000006b;
   border-radius: 10px;
   opacity: 0.9;
   font-size: 20px;
@@ -207,7 +215,7 @@
 }
 
 .form_busca input{
-  margin-left: 10px;
+  margin-left: 0px;
   width: 400px;
   font-size: 20px;
 }
@@ -216,19 +224,22 @@
   margin-left: 170px;
   width: 100px;
   font-size: 20px;
+  cursor: pointer;
 }
 
 .option {
-  margin-left: 10px;
+  margin-left: 0px;
   width: 100px;
   font-size: 20px;
 }
 
 
 .small_button{
-  margin-top: 1px;
-  margin-bottom: 1px;
+  margin-top: 5px;
+  margin-bottom: 5px;
   width: 100px;
+  font-size: 16px;
+  cursor: pointer;
 }
 
 h3{
@@ -244,7 +255,7 @@ td{
 input{
   margin: 15px;
   padding: 5px;
-  font-size: 15px;
+  font-size: 17px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -252,24 +263,25 @@ input{
 }
 
 .button_cliente{
-  margin: center;
-  padding: 5px;
-  font-size: 15px;
+  margin: 5px;
+  padding: 6px;
+  font-size: 17px;
   position: absolute;
+  cursor: pointer;
 }
 
 .estado{
-  width: 94%;
-  padding: 8px;
+  width: 90%;
+  padding: 9px;
   font-size: 15px;
-  margin: 5px;
+  margin: 18px;
 }
 
 .divcontentordem {
   margin: 15px auto;
   padding: 30px;
   width: 80%;
-  background-color: #1715158a;
+  background-color: #0000006b;
   border-radius: 10px;
   opacity: 1;
   font-size: 20px;
@@ -284,7 +296,8 @@ input{
 
 .divcontentordem th{
   text-align: left;
-  padding-right: 20px;
+  line-height: 1.5;
+  padding-right: 100px;
 }
 
 .divcontentordem td{
@@ -330,12 +343,71 @@ input{
   color: black;
 }
 
-.salvarOrdem{
-  margin-top: 50px;
-  margin-right: 50px;
-  text-align: right;
+.VerOrdem button{
+  margin-top: 10px;
+  margin-right: 10px;
+  font-size: 17px;
+  cursor: pointer;
 }
 
+.VerOrdem button:hover {
+  background-color: #a7d2ffc4;
+}
+
+.CadastrarVeiculo button{
+  margin-top: 30px;
+  margin-right: 50px;
+  font-size: 17px;
+  cursor: pointer;
+}
+
+.CadastrarVeiculo button:hover {
+  background-color: #a7d2ffc4;
+}
+
+.salvarOrdem button{
+  margin-top: 30px;
+  margin-right: 50px;
+  font-size: 17px;
+  cursor: pointer;
+}
+
+.salvarOrdem button:hover {
+  background-color: #a7d2ffc4;
+}
+
+.AprovarOrdem button {
+  margin-top: 35px;
+  margin-right: 15px;
+  font-size: 17px;
+  cursor: pointer;
+}
+
+.AprovarOrdem button:hover {
+  background-color: #a7d2ffc4;
+}
+
+.CancelarOrdem button {
+  margin-top: 30px;
+  margin-right: 10px;
+  font-size: 17px;
+  cursor: pointer;
+}
+
+.CancelarOrdem button:hover {
+  background-color: #a7d2ffc4;
+}
+
+.PesquisarVeiculoOrdem button {
+  margin-top: 30px;
+  margin-right: 10px;
+  font-size: 17px;
+  cursor: pointer;
+}
+
+.CancelarOrdem button:hover {
+  background-color: #a7d2ffc4;
+}
 
 .id_ordem {
   margin-bottom: 20px;
@@ -346,10 +418,10 @@ input{
 .menu_top {
   overflow:hidden;
   padding: 50px;
-  background-color: rgba(97, 45, 45, 0.537); 
+  background-color: #0000006b;
   width: 100%;
   margin-top: 15px;
-  margin-bottom: 25px; 
+  margin-bottom: 25px;
   box-sizing: border-box;
   text-align: center;
   font-size: 25px;
@@ -357,21 +429,21 @@ input{
 
 .menu_top th {
   padding-right: 30px;
-  padding-left: 5px; 
+  padding-left: 5px;
 }
 
 .menu_top a {
   margin-right: 25px;
   text-align: center;
   color: #eee2e2;
-  text-decoration: none; 
+  text-decoration: none;
   line-height: 1;
   display: inline-block;
   margin-top: -20px;
 }
 
 .menu_top a:hover {
-  color: #401bb8; 
+  color: #401bb8;
 }
 
 .menu_top .title{
@@ -386,17 +458,38 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  height: 65vh;
-  background-image: url(images/fundo.png);
+  height: 200vh;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 120%;
+  background-image: url(images/orizon.png);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 95% 30%;
   background-attachment: fixed;
-  transition: opacity 0.5s ease;
-  opacity: 0.9;
+  opacity: 0.8;
+  z-index: -1;
 }
 
-h1 { 
+a:active {
+  color: #ffffff;
+}
+
+a:visited {
+  color: #1b00e7;
+}
+
+a:-webkit-any-link {
+  color: #ffffff; 
+  cursor: pointer;
+}
+
+h1 {
   color: rgb(243, 245, 247);
   padding-left: 20px;
   text-align: left;

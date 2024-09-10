@@ -96,6 +96,7 @@
             {% for ordem in resultado %}
               <tr>
                 <td>
+                  <div class="VerOrdem">
                   <a href="{{ url_for ('mostrar_ordem', id_ordem = ordem['id_ordem']) }}">
                   <button>Ver Ordem</button>
                   </a>
@@ -106,6 +107,7 @@
                 <td>R$ {{ordem['total']}}</td>
               </tr>
             {% endfor %}
+            </div>
           </table>
         {% endif %}
       </div>

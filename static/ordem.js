@@ -126,3 +126,30 @@ function avancar_status(){
     console.log(error)
   })
 }
+
+function cancelar_status() {
+  const form = document.getElementById('cancelar_ordem');
+  const id_ordem = form.querySelector('input[name="id_ordem"]').value;
+
+  fetch(`/ordem/${id_ordem}/cancelar`, {
+      method: 'POST',
+      body: new URLSearchParams(new FormData(form))
+  })
+  .then(response => response.json())
+  .then(data => {
+      if (data.success) {
+          window.location.reload();
+      } else {
+          alert('Erro ao cancelar ordem');
+      }
+  });
+}
+
+function confirmar_cancelamento() {
+  const confirmacao = confirm("Você tem certeza que deseja cancelar esta ordem de serviço?");
+  if (confirmacao) {
+      cancelar_status();
+  } else {
+      return false;
+  }
+}
