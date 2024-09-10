@@ -22,8 +22,6 @@ function filtrarServicos(){
     };
 }
 
-
-
 const checkboxes = document.querySelectorAll("input[type='checkbox']");
 const selectedItemsTable = document.querySelector(".itens_selecionados");
 
