@@ -69,6 +69,14 @@
                         <button type="submit" onclick="confirmar_cancelamento()">Cancelar Ordem</button>
                     </form>
                     {% endif %}
+
+                    <div class="FinalizarOrdem">
+                        {% if ordem['status'] == 'Em andamento'%}
+                        <form action="" method="post" onsubmit="return false" id="avancar_ordem">
+                            <input type="hidden" name="id_ordem" value="{{ordem['id_ordem']}}">
+                            <button type="submit" onclick="confirmar_finalizacao()">Finalizar Ordem</button>
+                        </form>
+                        {% endif %}                    
         <script src="/static/ordem.js"></script>
     </body>
     {% endblock %}
