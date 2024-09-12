@@ -35,6 +35,7 @@ mysql = MySQL(app)
 def home():
     return render_template(f'{page_index}.html')
 
+
 @app.route(f'/{page_cadastro_cliente}/', methods=['GET','POST'])
 def register():
     status_code=599
@@ -80,6 +81,7 @@ def register():
     except:
         return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
 
+
 @app.route(f'/{page_busca}/', methods = ['GET', 'POST'])
 def busca():
     if request.method == "GET":
@@ -122,6 +124,7 @@ def busca():
         else:
             return render_template(f'{page_busca}.html', tipo = tipo, resultado = []), status_code
 
+
 @app.route(f'/{page_cliente}/<id_cliente>/', methods = ['GET'])
 def exibir_cliente(id_cliente):
     status_code = 550
@@ -132,6 +135,7 @@ def exibir_cliente(id_cliente):
         return render_template(f'{page_cliente}.html', cliente = cliente_atual.enviar(), veiculos = busca_veiculos), 200
     except:
         return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
+
 
 @app.route(f'/{page_veiculo}/<id_veiculo>', methods = ['GET'])
 def exibir_veiculo(id_veiculo):
@@ -144,6 +148,7 @@ def exibir_veiculo(id_veiculo):
         return render_template(f'{page_veiculo}.html', cliente = cliente.enviar(), veiculo = veiculo_atual.enviar(), ordens = ordens), 200
     except:
         return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
+
 
 @app.route(f'/{page_cliente}/<id_cliente>/{page_cadastro_veiculo}/', methods=['GET','POST'])
 def vehicle_registration(id_cliente):
@@ -196,8 +201,8 @@ def ordem_default():
     return render_template(f'{page_ordem}_default.html')
 
 
-@app.route(f'/<id_veiculo>/{page_ordem}/', methods=['GET','POST'])
-def ordem(id_veiculo):
+@app.route(f'/<id_veiculo>/criar_{page_ordem}/', methods=['GET','POST'])
+def criar_ordem(id_veiculo):
     try:
         status_code = 550
         lista_servicos = f.get_tipos_servicos()
@@ -206,7 +211,7 @@ def ordem(id_veiculo):
         cliente = c.Cliente(id_cliente = veiculo.id_cliente)
         if (request.method == 'GET'):
             status_code = 500
-            return render_template(f'{page_ordem}.html', veiculo = veiculo.enviar(), cliente = cliente.enviar(), lista_servicos = lista_servicos,), 200
+            return render_template(f'criar_{page_ordem}.html', veiculo = veiculo.enviar(), cliente = cliente.enviar(), lista_servicos = lista_servicos,), 200
         servicos_selecionados = []
         for i in range(lista_servicos[len(lista_servicos)-1]['id_servico']):
             try:
@@ -246,6 +251,7 @@ def mostrar_ordem(id_ordem):
     except:
         return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
 
+
 @app.route(f'/{page_ordem}/<id_ordem>/avancar', methods = ['POST'])
 def avancar_ordem(id_ordem):
     try:
@@ -259,6 +265,7 @@ def avancar_ordem(id_ordem):
         return jsonify(success = True, status_code = 200, id_ordem = id_ordem)
     except:
         return jsonify(success = False, status_code = status_code, id_ordem = id_ordem)
+
 
 @app.route(f'/{page_ordem}/<id_ordem>/cancelar', methods = ['POST'])
 def cancelar_ordem(id_ordem):
