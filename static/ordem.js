@@ -151,3 +151,12 @@ function confirmar_cancelamento() {
       return false;
   }
 }
+
+function confirmar_finalizacao() {
+  const confirmacao = confirm("Você tem certeza que deseja finalizar esta ordem de serviço?");
+  if (confirmacao) {
+      avancar_status();
+  } else {
+      return false;
+  }
+}
