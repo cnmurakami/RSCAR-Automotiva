@@ -201,7 +201,7 @@ def ordem_default():
     return render_template(f'{page_ordem}_default.html')
 
 
-@app.route(f'/<id_veiculo>/criar_{page_ordem}/', methods=['GET','POST'])
+@app.route(f'/<id_veiculo>/{page_ordem}_criar/', methods=['GET','POST'])
 def criar_ordem(id_veiculo):
     try:
         status_code = 550
@@ -211,7 +211,7 @@ def criar_ordem(id_veiculo):
         cliente = c.Cliente(id_cliente = veiculo.id_cliente)
         if (request.method == 'GET'):
             status_code = 599
-            return render_template(f'criar_{page_ordem}.html', veiculo = veiculo.enviar(), cliente = cliente.enviar(), lista_servicos = lista_servicos,), 200
+            return render_template(f'{page_ordem}_criar.html', veiculo = veiculo.enviar(), cliente = cliente.enviar(), lista_servicos = lista_servicos,), 200
         servicos_selecionados = []
         for i in range(lista_servicos[len(lista_servicos)-1]['id_servico']):
             try:
@@ -294,7 +294,7 @@ def editar_ordem(id_ordem):
         if (request.method == 'GET'):
             servicos_selecionados = ordem.recuperar_servicos()
             status_code = 599
-            return render_template(f'editar_{page_ordem}.html', ordem = ordem.enviar_completo(), veiculo = veiculo.enviar(), cliente = cliente.enviar(), lista_servicos = lista_servicos, servicos_selecionados = servicos_selecionados), 200
+            return render_template(f'{page_ordem}_editar.html', ordem = ordem.enviar_completo(), veiculo = veiculo.enviar(), cliente = cliente.enviar(), lista_servicos = lista_servicos, servicos_selecionados = servicos_selecionados), 200
         servicos_selecionados = []
         for i in range(lista_servicos[len(lista_servicos)-1]['id_servico']):
             try:
