@@ -342,6 +342,10 @@ class Ordem(ABC):
         query = query[:-2]
         db.insert(query, args)
         
+    def editar_servicos(self, servicos):
+        db.execute('delete from tipo_servico_ordem where id_ordem = %s', (self.id_ordem,))
+        self.salvar_servicos(servicos)
+        
     def recuperar_servicos(self):
         resultado = db.execute('select * from tipo_servico_ordem where id_ordem = %s',(self.id_ordem,))
         lista_servicos = []
@@ -360,7 +364,6 @@ class Ordem(ABC):
         db.insert('update ordem set id_status = %s, ativo = %s where id_ordem = %s', (novo_status, int(self.ativo), self.id_ordem,))
         self.id_status = db.execute('select id_status from ordem where id_ordem = %s', (self.id_ordem,))[0][0]
         return
-    
 
     def cancelar(self):
         self.id_status = '-1'

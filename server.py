@@ -210,7 +210,7 @@ def criar_ordem(id_veiculo):
         veiculo = c.Veiculo(id_veiculo = id_veiculo)
         cliente = c.Cliente(id_cliente = veiculo.id_cliente)
         if (request.method == 'GET'):
-            status_code = 500
+            status_code = 599
             return render_template(f'criar_{page_ordem}.html', veiculo = veiculo.enviar(), cliente = cliente.enviar(), lista_servicos = lista_servicos,), 200
         servicos_selecionados = []
         for i in range(lista_servicos[len(lista_servicos)-1]['id_servico']):
@@ -280,6 +280,31 @@ def cancelar_ordem(id_ordem):
         return jsonify(success = True, status_code = 200, id_ordem = id_ordem)
     except:
         return jsonify(success = False, status_code = status_code, id_ordem = id_ordem)
+
+
+@app.route(f'/{page_ordem}/<id_ordem>/editar', methods=['GET','POST'])
+def editar_ordem(id_ordem):
+    try:
+        status_code = 550
+        lista_servicos = f.get_tipos_servicos()
+        status_code = 552
+        ordem = c.Ordem(id_ordem)
+        veiculo = c.Veiculo(ordem.id_veiculo)
+        cliente = c.Cliente(ordem.id_cliente)
+        if (request.method == 'GET'):
+            servicos_selecionados = ordem.recuperar_servicos()
+            status_code = 599
+            return render_template(f'editar_{page_ordem}.html', ordem = ordem.enviar_completo(), veiculo = veiculo.enviar(), cliente = cliente.enviar(), lista_servicos = lista_servicos, servicos_selecionados = servicos_selecionados), 200
+        servicos_selecionados = []
+        for i in range(lista_servicos[len(lista_servicos)-1]['id_servico']):
+            try:
+                servicos_selecionados.append(request.form[f'{i}'])
+            except:
+                pass
+        ordem.editar_servicos(servicos_selecionados)
+        return jsonify(ordem.enviar()), 200
+    except:
+        return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
 
 
 if __name__ == '__main__':

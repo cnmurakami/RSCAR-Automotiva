@@ -39,7 +39,6 @@ checkboxes.forEach(checkbox => {
         valueCellElement.textContent = value;
         newRow.appendChild(nameCellElement);
         newRow.appendChild(valueCellElement);
-
         newRow.id = Math.random().toString(36).substring(2, 15);
 
         checkbox.setAttribute('data-row-id', newRow.id);
@@ -77,6 +76,20 @@ function sumTableColumn(table, columnIndex) {
 document.addEventListener('DOMContentLoaded', function() {
   sumTableColumn('.itens_selecionados', 1)
 }, false);
+
+document.addEventListener('DOMContentLoaded', function(){
+  var w = document.getElementsByTagName('input'); 
+  var servicos_marcados = [];
+  for(var i = 0; i < w.length; i++){ 
+    if(w[i].type=='checkbox'){ 
+      if (w[i].checked == true){
+        w[i].dispatchEvent(new Event('change'));
+        //w[i].checked = false;
+        servicos_marcados.push(w[i]);
+      }
+    }
+  }
+});
 
 function enviar_form(){
   form = document.getElementById("ordem")
@@ -159,4 +172,25 @@ function confirmar_finalizacao() {
   } else {
       return false;
   }
+}
+
+function alterar_ordem(){
+  form = document.getElementById("ordem")
+  const formData = new FormData(form);
+  var id_ordem = formData.get("id_ordem")
+  fetch("", {
+      method: "POST",
+      body: formData,
+  }).then(response => {
+      return response.json();
+  }).then(jsonResponse => {
+      var nova_ordem = jsonResponse;
+      //var id_nova_ordem = nova_ordem["id_ordem"]
+      var hostname = window.location.hostname;
+      var port = window.location.port ? ':' + window.location.port : '';
+      var exibir_ordem = "http://" + hostname + port + "/ordem/" + id_ordem;
+      window.location.replace(exibir_ordem);
+  }).catch (error => {
+      console.log(error)
+  })
 }

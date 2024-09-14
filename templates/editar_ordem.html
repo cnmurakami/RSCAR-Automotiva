@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
     <header>
-        <link rel="stylesheet" href="../static/style.css">
-        <title>Criar Ordem</title>
+        <link rel="stylesheet" href="../../static/style.css">
+        <title>Editar Ordem</title>
     </header>
     <body>
         {% extends "menu.html" %}
@@ -12,34 +12,44 @@
         {% block content %}
         <h1>Ordem de Serviço</h1>
         <div class="divcontentordem">
-            <form action="{{url_for('busca')}}" name="busca" id="busca" class = form_busca method="post">
-                <h3>Pesquise o veículo para abrir a ordem de serviço:</h3>
-                <p></p>
-                <div class="PesquisarVeiculoOrdem">
-                <input type="text" id="criterio" name="criterio" placeholder="Digite a placa ou chassi para pesquisar">
-                <input type="hidden" id="tipo" name="tipo" value="veiculo">
-                <button type="submit">Pesquisar</button>
-                </div>
-            </form>
-            <form action="" method="post">
+            <form action="" method="post" onsubmit="return false" id="ordem">
+                <div class="id_ordem">Ordem nº {{ordem['id_ordem']}}</div>
+                <table>
+                    <tr>
+                        <th colspan="2">Detalhes do veículo</th>
+                    </tr>
+                    <tr>
+                        <th>Placa:</th>
+                        <th>Cliente:</th>
+                    </tr>
+                    <div class="divstatusordem">
+                        <h3>Status da Ordem: {{ ordem['status'] }}</h3>
+                    <tr>
+                    <td><a href="{{url_for('exibir_veiculo', id_veiculo = veiculo['id_veiculo'])}}">{{veiculo['placa']}}</a></td>
+                    <td><a href="{{url_for('exibir_cliente', id_cliente = cliente['id_cliente'])}}">{{cliente['nome']}}{{cliente['razao_social']}}</a></td>
+                    </tr>
+                </table>
                 <div class="divordemdetalhes">
                     <div class="divtiposservicos">
                         <h3>Serviços disponíveis</h3>
-                        <input type="text" id="filtrar_servicos" class="filtrar_servicos" placeholder="Filtrar..." disabled>
+                        <input type="text" id="filtrar_servicos" class="filtrar_servicos" onkeyup="filtrarServicos()" placeholder="Filtrar...">
                         <table class="servicos" id="tabela_servicos">
                             <tr>
                                 <th></th>
                                 <th>Nome do serviço</th>
                                 <th>Valor</th>
                             </tr>
-                            {% for i in lista_servicos%}
+                            {% for i in lista_servicos %}
                                 <tr class="item_lista">
-                                    <td><input type="checkbox" id="{{i['id_servico']}}" name="{{i['id_servico']}}" value="{{i['id_servico']}}" disabled></td>
+                                    {% if i['id_servico'] in servicos_selecionados %}
+                                        <td><input type="checkbox" id="{{i['id_servico']}}" name="{{i['id_servico']}}" value="{{i['id_servico']}}" checked></td>
+                                    {% else %}
+                                        <td><input type="checkbox" id="{{i['id_servico']}}" name="{{i['id_servico']}}" value="{{i['id_servico']}}"></td>
+                                    {% endif %}
                                     <td><label for="{{i['id_servico']}}">{{i['nome']}}</label></td>
                                     <td><label for="{{i['id_servico']}}">R$ {{i['valor']}}</label></td>
                                 </tr>
                             {% endfor %}
-
                         </table>
                     </div>
                     <div class="divtiposservicos" id="servicos_selecionados">
@@ -49,6 +59,7 @@
                                 <th>Nome do serviço</th>
                                 <th>Valor</th>
                             </tr>
+                            
                         </table>
                         <table class="total">
                             <tr>
@@ -58,8 +69,9 @@
                         </table>
                     </div>
                 </div>
+                <input type="hidden" name="id_ordem" value="{{ordem['id_ordem']}}">
                 <div class="salvarOrdem">
-                    <button type="submit" disabled>Salvar</button>
+                    <button type="submit" onclick="alterar_ordem()">Salvar Alterações</button>
                 </div>
             </form>
         </div>
