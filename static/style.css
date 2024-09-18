@@ -1,5 +1,35 @@
+h1 { /*Título RSCAR Automotiva*/
+  color: rgb(243, 245, 247);
+  padding-left: 20px;
+  text-align: left;
+  font-size: 45px;
+}
 
-.table_home {
+body { /*Página de fundo e alinhamento*/
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 200vh;
+  position: relative;
+}
+
+body::before { /*Background e posição*/
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 120%;
+  background-image: url(images/orizon.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 95% 30%;
+  background-attachment: fixed;
+  opacity: 0.8;
+  z-index: -1;
+}
+
+.table_home { /*Fundo total das opções da tela inicial (Cadastrar Cliente/Veiculo; Buscar; Abrir Ordem*/
   text-align: center;
   background-color: #ffffff;
   border-radius: 10px;
@@ -8,13 +38,13 @@
   font-size: 25px;
   color: #f0e9e9;
 }
-.table_home a {
+.table_home a { /*Icones e nomes - Cadastrar Cliente/Veiculo; Buscar; Abrir Ordem*/
   margin-right: 25px;
   text-align: center;
   color: #4b0404;
 }
 
-.table_home td {
+.table_home td { /*O espaçamento de cada icone da página inicial*/
   width: 200px;
   height: 100px;
   padding: 20px;
@@ -24,16 +54,12 @@
   font-size: x-large;
 }
 
-.table_home td a {
+.table_home td a { /*Nome com link abaixo dos icones da tela inicial*/
   display: flex;
   flex-direction: column;
   align-items: center;
   text-decoration: none;
   color: black;
-}
-
-.table_home td a:hover {
-  color: #1b00e7;
 }
 
 .icon-client img.table_icon {
@@ -446,29 +472,6 @@ input{
   padding-left: 20px;
 }
 
-body {
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  height: 200vh;
-  position: relative;
-}
-
-body::before {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 120%;
-  background-image: url(images/orizon.png);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: 95% 30%;
-  background-attachment: fixed;
-  opacity: 0.8;
-  z-index: -1;
-}
 
 a:active {
   color: #ffffff;
@@ -483,12 +486,7 @@ a:-webkit-any-link {
   cursor: pointer;
 }
 
-h1 {
-  color: rgb(243, 245, 247);
-  padding-left: 20px;
-  text-align: left;
-  font-size: 45px;
-}
+
 
 h3{
   text-align: left;
