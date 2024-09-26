@@ -60,10 +60,11 @@
                 </form>
                 </div>
                 {% endif %}
-                
+                <div class = "EditarOrdem">
                 <form action="{{ url_for('editar_ordem', id_ordem = ordem['id_ordem']) }}", method="get">
                     <button type = "submit">Editar Ordem</button>
                 </form>
+                </div>
 
                 <div class="CancelarOrdem">
                     {% if ordem['status'] == 'Em andamento' or ordem['status'] == 'Em Orçamento'%}
