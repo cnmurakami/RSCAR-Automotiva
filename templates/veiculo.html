@@ -50,6 +50,7 @@
                     <th>Ação</th>
                     <th>ID</th>
                     <th>Valor</th>
+                    <th>Status</th>
                 </tr>
                 {% if (ordens|length > 0) %}
                     {% for ordem in ordens %}
@@ -61,6 +62,7 @@
                             </td>
                             <td>{{ordem['id_ordem']}}</td>
                             <td>{{ordem['total']}}</td>
+                            <td>{{ordem['status']}}</td>
                         </tr>
                     {% endfor %}
                 {% else %}
