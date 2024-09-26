@@ -387,9 +387,10 @@ input{
 
 .salvarOrdem button{
   margin-top: 30px;
-  margin-right: 50px;
+  margin-right: 10px;
   font-size: 17px;
   cursor: pointer;
+  width: 19%;
 }
 
 .salvarOrdem button:hover {
@@ -397,13 +398,26 @@ input{
 }
 
 .AprovarOrdem button {
-  margin-top: 35px;
-  margin-right: 15px;
+  margin-top: 30px;
+  margin-right: 10px;
   font-size: 17px;
   cursor: pointer;
+  width: 19%;
 }
 
 .AprovarOrdem button:hover {
+  background-color: #a7d2ffc4;
+}
+
+.EditarOrdem button {
+  margin-top: 30px;
+  margin-right: 10px;
+  font-size: 17px;
+  cursor: pointer;
+  width: 19%;
+}
+
+.EditarOrdem button:hover {
   background-color: #a7d2ffc4;
 }
 
@@ -412,6 +426,7 @@ input{
   margin-right: 10px;
   font-size: 17px;
   cursor: pointer;
+  width: 19%;
 }
 
 .CancelarOrdem button:hover {
