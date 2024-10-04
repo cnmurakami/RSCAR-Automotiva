@@ -89,3 +89,10 @@ def get_tipos_servicos():
     for item in resultado:
         lista_servicos.append({'id_servico':item[0], 'nome':item[1], 'valor':item[2]})
     return lista_servicos
+
+def get_pecas():
+    resultado = db.fullget('select * from peca')
+    lista_pecas = []
+    for peca in resultado:
+        lista_pecas.append({'id_peca':peca[0], 'nome':peca[1], 'qtd':peca[2], 'valor':peca[3]})
+    return lista_pecas

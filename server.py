@@ -12,7 +12,10 @@ page_cliente = 'cliente'
 page_busca = 'busca'
 page_cadastro_veiculo = 'cadastro_veiculo'
 page_ordem = 'ordem'
+page_criar_ordem = 'ordem_criar'
+page_exibir_ordem = 'ordem_exibir'
 page_veiculo = 'veiculo'
+page_estoque = 'estoque'
 page_erro = 'erro'
 lista_erro = {
 '550' : 'Erro ao conectar-se ao db',
@@ -201,7 +204,7 @@ def ordem_default():
     return render_template(f'{page_ordem}_default.html')
 
 
-@app.route(f'/<id_veiculo>/{page_ordem}_criar/', methods=['GET','POST'])
+@app.route(f'/<id_veiculo>/{page_criar_ordem}/', methods=['GET','POST'])
 def criar_ordem(id_veiculo):
     try:
         status_code = 550
@@ -211,7 +214,7 @@ def criar_ordem(id_veiculo):
         cliente = c.Cliente(id_cliente = veiculo.id_cliente)
         if (request.method == 'GET'):
             status_code = 599
-            return render_template(f'{page_ordem}_criar.html', veiculo = veiculo.enviar(), cliente = cliente.enviar(), lista_servicos = lista_servicos,), 200
+            return render_template(f'{page_criar_ordem}.html', veiculo = veiculo.enviar(), cliente = cliente.enviar(), lista_servicos = lista_servicos,), 200
         servicos_selecionados = []
         for i in range(lista_servicos[len(lista_servicos)-1]['id_servico']):
             try:
@@ -246,7 +249,7 @@ def mostrar_ordem(id_ordem):
                 lista_servicos.append(i)
             if len(lista_servicos)==len(lista_servicos_cadastrados):
                 break
-        return render_template(f'ordem_exibir.html', ordem = ordem.enviar_completo(), veiculo=veiculo.enviar(), cliente = cliente.enviar(), lista_servicos=lista_servicos), 200
+        return render_template(f'{page_exibir_ordem}.html', ordem = ordem.enviar_completo(), veiculo=veiculo.enviar(), cliente = cliente.enviar(), lista_servicos=lista_servicos), 200
         #return jsonify(ordem.enviar_completo()),200
     except:
         return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
@@ -303,6 +306,15 @@ def editar_ordem(id_ordem):
                 pass
         ordem.editar_servicos(servicos_selecionados)
         return jsonify(ordem.enviar()), 200
+    except:
+        return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
+
+@app.route(f'/{page_estoque}', methods = ['GET'])
+def exibir_estoque():
+    status_code = 550
+    try:
+        lista_de_pecas = f.get_pecas()
+        return render_template(f'{page_estoque}.html', lista_de_pecas = lista_de_pecas), 200
     except:
         return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
 
