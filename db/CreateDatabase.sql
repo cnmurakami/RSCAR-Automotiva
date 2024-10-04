@@ -4,7 +4,7 @@ USE `rscarautomotive`;
 --
 -- Host: localhost    Database: rscarautomotive
 -- ------------------------------------------------------
--- Server version	8.0.36
+-- Server version	8.0.33
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -89,8 +89,9 @@ CREATE TABLE `peca` (
   `id_peca` int NOT NULL AUTO_INCREMENT,
   `nome` varchar(50) NOT NULL,
   `qtd` int DEFAULT '0',
+  `valor` decimal(10,2) NOT NULL,
   PRIMARY KEY (`id_peca`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -99,6 +100,7 @@ CREATE TABLE `peca` (
 
 LOCK TABLES `peca` WRITE;
 /*!40000 ALTER TABLE `peca` DISABLE KEYS */;
+INSERT INTO `peca` VALUES (1,'Pastilha Diant Lado Direito',5,75.00),(2,'Pastilha Diant Lado Esquerdo',2,68.00),(3,'Pastilha Tras Lado Esquerdo',3,52.90),(4,'Pastilha Tras Lado Direito',7,46.70),(5,'Molas dianteiras',4,350.00),(6,'Molas traseiras',1,380.00),(7,'Lâmpada H7',15,30.00),(8,'Brucutu Esguicho do limpador',7,95.00);
 /*!40000 ALTER TABLE `peca` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -220,4 +222,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-10-03 20:11:48
+-- Dump completed on 2024-10-03 22:12:13
