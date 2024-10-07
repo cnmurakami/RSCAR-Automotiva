@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <header>
+        <link rel="stylesheet" href="../../static/style.css">
+        <title>Estoque de Peças</title>
+    </header>
+    <body>
+        {% extends "menu.html" %}
+        {% block menu %}
+        {{super()}}
+        {% endblock %}
+        {% block content %}
+        <h1>Estoque de Peças</h1>
+            <div class="divpecas'>
+                <div class="divtipospecas">
+                    <h3>Estoque Peças</h3>
+                    <table class="itens_selecionados" id="itens_selecionados">
+                        <tr>
+                            <th>Nome da peça</th>
+                            <th>Quantidade</th>
+                            <th>Valor</th>
+                        </tr>
+                        {% for i in lista_de_pecas%}
+                            <tr class="item_lista">
+                                <td><label for="{{i['id_peca']}}">{{i['nome']}}</label></td>
+                                <td><label for="{{i['id_peca']}}">{{i['qtd']}}</label></td>
+                                <td><label for="{{i['id_peca']}}">R$ {{i['valor']}}</label></td>
+                            </tr>
+                        {% endfor %}
+                </div>
+            </div>                  
+        <script src="/static/ordem.js"></script>
+    </body>
+    {% endblock %}
+</html>
