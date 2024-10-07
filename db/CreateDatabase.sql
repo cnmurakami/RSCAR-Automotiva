@@ -97,7 +97,8 @@ CREATE TABLE `peca` (
 --
 -- Dumping data for table `peca`
 --
-CK TABLES `peca` WRITE;
+
+LOCK TABLES `peca` WRITE;
 /*!40000 ALTER TABLE `peca` DISABLE KEYS */;
 INSERT INTO `peca` VALUES (1,'Pastilha Diant Lado Direito',5,75.00),(2,'Pastilha Diant Lado Esquerdo',2,68.00),(3,'Pastilha Tras Lado Esquerdo',3,52.90),(4,'Pastilha Tras Lado Direito',7,46.70),(5,'Molas dianteiras',4,350.00),(6,'Molas traseiras',1,380.00),(7,'Lâmpada H7',15,30.00),(8,'Brucutu Esguicho do limpador',7,95.00);
 /*!40000 ALTER TABLE `peca` ENABLE KEYS */;
@@ -211,6 +212,10 @@ LOCK TABLES `veiculo` WRITE;
 /*!40000 ALTER TABLE `veiculo` DISABLE KEYS */;
 /*!40000 ALTER TABLE `veiculo` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping events for database 'rscarautomotive'
+--
 
 --
 -- Dumping routines for database 'rscarautomotive'
@@ -472,4 +477,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-10-07 19:59:57
+-- Dump completed on 2024-10-07 20:21:34
