@@ -15,6 +15,7 @@ page_ordem = 'ordem'
 page_criar_ordem = 'ordem_criar'
 page_exibir_ordem = 'ordem_exibir'
 page_veiculo = 'veiculo'
+page_exibir_estoque = 'exibir_estoque'
 page_estoque = 'estoque'
 page_erro = 'erro'
 lista_erro = {
@@ -314,7 +315,8 @@ def exibir_estoque():
     status_code = 550
     try:
         lista_de_pecas = f.get_pecas()
-        return render_template(f'{page_estoque}.html', lista_de_pecas = lista_de_pecas), 200
+        status_code = 599
+        return render_template(f'{page_exibir_estoque}.html', lista_de_pecas = lista_de_pecas), 200
     except:
         return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
 
