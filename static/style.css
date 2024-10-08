@@ -297,7 +297,7 @@ input{
   margin: 18px;
 }
 
-.divcontentordem {
+.divcontentordem { /*fundo ordem de serviço*/
   margin: 15px auto;
   padding: 30px;
   width: 80%;
@@ -524,4 +524,15 @@ h3{
 
 .erro{
   font-style: italic;
+}
+
+.divpecas {
+  margin: 15px auto;
+  padding: 30px;
+  width: 80%;
+  background-color: #0000006b;
+  border-radius: 10px;
+  opacity: 1;
+  font-size: 20px;
+  color: #f0e9e9;
 }
