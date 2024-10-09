@@ -62,28 +62,48 @@ body::before { /*Background e posição*/
   color: black;
 }
 
-.icon-client img.table_icon {
+.table_home td:first-child img.client_icon {/*Imagem da home "Cadastrar Cliente"*/
   width: 50px;
   height: 50px;
   margin-bottom: 5px;
 }
 
-.table_home td:first-child {
+.table_home td:first-child {/*Imagem da home "Cadastrar Veículo"*/
   vertical-align: center;
   padding-bottom: 20px;
 }
 
-.table_home td:first-child img.table_icon {
+.table_home td:last-child img.car_icon {/*Imagem da home "Cadastrar Veículo"*/
   width: 50px;
   height: 50px;
 }
 
-.table_home td:last-child {
+.table_home td:first-child {/*Imagem da home "Buscar"*/
   vertical-align: center;
   padding-bottom: 20px;
 }
 
-.table_home td:last-child img.table_icon {
+.table_home td:first-child img.car_search_icon { /*Imagem da home "Buscar"*/
+  width: 50px;
+  height: 50px;
+}
+
+.table_home td:last-child {/*Imagem da home "Abrir Ordem"*/
+  vertical-align: center;
+  padding-bottom: 20px;
+}
+
+.table_home td:last-child img.pedidos_icon {/*Imagem da home "Abrir Ordem"*/
+  width: 50px;
+  height: 50px;
+}
+
+.table_home td:last-child {/*Imagem da home "Estoque"*/
+  vertical-align: center;
+  padding-bottom: 20px;
+}
+
+.table_home td:last-child img.estoque_icon { /*Imagem da home "Estoque"*/
   width: 50px;
   height: 50px;
 }
