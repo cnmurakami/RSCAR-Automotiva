@@ -12,21 +12,22 @@
         {% block content %}
         <h1>Estoque de Peças</h1>
             <div class="divpecas'>
-                <div class="divtipospecas">
-                    <h3>Estoque Peças</h3>
-                    <table class="itens_selecionados" id="itens_selecionados">
-                        <tr>
-                            <th>Nome da peça</th>
-                            <th>Quantidade</th>
-                            <th>Valor</th>
-                        </tr>
+                <div class="divtipospecas"></div>
+                        <div class="table-titles">
+                            <span class="title">Nome da peça</span>
+                            <span class="title">Quantidade</span>
+                            <span class="title">Valor</span>
+                        </div>
+                        <table class="pecas_selecionadas" id="pecas_tabelas">
+                            <tbody>
                         {% for i in lista_de_pecas%}
-                            <tr class="item_lista">
+                            <tr class="item_pecas">
                                 <td><label for="{{i['id_peca']}}">{{i['nome']}}</label></td>
                                 <td><label for="{{i['id_peca']}}">{{i['qtd']}}</label></td>
                                 <td><label for="{{i['id_peca']}}">R$ {{i['valor']}}</label></td>
                             </tr>
                         {% endfor %}
+                    </tbody>
                 </div>
             </div>                  
         <script src="/static/ordem.js"></script>
