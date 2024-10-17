@@ -320,7 +320,9 @@ def exibir_estoque():
     except:
         return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
 
-
+@app.route(f'/{page_estoque}', methods = ['POST'])
+def atualizar_estoque():
+    return render_template(f'{page_erro}.html', code=501, erro='Not implemented'), 501
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
