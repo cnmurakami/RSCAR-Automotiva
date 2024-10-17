@@ -321,5 +321,6 @@ def exibir_estoque():
         return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
 
 
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)

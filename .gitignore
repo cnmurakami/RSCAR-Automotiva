@@ -2,3 +2,4 @@
 __pycache__
 backend/db_config.py
 .devcontainer
+.vscode
