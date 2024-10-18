@@ -392,3 +392,57 @@ class Ordem(ABC):
         dicionario['status'] = self.recuperar_status()
         return dicionario
 
+class Peca(ABC):
+    def __init__ (self, id_peca:str = '', nome: str = '', qtd:str = '', valor:str = ''):
+        if id_peca != '':
+            resultado = db.execute('select * from peca where id_peca = %s', (id_peca,))
+            if len(resultado) >= 1:
+                self.id_peca = resultado[0][0]
+                self.nome = resultado[0][1]
+                self.qtd = resultado[0][2]
+                self.valor = resultado[0][3]
+        else:
+            self.id_peca = id_peca
+            self.nome = nome
+            self.qtd = qtd
+            self.valor = valor
+
+    @property
+    def id_peca(self):
+        return self._id_peca
+    
+    @id_peca.setter
+    def id_peca(self, novo_id_peca):
+        self._id_peca = novo_id_peca
+    
+    @property
+    def nome(self):
+        return self._nome
+    
+    @nome.setter
+    def nome(self, novo_nome):
+        self._nome = novo_nome
+    
+    @property
+    def qtd(self):
+        return self._qtd
+    
+    @qtd.setter
+    def qtd(self, novo_qtd):
+        self._qtd = novo_qtd
+    
+    @property
+    def valor(self):
+        return self._valor
+    
+    @valor.setter
+    def valor(self, novo_valor):
+        self._valor = novo_valor
+    
+    def adicionar_peca(self, value):
+        db.insert('UPDATE peca SET qtd = qtd + %s where id_peca = %s', (str(value), self.id_peca,))
+        self.qtd = db.execute('SELECT qtd FROM peca WHERE id_peca = %s', (self.id_peca,))[0][0]
+    
+    def remover_peca(self, value):
+        db.insert('UPDATE peca SET qtd = qtd - %s where id_peca = %s', (str(value), self.id_peca,))
+        self.qtd = db.execute('SELECT qtd FROM peca WHERE id_peca = %s', (self.id_peca,))[0][0]

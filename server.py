@@ -73,8 +73,6 @@ def register():
                 novo_cliente.salvar()
                 try:
                     cliente_confirmado = f.pesquisar_cliente(cpf,cnpj)[0]
-                    # return render_template(f'{page_cadastro_cliente}.html', resposta_cliente = cliente_confirmado.enviar), 200
-                    # return redirect(url_for('exibir_cliente', id_cliente = cliente_confirmado.id_cliente)), 200
                     return jsonify(cliente_confirmado), 200
                     
                 except:
@@ -186,7 +184,6 @@ def vehicle_registration(id_cliente):
                 status_code=551
                 novo_veiculo = c.Veiculo(id_cliente = cliente_atual.id_cliente, placa = placa, chassi = chassi, marca = marca, modelo = modelo, ano_fabricacao = ano_fabricacao, ano_modelo = ano_modelo, cor = cor)
                 novo_veiculo.salvar()
-                # return render_template(f'{page_cadastro_veiculo}.html', cliente = cliente_atual), 200
                 return jsonify(cliente_atual.enviar()), 200
         else:
             status_code = 460
@@ -251,7 +248,6 @@ def mostrar_ordem(id_ordem):
             if len(lista_servicos)==len(lista_servicos_cadastrados):
                 break
         return render_template(f'{page_exibir_ordem}.html', ordem = ordem.enviar_completo(), veiculo=veiculo.enviar(), cliente = cliente.enviar(), lista_servicos=lista_servicos), 200
-        #return jsonify(ordem.enviar_completo()),200
     except:
         return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
 
@@ -320,9 +316,29 @@ def exibir_estoque():
     except:
         return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
 
-@app.route(f'/{page_estoque}', methods = ['POST'])
+@app.route(f'/{page_estoque}/atualizar', methods = ['POST'])
 def atualizar_estoque():
-    return render_template(f'{page_erro}.html', code=501, erro='Not implemented'), 501
+    try:
+        status_code = 561
+        id_peca = request.form["id_peca"]
+        status_code = 460
+        qtd, operacao = int(request.form["qtd"]), request.form["operacao"]
+        status_code = 552
+        peca = c.Peca(id_peca = id_peca)
+        status_code = 551
+        if operacao == 'adicionar':
+            peca.adicionar_peca(qtd)
+        elif operacao == 'subtrair':
+            if qtd > peca.qtd:
+                status_code = 551
+                raise
+            peca.remover_peca(qtd)
+        else:
+            status_code = 460
+            raise
+        return jsonify(success = True, status_code = 200, nova_qtd = peca.qtd)
+    except:
+        return jsonify(success = False, status_code = status_code)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
