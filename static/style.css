@@ -575,3 +575,26 @@ h3{
   color: #eee;
 }
 
+.subtrair_peca {
+  margin-left: 16px;
+  padding: 5px;
+  width: 65px;
+}
+
+.adicionar_peca {
+  margin-left: 16px;
+  padding: 5px;
+  width: 66px;
+}
+
+.sub_qtd{
+  padding: 5px;
+  margin-left: 16px;
+  width: 50px;
+}
+
+.adi_qtd{
+  padding: 5px;
+  margin-left: 16px;
+  width: 50px;
+}
