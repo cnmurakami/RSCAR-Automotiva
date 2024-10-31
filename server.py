@@ -207,12 +207,13 @@ def criar_ordem(id_veiculo):
     try:
         status_code = 550
         lista_servicos = f.get_tipos_servicos()
+        lista_de_pecas = f.get_pecas()
         status_code = 552
         veiculo = c.Veiculo(id_veiculo = id_veiculo)
         cliente = c.Cliente(id_cliente = veiculo.id_cliente)
         if (request.method == 'GET'):
             status_code = 599
-            return render_template(f'{page_criar_ordem}.html', veiculo = veiculo.enviar(), cliente = cliente.enviar(), lista_servicos = lista_servicos,), 200
+            return render_template(f'{page_criar_ordem}.html', veiculo = veiculo.enviar(), cliente = cliente.enviar(), lista_servicos = lista_servicos, lista_de_pecas = lista_de_pecas), 200
         servicos_selecionados = []
         for i in range(lista_servicos[len(lista_servicos)-1]['id_servico']):
             try:
