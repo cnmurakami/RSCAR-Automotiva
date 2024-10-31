@@ -105,6 +105,35 @@ INSERT INTO `peca` VALUES (1,'Pastilha Diant Lado Direito',5,75.00),(2,'Pastilha
 UNLOCK TABLES;
 
 --
+-- Table structure for table `peca_ordem`
+--
+
+DROP TABLE IF EXISTS `peca_ordem`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `peca_ordem` (
+  `id_peca_ordem` int NOT NULL AUTO_INCREMENT,
+  `id_ordem` int NOT NULL,
+  `id_peca` int NOT NULL,
+  `qtd` int DEFAULT '1',
+  PRIMARY KEY (`id_peca_ordem`),
+  KEY `fk_ordem` (`id_ordem`),
+  KEY `fk_peca` (`id_peca`),
+  CONSTRAINT `fk_ordem` FOREIGN KEY (`id_ordem`) REFERENCES `ordem` (`id_ordem`),
+  CONSTRAINT `fk_peca` FOREIGN KEY (`id_peca`) REFERENCES `peca` (`id_peca`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `peca_ordem`
+--
+
+LOCK TABLES `peca_ordem` WRITE;
+/*!40000 ALTER TABLE `peca_ordem` DISABLE KEYS */;
+/*!40000 ALTER TABLE `peca_ordem` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `status_servico`
 --
 
@@ -477,4 +506,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-10-07 20:21:34
+-- Dump completed on 2024-10-31 20:40:15
