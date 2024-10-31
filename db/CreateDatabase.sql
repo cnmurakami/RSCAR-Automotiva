@@ -34,7 +34,7 @@ CREATE TABLE `cliente` (
   `telefone` varchar(20) NOT NULL,
   `email` varchar(100) NOT NULL,
   PRIMARY KEY (`id_cliente`)
-) ENGINE=InnoDB AUTO_INCREMENT=2001 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -66,7 +66,7 @@ CREATE TABLE `ordem` (
   CONSTRAINT `ordem_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`),
   CONSTRAINT `ordem_ibfk_2` FOREIGN KEY (`id_veiculo`) REFERENCES `veiculo` (`id_veiculo`),
   CONSTRAINT `ordem_ibfk_3` FOREIGN KEY (`id_status`) REFERENCES `status_servico` (`id_status`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=2001 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -100,8 +100,37 @@ CREATE TABLE `peca` (
 
 LOCK TABLES `peca` WRITE;
 /*!40000 ALTER TABLE `peca` DISABLE KEYS */;
-INSERT INTO `peca` VALUES (1,'Pastilha Diant Lado Direito',5,75.00),(2,'Pastilha Diant Lado Esquerdo',2,68.00),(3,'Pastilha Tras Lado Esquerdo',3,52.90),(4,'Pastilha Tras Lado Direito',7,46.70),(5,'Molas dianteiras',4,350.00),(6,'Molas traseiras',1,380.00),(7,'Lâmpada H7',15,30.00),(8,'Brucutu Esguicho do limpador',7,95.00);
+INSERT INTO `peca` VALUES (1,'Pastilha Diant Lado Direito',-1,75.00),(2,'Pastilha Diant Lado Esquerdo',2,68.00),(3,'Pastilha Tras Lado Esquerdo',4,52.90),(4,'Pastilha Tras Lado Direito',7,46.70),(5,'Molas dianteiras',4,350.00),(6,'Molas traseiras',1,380.00),(7,'Lâmpada H7',15,30.00),(8,'Brucutu Esguicho do limpador',7,95.00);
 /*!40000 ALTER TABLE `peca` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `peca_ordem`
+--
+
+DROP TABLE IF EXISTS `peca_ordem`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `peca_ordem` (
+  `id_peca_ordem` int NOT NULL AUTO_INCREMENT,
+  `id_ordem` int NOT NULL,
+  `id_peca` int NOT NULL,
+  `qtd` int DEFAULT '1',
+  PRIMARY KEY (`id_peca_ordem`),
+  KEY `fk_ordem` (`id_ordem`),
+  KEY `fk_peca` (`id_peca`),
+  CONSTRAINT `fk_ordem` FOREIGN KEY (`id_ordem`) REFERENCES `ordem` (`id_ordem`),
+  CONSTRAINT `fk_peca` FOREIGN KEY (`id_peca`) REFERENCES `peca` (`id_peca`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `peca_ordem`
+--
+
+LOCK TABLES `peca_ordem` WRITE;
+/*!40000 ALTER TABLE `peca_ordem` DISABLE KEYS */;
+/*!40000 ALTER TABLE `peca_ordem` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -124,7 +153,6 @@ CREATE TABLE `status_servico` (
 
 LOCK TABLES `status_servico` WRITE;
 /*!40000 ALTER TABLE `status_servico` DISABLE KEYS */;
-INSERT INTO `status_servico` VALUES (-1,'Cancelado'),(0,'Em Orçamento'),(1,'Em andamento'),(2,'Finalizado');
 /*!40000 ALTER TABLE `status_servico` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -169,7 +197,7 @@ CREATE TABLE `tipo_servico_ordem` (
   KEY `id_servico` (`id_servico`),
   CONSTRAINT `tipo_servico_ordem_ibfk_1` FOREIGN KEY (`id_ordem`) REFERENCES `ordem` (`id_ordem`),
   CONSTRAINT `tipo_servico_ordem_ibfk_2` FOREIGN KEY (`id_servico`) REFERENCES `tipo_servico` (`id_servico`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -201,7 +229,7 @@ CREATE TABLE `veiculo` (
   PRIMARY KEY (`id_veiculo`),
   KEY `id_cliente` (`id_cliente`),
   CONSTRAINT `veiculo_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`)
-) ENGINE=InnoDB AUTO_INCREMENT=2000 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -477,4 +505,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-10-07 20:21:34
+-- Dump completed on 2024-10-31 20:21:13
