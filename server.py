@@ -244,7 +244,7 @@ def criar_ordem(id_veiculo):
     except:
         return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
 
-#TO-DO
+
 @app.route(f'/{page_ordem}/<id_ordem>/', methods = ['GET'])
 def mostrar_ordem(id_ordem):
     try:
@@ -253,15 +253,27 @@ def mostrar_ordem(id_ordem):
         cliente = c.Cliente(id_cliente=ordem.id_cliente)
         veiculo = c.Veiculo(id_veiculo=ordem.id_veiculo)
         status_code=552
-        lista_servicos_cadastrados = ordem.recuperar_servicos()
-        lista_servicos_completa = f.get_tipos_servicos()
         lista_servicos = []
-        for i in lista_servicos_completa:
-            if i['id_servico'] in lista_servicos_cadastrados:
-                lista_servicos.append(i)
-            if len(lista_servicos)==len(lista_servicos_cadastrados):
-                break
-        return render_template(f'{page_exibir_ordem}.html', ordem = ordem.enviar_completo(), veiculo=veiculo.enviar(), cliente = cliente.enviar(), lista_servicos=lista_servicos), 200
+        lista_servicos_cadastrados = ordem.recuperar_servicos()
+        if len(lista_servicos_cadastrados) > 0:
+            lista_servicos_completa = f.get_tipos_servicos()
+            for dict_item in lista_servicos_completa:
+                if dict_item['id_servico'] in lista_servicos_cadastrados:
+                    lista_servicos.append(dict_item)
+                if len(lista_servicos)==len(lista_servicos_cadastrados):
+                    break
+        lista_pecas = []
+        lista_pecas_cadastradas = ordem.recuperar_pecas()
+        if len(lista_pecas_cadastradas) > 0:
+            lista_pecas_completa = f.get_pecas()
+            for dict_item in lista_pecas_completa:
+                if dict_item['id_peca'] in lista_pecas_cadastradas.keys():
+                    lista_pecas.append(dict_item)
+                if len(lista_pecas) == len(lista_servicos_cadastrados):
+                    break
+            for index in lista_pecas:
+                index['qtd'] = lista_pecas_cadastradas[index['id_peca']]
+        return render_template(f'{page_exibir_ordem}.html', ordem = ordem.enviar_completo(), veiculo=veiculo.enviar(), cliente = cliente.enviar(), lista_servicos=lista_servicos, lista_pecas=lista_pecas), 200
     except:
         return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
 
