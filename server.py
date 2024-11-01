@@ -19,6 +19,8 @@ page_exibir_estoque = 'exibir_estoque'
 page_estoque = 'estoque'
 page_erro = 'erro'
 lista_erro = {
+'450': 'Cadastro já existe',
+'460': 'Informações incompletas',
 '550' : 'Erro ao conectar-se ao db',
 '551' : 'Erro ao salvar informações no db', 
 '552' : 'Erro ao recuperar informações no db', 
@@ -218,21 +220,26 @@ def criar_ordem(id_veiculo):
         for i in range(lista_servicos[len(lista_servicos)-1]['id_servico']):
             try:
                 servicos_selecionados.append(request.form[f'servico{i}'].replace('servico', ''))
-            except:
+            except KeyError:
                 pass
         for i in range(lista_de_pecas[len(lista_de_pecas)-1]['id_peca']):
             try:
                 pecas_selecionadas.append([str(i), request.form[f'peca{i}'].replace('peca', '')])
-            except:
+            except KeyError:
                 pass
+        if len(pecas_selecionadas)==0 and len(servicos_selecionados)==0:
+            status_code = 460
+            raise
         nova_ordem = c.Ordem(id_cliente=cliente.id_cliente, id_veiculo=veiculo.id_veiculo)
         status_code = 551
         nova_ordem.salvar()
         status_code = 552
         nova_ordem.localizar_ultima_ordem()
         status_code = 551
-        nova_ordem.salvar_servicos(servicos_selecionados)
-        nova_ordem.salvar_pecas(pecas_selecionadas)
+        if len(servicos_selecionados) > 0:
+            nova_ordem.salvar_servicos(servicos_selecionados)
+        if len(pecas_selecionadas) > 0:
+            nova_ordem.salvar_pecas(pecas_selecionadas)
         return jsonify(nova_ordem.enviar()), 200
     except:
         return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
