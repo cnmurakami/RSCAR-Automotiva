@@ -307,7 +307,7 @@ def cancelar_ordem(id_ordem):
     except:
         return jsonify(success = False, status_code = status_code, id_ordem = id_ordem)
 
-#TO-DO
+
 @app.route(f'/{page_ordem}/<id_ordem>/editar', methods=['GET','POST'])
 def editar_ordem(id_ordem):
     try:
@@ -320,18 +320,30 @@ def editar_ordem(id_ordem):
         cliente = c.Cliente(ordem.id_cliente)
         if (request.method == 'GET'):
             servicos_selecionados = ordem.recuperar_servicos()
+            pecas_selecionadas = ordem.recuperar_pecas()
             status_code = 599
-            return render_template(f'{page_ordem}_editar.html', ordem = ordem.enviar_completo(), veiculo = veiculo.enviar(), cliente = cliente.enviar(), lista_servicos = lista_servicos, servicos_selecionados = servicos_selecionados, lista_de_pecas = lista_de_pecas), 200
+            return render_template(f'{page_ordem}_editar.html', ordem = ordem.enviar_completo(), veiculo = veiculo.enviar(), cliente = cliente.enviar(), lista_servicos = lista_servicos, servicos_selecionados = servicos_selecionados, lista_de_pecas = lista_de_pecas, pecas_selecionadas = pecas_selecionadas), 200
         servicos_selecionados = []
+        pecas_selecionadas = []
         for i in range(lista_servicos[len(lista_servicos)-1]['id_servico']):
             try:
-                servicos_selecionados.append(request.form[f'{i}'])
-            except:
+                servicos_selecionados.append(request.form[f'servico{i}'].replace('servico', ''))
+            except KeyError:
                 pass
+        for i in range(lista_de_pecas[len(lista_de_pecas)-1]['id_peca']):
+            try:
+                pecas_selecionadas.append([str(i), request.form[f'peca{i}'].replace('peca', '')])
+            except KeyError:
+                pass
+        if len(pecas_selecionadas)==0 and len(servicos_selecionados)==0:
+            status_code = 460
+            raise
         ordem.editar_servicos(servicos_selecionados)
+        ordem.editar_pecas(pecas_selecionadas)
         return jsonify(ordem.enviar()), 200
     except:
         return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
+
 
 @app.route(f'/{page_estoque}', methods = ['GET'])
 def exibir_estoque():
@@ -342,6 +354,7 @@ def exibir_estoque():
         return render_template(f'{page_exibir_estoque}.html', lista_de_pecas = lista_de_pecas), 200
     except:
         return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
+
 
 @app.route(f'/{page_estoque}/atualizar', methods = ['POST'])
 def atualizar_estoque():

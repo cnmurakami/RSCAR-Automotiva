@@ -365,6 +365,10 @@ class Ordem(ABC):
         query = query[:-2]
         db.insert(query, args)
     
+    def editar_pecas(self, pecas):
+        db.execute('delete from peca_ordem where id_ordem = %s', (self.id_ordem,))
+        self.salvar_pecas(pecas)
+
     def recuperar_pecas(self):
         resultado = db.execute('select * from peca_ordem where id_ordem = %s',(self.id_ordem,))
         lista_pecas = {}
