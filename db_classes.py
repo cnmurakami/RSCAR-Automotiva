@@ -353,6 +353,18 @@ class Ordem(ABC):
             lista_servicos.append(i[2])
         return lista_servicos
     
+    def salvar_pecas(self, pecas):
+        query = 'insert into peca_ordem (id_ordem, id_peca, qtd) values '
+        args = []
+        for i in pecas:
+            query += '(%s, %s ,%s), '
+            args.append(str(self.id_ordem))
+            args.append(i[0])
+            args.append(i[1])
+        args = tuple(args,)
+        query = query[:-2]
+        db.insert(query, args)
+    
     def recuperar_status(self):
         resultado = db.execute('select status from status_servico where id_status = %s',(self.id_status,))
         return resultado[0][0]

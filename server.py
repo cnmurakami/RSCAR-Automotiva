@@ -34,7 +34,6 @@ app.config['MYSQL_HOST'] = db_config.host
 mysql = MySQL(app)
 
 
-
 @app.route('/', methods=['GET'])
 def home():
     return render_template(f'{page_index}.html')
@@ -215,9 +214,15 @@ def criar_ordem(id_veiculo):
             status_code = 599
             return render_template(f'{page_criar_ordem}.html', veiculo = veiculo.enviar(), cliente = cliente.enviar(), lista_servicos = lista_servicos, lista_de_pecas = lista_de_pecas), 200
         servicos_selecionados = []
+        pecas_selecionadas = []
         for i in range(lista_servicos[len(lista_servicos)-1]['id_servico']):
             try:
-                servicos_selecionados.append(request.form[f'{i}'])
+                servicos_selecionados.append(request.form[f'servico{i}'].replace('servico', ''))
+            except:
+                pass
+        for i in range(lista_de_pecas[len(lista_de_pecas)-1]['id_peca']):
+            try:
+                pecas_selecionadas.append([str(i), request.form[f'peca{i}'].replace('peca', '')])
             except:
                 pass
         nova_ordem = c.Ordem(id_cliente=cliente.id_cliente, id_veiculo=veiculo.id_veiculo)
@@ -227,11 +232,12 @@ def criar_ordem(id_veiculo):
         nova_ordem.localizar_ultima_ordem()
         status_code = 551
         nova_ordem.salvar_servicos(servicos_selecionados)
+        nova_ordem.salvar_pecas(pecas_selecionadas)
         return jsonify(nova_ordem.enviar()), 200
     except:
         return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
 
-
+#TO-DO
 @app.route(f'/{page_ordem}/<id_ordem>/', methods = ['GET'])
 def mostrar_ordem(id_ordem):
     try:
@@ -282,12 +288,13 @@ def cancelar_ordem(id_ordem):
     except:
         return jsonify(success = False, status_code = status_code, id_ordem = id_ordem)
 
-
+#TO-DO
 @app.route(f'/{page_ordem}/<id_ordem>/editar', methods=['GET','POST'])
 def editar_ordem(id_ordem):
     try:
         status_code = 550
         lista_servicos = f.get_tipos_servicos()
+        lista_de_pecas = f.get_pecas()
         status_code = 552
         ordem = c.Ordem(id_ordem)
         veiculo = c.Veiculo(ordem.id_veiculo)
@@ -295,7 +302,7 @@ def editar_ordem(id_ordem):
         if (request.method == 'GET'):
             servicos_selecionados = ordem.recuperar_servicos()
             status_code = 599
-            return render_template(f'{page_ordem}_editar.html', ordem = ordem.enviar_completo(), veiculo = veiculo.enviar(), cliente = cliente.enviar(), lista_servicos = lista_servicos, servicos_selecionados = servicos_selecionados), 200
+            return render_template(f'{page_ordem}_editar.html', ordem = ordem.enviar_completo(), veiculo = veiculo.enviar(), cliente = cliente.enviar(), lista_servicos = lista_servicos, servicos_selecionados = servicos_selecionados, lista_de_pecas = lista_de_pecas), 200
         servicos_selecionados = []
         for i in range(lista_servicos[len(lista_servicos)-1]['id_servico']):
             try:
