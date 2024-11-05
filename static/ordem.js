@@ -28,15 +28,29 @@ const selectedItemsTable = document.querySelector(".itens_selecionados");
 checkboxes.forEach(checkbox => {
   checkbox.addEventListener("change", function(event) {
     if (this.checked) {
-        const nameCell = this.parentElement.nextElementSibling;
-        const valueCell = nameCell.nextElementSibling;
+        const row = this.closest('tr');
+        const nameCell = row.querySelector('td:nth-child(2)');
+        const valueCell = row.querySelector('td:nth-child(3)');
+        const quantityCell = row.querySelector('td:nth-child(4)');
+
         const name = nameCell.textContent.trim();
-        const value = valueCell.textContent.trim();
+        let value;
+        if (quantityCell) { 
+          const quantity = parseInt(quantityCell.textContent.trim());
+          value = parseFloat(valueCell.textContent.replace(/[^\d.-]/g, '').trim()) * quantity;
+        } else { 
+          value = parseFloat(valueCell.textContent.replace(/[^\d.-]/g, '').trim());
+        }
+        if (isNaN(value)) {
+          console.error('Valor inválido:', value);
+          return; 
+        }
         const newRow = document.createElement("tr");
         const nameCellElement = document.createElement("td");
         nameCellElement.textContent = name;
+
         const valueCellElement = document.createElement("td");
-        valueCellElement.textContent = value;
+        valueCellElement.textContent = "R$ " + value.toFixed(2);
         newRow.appendChild(nameCellElement);
         newRow.appendChild(valueCellElement);
         newRow.id = Math.random().toString(36).substring(2, 15);
@@ -51,44 +65,60 @@ checkboxes.forEach(checkbox => {
             this.removeAttribute('data-row-id');
         }
     }
-    
-    sumTableColumn('.itens_selecionados', 1)
+
+    sumTableColumn('.itens_selecionados', 1);
   });
 });
 
 function sumTableColumn(table, columnIndex) {
   const tableElement = document.querySelector(table);
-
   const rows = tableElement.querySelectorAll("tr");
   let sum = 0;
+
   for (let i = 0; i < rows.length; i++) {
-    const cell = rows[i].querySelector(`td:nth-child(${columnIndex + 1})`);
-    if (cell) {
-      const value = parseFloat(cell.textContent.replace(/[^\d.-]/g, '').trim());
+    const cells = rows[i].querySelectorAll("td");
+    if (cells.length > 1) {
+      const valueCell = cells[columnIndex];
+      const value = parseFloat(valueCell.textContent.replace(/[^\d.-]/g, '').trim());
       if (!isNaN(value)) {
-        sum += value;
+        sum += value; 
       }
     }
   }
-  document.getElementById('mostrarTotal').value = "R$ "+sum.toLocaleString(undefined, {minimumFractionDigits: 2}).toString();
+
+  document.getElementById('mostrarTotal').value = "R$ " + sum.toLocaleString(undefined, {minimumFractionDigits: 2}).toString();
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  sumTableColumn('.itens_selecionados', 1)
+  sumTableColumn('.itens_selecionados', 1);
 }, false);
 
-document.addEventListener('DOMContentLoaded', function(){
-  var w = document.getElementsByTagName('input'); 
-  var servicos_marcados = [];
-  for(var i = 0; i < w.length; i++){ 
-    if(w[i].type=='checkbox'){ 
-      if (w[i].checked == true){
-        w[i].dispatchEvent(new Event('change'));
-        //w[i].checked = false;
-        servicos_marcados.push(w[i]);
+document.addEventListener('change', function() {
+  sumTableColumn('.itens_selecionados', 1);
+});
+
+document.querySelectorAll('.ajustar-quantidade').forEach(button => {
+  button.addEventListener('click', function() {
+      const id = this.dataset.id;
+      let quantidade = parseInt(this.dataset.quantidade);
+      const valorUnitario = parseFloat(this.dataset.valor);
+      if (this.textContent === '+') {
+          if (quantidade > 0) {
+              quantidade++;
+              this.dataset.quantidade = quantidade;
+          }
+      } else if (this.textContent === '-') {
+          if (quantidade > 1) {
+              quantidade--;
+              this.dataset.quantidade = quantidade;
+          }
       }
-    }
-  }
+      const quantidadeCell = document.querySelector(`#tabela_pecas tr[data-id="${id}"] .quantidade`);
+      quantidadeCell.textContent = quantidade;
+      const total = valorUnitario * quantidade;
+      sumTableColumn('.itens_selecionados', 1);
+      updatePieceTotal();
+  });
 });
 
 function enviar_form(){
