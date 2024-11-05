@@ -294,14 +294,11 @@ td{
   padding-right: 50px;
 }
 
-input{
-  margin: 15px;
-  padding: 5px;
-  font-size: 17px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
+input {
+  margin: 0;
+  padding: 0;
+  font-size: inherit;
+  display: inline;
 }
 
 .button_cliente{
@@ -320,14 +317,43 @@ input{
 }
 
 .divcontentordem { /*fundo ordem de serviço*/
+  display: flex;
+  flex-direction: column;
   margin: 15px auto;
-  padding: 30px;
+  padding: 100px;
   width: 80%;
   background-color: #0000006b;
   border-radius: 10px;
-  opacity: 1;
   font-size: 20px;
   color: #f0e9e9;
+}
+
+.divtiposservicos,
+.divtipospecas {
+  display: block;
+  width: 100%; 
+  margin: 3%;
+  border: solid;
+  border-radius: 10px;
+  padding: 10px;
+  overflow-x: auto;
+  overflow-y: auto;
+  text-align: justify;
+
+}
+
+.selecionados {
+  display: block;
+  width: 100%; 
+  margin: 3%;
+  border: solid;
+  border-radius: 10px;
+  padding: 10px;
+  overflow-x: auto;
+  overflow-y: auto;
+  text-align: justify;
+  position: relative;
+  margin-top: 20px;
 }
 
 .divordemdetalhes{
@@ -338,7 +364,6 @@ input{
 
 .divcontentordem th{
   text-align: left;
-  line-height: 1.5;
   padding-right: 100px;
 }
 
@@ -375,10 +400,17 @@ input{
   width: 100%;
 }
 
-.total{
-  margin: auto;
-  margin-top: 50px;
+.total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  background-color: #1715158a;
+  padding: 10px;
+  border-radius: 10px;
+  color: #f0e9e9;
 }
+
 
 #mostrarTotal{
   border: 0px;
@@ -407,13 +439,17 @@ input{
   background-color: #a7d2ffc4;
 }
 
-.salvarOrdem button{
-  margin-top: 30px;
-  margin-right: 10px;
-  font-size: 17px;
-  cursor: pointer;
-  width: 19%;
+.salvarOrdem {  
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 15px;
+  width: 100%;
+  padding: 30px 24px;
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
 }
+
 
 .salvarOrdem button:hover {
   background-color: #a7d2ffc4;
