@@ -26,6 +26,7 @@
                     <td>{{cliente['nome']}}{{cliente['razao_social']}}</td>
                     </tr>
                 </table>
+
                 <div class="divordemdetalhes">
                     <div class="divtiposservicos">
                         <h3>Serviços disponíveis</h3>
@@ -43,14 +44,36 @@
                                     <td><label for="{{i['id_servico']}}">R$ {{i['valor']}}</label></td>
                                 </tr>
                             {% endfor %}
-
                         </table>
                     </div>
-                    <div class="divtiposservicos" id="servicos_selecionados">
-                        <h3>Serviços selecionados</h3>
+                    
+
+                    <div class="container-flex">
+                        <div class="divtipospecas">
+                        <h3>Peças disponíveis</h3>
+                        <table class="pecas" id="tabela_pecas">
+                            <tr>
+                                <th></th>
+                                <th>Nome da peça</th>
+                                <th>Quantidade</th>
+                                <th>Valor</th>
+                            </tr>
+                            {% for peca in lista_de_pecas %}
+                                <tr class="item_lista">
+                                    <td><input type="checkbox" id="{{ peca['id_peca'] }}" name="{{ peca['id_peca'] }}" value="{{ peca['id_peca'] }}"></td>
+                                    <td><label for="{{ peca['id_peca'] }}">{{ peca['nome'] }}</label></td>
+                                    <td><label for="{{ peca['id_peca'] }}">{{ peca['qtd'] }}</label></td>
+                                    <td><label for="{{ peca['id_peca'] }}">{{ peca['valor'] }}</label></td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                
+                    <div class="selecionados" id="servicos_selecionados">
+                        <h3>Serviços e peças selecionadas</h3>
                         <table class="itens_selecionados">
                             <tr>
-                                <th>Nome do serviço</th>
+                                <th>Nome do serviço/peça</th>
                                 <th>Valor</th>
                             </tr>
                         </table>
@@ -62,6 +85,7 @@
                         </table>
                     </div>
                 </div>
+
                 <input type="hidden" name="id_veiculo" value="{{veiculo['id_veiculo']}}">
                 <div class="salvarOrdem">
                     <button type="submit" onclick="enviar_form()">Criar ordem</button>
