@@ -319,13 +319,23 @@ input {
 .divcontentordem { /*fundo ordem de serviço*/
   display: flex;
   flex-direction: column;
-  margin: 15px auto;
-  padding: 100px;
-  width: 80%;
+  margin: 10px auto;
+  padding: 120px;
+  width: 82%;
   background-color: #0000006b;
   border-radius: 10px;
   font-size: 20px;
   color: #f0e9e9;
+  position: relative;
+  min-height: 200px; 
+  height: auto; 
+  overflow: hidden; 
+}
+.container-flex {
+  display: flex;
+  flex-direction: column;
+  height: auto; 
+  min-height: 100%; 
 }
 
 .divtiposservicos,
@@ -333,9 +343,11 @@ input {
   display: block;
   width: 100%; 
   margin: 3%;
+  margin-top: 1%;
   border: solid;
+  height: 78%;
   border-radius: 10px;
-  padding: 10px;
+  padding: 2px;
   overflow-x: auto;
   overflow-y: auto;
   text-align: justify;
@@ -348,13 +360,13 @@ input {
   margin: 3%;
   border: solid;
   border-radius: 10px;
-  padding: 10px;
-  overflow-x: auto;
-  overflow-y: auto;
+  padding: 5px;
   text-align: justify;
   position: relative;
   margin-top: 20px;
+  overflow: auto;
 }
+
 
 .divordemdetalhes{
   margin-top: 50px;
@@ -364,20 +376,31 @@ input {
 
 .divcontentordem th{
   text-align: left;
-  padding-right: 100px;
+  padding-right: 90px;
 }
 
 .divcontentordem td{
-  padding-right: 20px;
+  padding-right: 5px;
+}
+.pecas td {
+  white-space: nowrap;
+}
+.pecas {
+  table-layout: auto;
+  width: 100%;
+}
+.pecas td {
+  padding: 8px;
 }
 
 .divtiposservicos{
   display: block;
-  width: 100%;
-  margin: 4px;
+  width: 190%;
+  margin: 2px;
   border: solid;
+  height: 78%;
   border-radius: 10px;
-  padding: 10px;
+  padding: 1px;
   overflow-x: auto;
   overflow-y: auto;
   text-align: justify;

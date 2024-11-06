@@ -30,7 +30,6 @@
                 <div class="divordemdetalhes">
                     <div class="divtiposservicos">
                         <h3>Serviços disponíveis</h3>
-                        <input type="text" id="filtrar_servicos" class="filtrar_servicos" onkeyup="filtrarServicos()" placeholder="Filtrar...">
                         <table class="servicos" id="tabela_servicos">
                             <tr>
                                 <th></th>
@@ -53,17 +52,22 @@
                         <h3>Peças disponíveis</h3>
                         <table class="pecas" id="tabela_pecas">
                             <tr>
-                                <th></th>
                                 <th>Nome da peça</th>
                                 <th>Quantidade</th>
                                 <th>Valor</th>
                             </tr>
                             {% for peca in lista_de_pecas %}
-                                <tr class="item_lista">
-                                    <td><input type="checkbox" id="{{ peca['id_peca'] }}" name="{{ peca['id_peca'] }}" value="{{ peca['id_peca'] }}"></td>
-                                    <td><label for="{{ peca['id_peca'] }}">{{ peca['nome'] }}</label></td>
-                                    <td><label for="{{ peca['id_peca'] }}">{{ peca['qtd'] }}</label></td>
-                                    <td><label for="{{ peca['id_peca'] }}">{{ peca['valor'] }}</label></td>
+                                <tr data-id="{{ peca['id_peca'] }}">
+                                    <td>
+                                    <label for="peca_{{ peca['id_peca'] }}">{{ peca['nome'] }}</label>
+                                    </td>
+                                    <td class="estoque">{{ peca['qtd'] }}</td>
+                                    <td>R$ {{ peca['valor'] }}</td>
+                                    <td>
+                                        <button class="ajustar-quantidade" data-id="{{ peca['id_peca'] }}" data-valor="{{ peca['valor'] }}" data-quantidade="{{ peca['qtd'] }}">-</button>
+                                        <span class="quantidade-selecionada">0</span>
+                                        <button class="ajustar-quantidade" data-id="{{ peca['id_peca'] }}" data-valor="{{ peca['valor'] }}" data-quantidade="{{ peca['qtd'] }}">+</button>
+                                    </td>
                                 </tr>
                             {% endfor %}
                         </table>
