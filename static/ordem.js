@@ -28,11 +28,11 @@ document.querySelectorAll('.servicos input[type="checkbox"]').forEach(checkbox =
       const nome = row.querySelector('label[for="' + id + '"]').textContent.trim();
       const valorUnitario = parseFloat(row.querySelector('td:nth-child(3)').textContent.replace(/[^\d.-]/g, '').trim());
       const quantidadeSelecionada = this.checked ? 1 : 0;
-
       updateSelectedItems(id, nome, valorUnitario, quantidadeSelecionada, 'servico');
-      sumTableColumn('.itens_selecionados', 1);
+      sumTableColumn('.itens_selecionados', 2);
   });
 });
+
 
 const selectedItemsTable = document.querySelector(".itens_selecionados");
 
@@ -40,16 +40,13 @@ document.querySelectorAll('.ajustar-quantidade').forEach(button => {
   button.addEventListener('click', function() {
       const row = this.closest('tr');
       const id = row.dataset.id;
-      const nome = row.querySelector('td:nth-child(1)').textContent.trim(); // Ajustado para capturar o nome da peça corretamente
+      const nome = row.querySelector('td:nth-child(1)').textContent.trim();
       const valorUnitario = parseFloat(row.querySelector('td:nth-child(3)').textContent.replace(/[^\d.-]/g, '').trim());
       const tipoItem = row.classList.contains('servico') ? 'servico' : 'peca';
-
       const quantidadeSpan = row.querySelector('.quantidade-selecionada');
       const estoqueCell = tipoItem === 'peca' ? row.querySelector('.estoque') : null;
-
       let quantidadeSelecionada = parseInt(quantidadeSpan.textContent);
       let estoque = estoqueCell ? parseInt(estoqueCell.textContent) : null;
-
       if (this.textContent === '+') {
           if (tipoItem === 'peca' && estoque > 0) {
               quantidadeSelecionada++;
@@ -63,17 +60,17 @@ document.querySelectorAll('.ajustar-quantidade').forEach(button => {
               if (tipoItem === 'peca') estoque++;
           }
       }
-
       quantidadeSpan.textContent = quantidadeSelecionada;
       if (estoqueCell) estoqueCell.textContent = estoque;
 
-      updateSelectedItems(id, nome, valorUnitario, quantidadeSelecionada, tipoItem); 
-      sumTableColumn('.itens_selecionados', 1);
+      updateSelectedItems(id, nome, valorUnitario, quantidadeSelecionada, tipoItem);
+      sumTableColumn('.itens_selecionados', 2); 
   });
 });
 
 
 function updateSelectedItems(id, nome, valorUnitario, quantidade, tipoItem) {
+  const selectedItemsTable = document.querySelector(".itens_selecionados");
   let existingRow = selectedItemsTable.querySelector(`tr[data-id="${id}"]`);
 
   if (quantidade > 0) {
@@ -90,8 +87,24 @@ function updateSelectedItems(id, nome, valorUnitario, quantidade, tipoItem) {
   } else if (existingRow) {
       selectedItemsTable.removeChild(existingRow);
   }
+  sumTableColumn('.itens_selecionados', 2);
 }
 
+function sumTableColumn(tableSelector, columnIndex) {
+  let total = 0;
+  document.querySelectorAll(`${tableSelector} tr`).forEach(row => {
+    const valueCell = row.querySelector(`td:nth-child(${columnIndex})`);
+    if (valueCell) {
+      const valueText = valueCell.textContent.replace(/[^\d.-]/g, '').trim();
+      const value = parseFloat(valueText);
+      if (!isNaN(value)) {
+        total += value;
+      }
+    }
+  });
+
+  document.getElementById("mostrarTotal").value = `R$ ${total.toFixed(2)}`;
+}
 
 function enviar_form() {
   form = document.getElementById("ordem");
