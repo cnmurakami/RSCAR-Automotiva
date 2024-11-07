@@ -380,9 +380,6 @@ def atualizar_estoque():
     except:
         return jsonify(success = False, status_code = status_code)
 
-@app.route('/teste/', methods = ['GET'])
-def teste():
-    return render_template('teste.html', teste = [1,2,3])
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
