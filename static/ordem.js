@@ -92,46 +92,43 @@ function updateSelectedItems(id, nome, valorUnitario, quantidade, tipoItem) {
   }
 }
 
-function sumTableColumn(table, columnIndex) {
-  const tableElement = document.querySelector(table);
-  const rows = tableElement.querySelectorAll("tr");
-  let sum = 0;
 
-  rows.forEach(row => {
-      const valueCell = row.querySelectorAll("td")[columnIndex];
-      if (valueCell) {
-          const value = parseFloat(valueCell.textContent.replace(/[^\d.-]/g, ''));
-          if (!isNaN(value)) sum += value;
-      }
+function enviar_form() {
+  form = document.getElementById("ordem");
+  const formData = new FormData(form);
+  document.querySelectorAll('.servicos input[type="checkbox"]:checked').forEach(checkbox => {
+    const id_servico = checkbox.value;
+    formData.append(`servico${id_servico}`, id_servico);
   });
 
-  document.getElementById('mostrarTotal').value = "R$ " + sum.toLocaleString(undefined, { minimumFractionDigits: 2 });
-}
+  document.querySelectorAll('.pecas .ajustar-quantidade').forEach(button => {
+    const row = button.closest('tr');
+    const id_peca = row.dataset.id;
+    const quantidade = row.querySelector('.quantidade-selecionada').textContent.trim();
+    if (quantidade > 0) {
+      formData.append(`peca${id_peca}`, quantidade);
+    }
+  });
 
-document.addEventListener('DOMContentLoaded', function() {
-  sumTableColumn('.itens_selecionados', 1);
-}, false);
-
-
-function enviar_form(){
-  form = document.getElementById("ordem")
-  const formData = new FormData(form);
   fetch("", {
-      method: "POST",
-      body: formData,
+    method: "POST",
+    body: formData,
   }).then(response => {
-      return response.json();
+    return response.json();
   }).then(jsonResponse => {
-      var nova_ordem = jsonResponse;
-      var id_nova_ordem = nova_ordem["id_ordem"]
-      var hostname = window.location.hostname;
-      var port = window.location.port ? ':' + window.location.port : '';
-      var exibir_ordem = "http://" + hostname + port + "/ordem/" + id_nova_ordem +"/";
-      window.location.replace(exibir_ordem);
+    var nova_ordem = jsonResponse;
+    var id_nova_ordem = nova_ordem["id_ordem"];
+    var hostname = window.location.hostname;
+    var port = window.location.port ? ':' + window.location.port : '';
+    var exibir_ordem = "http://" + hostname + port + "/ordem/" + id_nova_ordem +"/";
+    window.location.replace(exibir_ordem);
   }).catch (error => {
-      console.log(error)
-  })
+    console.log(error);
+  });
 }
+
+
+
 
 function avancar_status(){
   form = document.getElementById("avancar_ordem")
