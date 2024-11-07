@@ -42,7 +42,12 @@
                                 <td><label for="{{i['id_servico']}}">R$ {{i['valor']}}</label></td>
                             </tr>
                         {% endfor %}
-
+                        {% for i in lista_pecas%}
+                            <tr class="item_lista">
+                                <td><label for="{{i['id_peca']}}">{{i['nome']}} ({{i['qtd']}} un)</label></td>
+                                <td><label for="{{i['id_peca']}}">R$ {{i['valor']*i['qtd']}}</label></td>
+                            </tr>
+                        {% endfor %}
                     </table>
                     <table class="total">
                         <tr>
