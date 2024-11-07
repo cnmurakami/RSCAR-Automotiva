@@ -30,7 +30,7 @@
             </table>
             <div class="divordemdetalhes">
                 <div class="divtiposservicos">
-                    <h3>Serviços selecionados</h3>
+                    <h3>Serviços e peças selecionados</h3>
                     <table class="itens_selecionados" id="itens_selecionados">
                         <tr>
                             <th>Nome do serviço</th>
@@ -42,6 +42,10 @@
                                 <td><label for="{{i['id_servico']}}">R$ {{i['valor']}}</label></td>
                             </tr>
                         {% endfor %}
+                        <tr>
+                            <th>Nome da peça</th>
+                            <th>Valor</th>
+                        </tr>
                         {% for i in lista_pecas%}
                             <tr class="item_lista">
                                 <td><label for="{{i['id_peca']}}">{{i['nome']}} ({{i['qtd']}} un)</label></td>
