@@ -39,7 +39,7 @@ const selectedItemsTable = document.querySelector(".itens_selecionados");
 document.querySelectorAll('.ajustar-quantidade').forEach(button => {
   button.addEventListener('click', function() {
       const row = this.closest('tr');
-      const id = row.dataset.id;
+      const id = 'peca'+row.dataset.id;
       const nome = row.querySelector('td:nth-child(1)').textContent.trim();
       const valorUnitario = parseFloat(row.querySelector('td:nth-child(3)').textContent.replace(/[^\d.-]/g, '').trim());
       const tipoItem = row.classList.contains('servico') ? 'servico' : 'peca';
