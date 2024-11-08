@@ -106,6 +106,10 @@ function sumTableColumn(tableSelector, columnIndex) {
   document.getElementById("mostrarTotal").value = `R$ ${total.toFixed(2)}`;
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+  sumTableColumn('.itens_selecionados', 2)
+}, false);
+
 function enviar_form() {
   form = document.getElementById("ordem");
   const formData = new FormData(form);

@@ -36,7 +36,7 @@
                             <th>Nome do serviço</th>
                             <th>Valor</th>
                         </tr>
-                        {% for i in lista_servicos%}
+                        {% for i in lista_servicos %}
                             <tr class="item_lista">
                                 <td><label for="{{i['id_servico']}}">{{i['nome']}}</label></td>
                                 <td><label for="{{i['id_servico']}}">R$ {{i['valor']}}</label></td>
@@ -46,7 +46,8 @@
                             <th>Nome da peça</th>
                             <th>Valor</th>
                         </tr>
-                        {% for i in lista_pecas%}
+                        
+                        {% for i in lista_pecas %}
                             <tr class="item_lista">
                                 <td><label for="{{i['id_peca']}}">{{i['nome']}} ({{i['qtd']}} un)</label></td>
                                 <td><label for="{{i['id_peca']}}">R$ {{i['valor']*i['qtd']}}</label></td>

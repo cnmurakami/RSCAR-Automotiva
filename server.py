@@ -217,12 +217,12 @@ def criar_ordem(id_veiculo):
             return render_template(f'{page_criar_ordem}.html', veiculo = veiculo.enviar(), cliente = cliente.enviar(), lista_servicos = lista_servicos, lista_de_pecas = lista_de_pecas), 200
         servicos_selecionados = []
         pecas_selecionadas = []
-        for i in range(lista_servicos[len(lista_servicos)-1]['id_servico']):
+        for i in range(lista_servicos[len(lista_servicos)-1]['id_servico']+1):
             try:
                 servicos_selecionados.append(request.form[f'servico{i}'].replace('servico', ''))
             except KeyError:
                 pass
-        for i in range(lista_de_pecas[len(lista_de_pecas)-1]['id_peca']):
+        for i in range(lista_de_pecas[len(lista_de_pecas)-1]['id_peca']+1):
             try:
                 pecas_selecionadas.append([str(i), request.form[f'peca{i}'].replace('peca', '')])
             except KeyError:
@@ -269,7 +269,7 @@ def mostrar_ordem(id_ordem):
             for dict_item in lista_pecas_completa:
                 if dict_item['id_peca'] in lista_pecas_cadastradas.keys():
                     lista_pecas.append(dict_item)
-                if len(lista_pecas) == len(lista_servicos_cadastrados):
+                if len(lista_pecas) == len(lista_pecas_cadastradas):
                     break
             for index in lista_pecas:
                 index['qtd'] = lista_pecas_cadastradas[index['id_peca']]
