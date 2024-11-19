@@ -361,9 +361,12 @@ class Ordem(ABC):
             args.append(str(self.id_ordem))
             args.append(i[0])
             args.append(i[1])
+            peca = Peca(i[0])
+            peca.remover_peca(i[1])
         args = tuple(args,)
         query = query[:-2]
         db.insert(query, args)
+
     
     def editar_pecas(self, pecas):
         db.execute('delete from peca_ordem where id_ordem = %s', (self.id_ordem,))
