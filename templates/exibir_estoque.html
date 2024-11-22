@@ -13,28 +13,24 @@
         <h1>Estoque de Peças</h1>
             <div class="divpecas'>
                 <div class="divtipospecas"></div>
-                        <div class="table-titles">
-                            <span class="title">Nome da peça</span>
-                            <span class="title">Quantidade</span>
-                            <span class="title">Valor</span>
-                        </div>
+                        
                         <table class="pecas_selecionadas" id="pecas_tabelas">
                             <tbody>
+                                <!-- <div class="table-titles"> -->
+                                    <th><span class="title">Nome da peça</span></th>
+                                    <th><span class="title">Quantidade</span></th>
+                                    <th><span class="title">Valor</span></th>
+                                <!-- </div> -->
                         {% for i in lista_de_pecas%}
                             <tr class="item_pecas">
                                 <td><label for="{{i['id_peca']}}">{{i['nome']}}</label></td>
                                 <td><label for="{{i['id_peca']}}">{{i['qtd']}}</label></td>
                                 <td><label for="{{i['id_peca']}}">R$ {{i['valor']}}</label></td>
                                 <td>
-                            
-                            <button type="submit" class="subtrair_peca" onclick="atualizarEstoque({{i['id_peca']}}, 'subtrair')">Subtrair</button>
-                        </td>
-                        <td>
-                            <input type="number" class="sub_qtd" min="1" max="{{i['qtd']}}" id="{{i['id_peca']}}" placeholder="Qtd" />
-                        </td>
-                        <td>
-                            <button type="submit" class="adicionar_peca" onclick="atualizarEstoque({{i['id_peca']}}, 'adicionar')">Adicionar</button>
-                        </td>
+                                    <button type="submit" class="subtrair_peca" onclick="atualizarEstoque({{i['id_peca']}}, 'subtrair')">Subtrair</button>
+                                    <input type="number" class="sub_qtd" min="1" max="{{i['qtd']}}" id="{{i['id_peca']}}" placeholder="Qtd" />
+                                    <button type="submit" class="adicionar_peca" onclick="atualizarEstoque({{i['id_peca']}}, 'adicionar')">Adicionar</button>
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>

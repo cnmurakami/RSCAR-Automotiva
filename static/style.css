@@ -626,6 +626,15 @@ h3{
   border-radius: 10px;
 }
 
+.pecas_selecionadas .title {
+  flex: 1; 
+  text-align: left;
+  margin: 0px;
+  padding: 0px;
+  font-size: 30px;
+  color: #eee;
+}
+
 .table-titles .title {
   flex: 1; 
   text-align: left;   
