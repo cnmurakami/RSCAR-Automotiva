@@ -26,11 +26,13 @@
                                 <td><label for="{{i['id_peca']}}">{{i['qtd']}}</label></td>
                                 <td><label for="{{i['id_peca']}}">R$ {{i['valor']}}</label></td>
                                 <td>
-                            <input type="number" class="sub_qtd" min="1" max="{{i['qtd']}}" id="subtrair_{{i['id_peca']}}" placeholder="Qtd" />
+                            
                             <button type="submit" class="subtrair_peca" onclick="atualizarEstoque({{i['id_peca']}}, 'subtrair')">Subtrair</button>
                         </td>
                         <td>
-                            <input type="number" class="adi_qtd" min="1" max="{{i['qtd']}}" id="adicionar_{{i['id_peca']}}" placeholder="Qtd" />
+                            <input type="number" class="sub_qtd" min="1" max="{{i['qtd']}}" id="{{i['id_peca']}}" placeholder="Qtd" />
+                        </td>
+                        <td>
                             <button type="submit" class="adicionar_peca" onclick="atualizarEstoque({{i['id_peca']}}, 'adicionar')">Adicionar</button>
                         </td>
                             </tr>

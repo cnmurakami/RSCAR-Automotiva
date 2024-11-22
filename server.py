@@ -242,6 +242,7 @@ def criar_ordem(id_veiculo):
             nova_ordem.salvar_pecas(pecas_selecionadas)
         return jsonify(nova_ordem.enviar()), 200
     except:
+        #return jsonify(success = False, status_code = status_code)
         return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
 
 

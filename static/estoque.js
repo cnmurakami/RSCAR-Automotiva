@@ -1,10 +1,10 @@
 function atualizarEstoque(idPeca, operacao) {
     
-    if (operacao === 'subtrair') {
-        quantidade = document.getElementById(`subtrair_${idPeca}`).value;
-     } else if (operacao === 'adicionar') 
-        quantidade = document.getElementById(`adicionar_${idPeca}`).value;
-    
+    // if (operacao === 'subtrair') {
+    //     quantidade = document.getElementById(`subtrair_${idPeca}`).value;
+    //  } else if (operacao === 'adicionar') 
+    //     quantidade = document.getElementById(`adicionar_${idPeca}`).value;
+    quantidade = document.getElementById(idPeca).value;
     if (quantidade > 0) {
         const formData = new FormData();
         formData.append('id_peca', idPeca);
