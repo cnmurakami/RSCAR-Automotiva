@@ -411,10 +411,15 @@ class Ordem(ABC):
         dicionario['nome'] = consulta[0][1]
         dicionario['placa'] = consulta[0][0]
         dicionario['total'] = consulta[0][2]
+        lista_pecas = self.recuperar_pecas()
+        pecas_total = 0
+        if len(lista_pecas) > 0:
+            for i in lista_pecas.keys():
+                pecas_total += Peca(id_peca=i).valor * lista_pecas[i]
         if dicionario['total'] == None or dicionario['total'] == 'None':
-            dicionario['total'] = '0,00'
-        else:
-            dicionario['total'] = str(dicionario['total']).replace('.', ',')
+            dicionario['total'] = '0.00'
+        dicionario['total'] = float(dicionario['total'])+float(pecas_total)
+        dicionario['total'] = str(f'{dicionario['total']:.2f}').replace('.', ',')
         dicionario['status'] = self.recuperar_status()
         return dicionario
 
