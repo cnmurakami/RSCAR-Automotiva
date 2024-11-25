@@ -134,11 +134,20 @@ function enviar_form() {
     return response.json();
   }).then(jsonResponse => {
     var nova_ordem = jsonResponse;
-    var id_nova_ordem = nova_ordem["id_ordem"];
-    var hostname = window.location.hostname;
-    var port = window.location.port ? ':' + window.location.port : '';
-    var exibir_ordem = "http://" + hostname + port + "/ordem/" + id_nova_ordem +"/";
-    window.location.replace(exibir_ordem);
+    
+    var success = nova_ordem["success"];
+    var status_code = nova_ordem["status_code"];
+    if (success){  
+      var id_nova_ordem = nova_ordem["id_ordem"];
+      var hostname = window.location.hostname;
+      var port = window.location.port ? ':' + window.location.port : '';
+      var exibir_ordem = "http://" + hostname + port + "/ordem/" + id_nova_ordem +"/";
+      window.location.replace(exibir_ordem);
+    }
+    else{
+      alert("Erro ao atualizar status.\nPor favor tente novamente.\n\nCode: "+status_code+"\nErro: "+nova_ordem["erro"])
+    }
+    //window.location.replace(exibir_ordem);
   }).catch (error => {
     console.log(error);
   });

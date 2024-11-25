@@ -240,10 +240,13 @@ def criar_ordem(id_veiculo):
             nova_ordem.salvar_servicos(servicos_selecionados)
         if len(pecas_selecionadas) > 0:
             nova_ordem.salvar_pecas(pecas_selecionadas)
-        return jsonify(nova_ordem.enviar()), 200
+        resultado = nova_ordem.enviar()
+        resultado['success']=True
+        resultado['status_code'] = 200
+        return jsonify(resultado), 200
     except:
-        #return jsonify(success = False, status_code = status_code)
-        return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
+        return jsonify(success = False, status_code = status_code, erro=lista_erro[str(status_code)])
+        #return render_template(f'{page_erro}.html', code=status_code, erro=lista_erro[str(status_code)]), status_code
 
 
 @app.route(f'/{page_ordem}/<id_ordem>/', methods = ['GET'])
