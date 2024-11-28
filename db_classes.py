@@ -394,6 +394,10 @@ class Ordem(ABC):
     def cancelar(self):
         self.id_status = '-1'
         self.ativo = False
+        pecas = self.recuperar_pecas()
+        for i in pecas.keys():
+            peca = Peca(id_peca = i)
+            peca.adicionar_peca(pecas[i])
         db.insert('update ordem set id_status = %s, ativo = %s where id_ordem = %s', (self.id_status, int(self.ativo), self.id_ordem,))
         return
 
@@ -470,10 +474,10 @@ class Peca(ABC):
     def valor(self, novo_valor):
         self._valor = novo_valor
     
-    def adicionar_peca(self, value):
-        db.insert('UPDATE peca SET qtd = qtd + %s where id_peca = %s', (str(value), self.id_peca,))
+    def adicionar_peca(self, qtd_to_change):
+        db.insert('UPDATE peca SET qtd = qtd + %s where id_peca = %s', (str(qtd_to_change), self.id_peca,))
         self.qtd = db.execute('SELECT qtd FROM peca WHERE id_peca = %s', (self.id_peca,))[0][0]
     
-    def remover_peca(self, value):
-        db.insert('UPDATE peca SET qtd = qtd - %s where id_peca = %s', (str(value), self.id_peca,))
+    def remover_peca(self, qtd_to_change):
+        db.insert('UPDATE peca SET qtd = qtd - %s where id_peca = %s', (str(qtd_to_change), self.id_peca,))
         self.qtd = db.execute('SELECT qtd FROM peca WHERE id_peca = %s', (self.id_peca,))[0][0]
