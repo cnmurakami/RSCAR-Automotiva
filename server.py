@@ -25,6 +25,7 @@ lista_erro = {
 '551' : 'Erro ao salvar informações no db', 
 '552' : 'Erro ao recuperar informações no db', 
 '561' : 'Informação não localizada', 
+'562' : 'Ordem já fechada',
 '599' : 'Erro desconhecido de servidor'
 }
 
